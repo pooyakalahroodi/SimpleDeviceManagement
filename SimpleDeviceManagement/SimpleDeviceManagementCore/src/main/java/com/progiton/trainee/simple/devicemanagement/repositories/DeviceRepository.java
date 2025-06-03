@@ -1,0 +1,10 @@
+package com.progiton.trainee.simple.devicemanagement.repositories;
+
+import com.progiton.trainee.simple.devicemanagement.model.DeviceEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface DeviceRepository extends JpaRepository<DeviceEntity, Long> {
+
+}
