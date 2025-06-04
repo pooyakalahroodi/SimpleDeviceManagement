@@ -1,14 +1,12 @@
-package com.progiton.trainee.simple.devicemanagement.to;
+package com.progiton.trainee.simple.devicemanagement.model.to;
 
+import com.progiton.trainee.simple.devicemanagement.view.User;
 import lombok.*;
 import java.util.List;
 import java.util.Set;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class UserTo {
+public class UserTo implements User {
+
     private Long id;
     private String username;
     private String name;

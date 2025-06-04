@@ -1,4 +1,4 @@
-package com.progiton.trainee.simple.devicemanagement.model;
+package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import com.progiton.trainee.simple.devicemanagement.model.enums.Permission;
 import jakarta.persistence.*;

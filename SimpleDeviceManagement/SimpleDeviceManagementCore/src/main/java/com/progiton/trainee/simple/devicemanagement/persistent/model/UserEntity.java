@@ -1,4 +1,4 @@
-package com.progiton.trainee.simple.devicemanagement.model;
+package com.progiton.trainee.simple.devicemanagement.persistent.model;
 import jakarta.persistence.*;
 import lombok.*;
 

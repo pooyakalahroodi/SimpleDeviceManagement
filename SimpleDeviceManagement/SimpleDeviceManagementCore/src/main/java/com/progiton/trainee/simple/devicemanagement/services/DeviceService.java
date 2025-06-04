@@ -1,6 +1,6 @@
 package com.progiton.trainee.simple.devicemanagement.services;
 
-import com.progiton.trainee.simple.devicemanagement.model.DeviceEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
 import java.util.List;
 
 public interface DeviceService {

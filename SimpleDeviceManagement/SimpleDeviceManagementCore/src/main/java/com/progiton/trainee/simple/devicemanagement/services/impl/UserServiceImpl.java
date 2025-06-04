@@ -3,9 +3,9 @@ package com.progiton.trainee.simple.devicemanagement.services.impl;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-import com.progiton.trainee.simple.devicemanagement.model.UserEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.UserEntity;
 import com.progiton.trainee.simple.devicemanagement.services.UserService;
-import com.progiton.trainee.simple.devicemanagement.repositories.UserRepository;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService{

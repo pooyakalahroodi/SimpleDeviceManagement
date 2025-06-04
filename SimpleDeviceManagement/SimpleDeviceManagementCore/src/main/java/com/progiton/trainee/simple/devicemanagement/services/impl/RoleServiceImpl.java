@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import com.progiton.trainee.simple.devicemanagement.model.RoleEntity;
-import com.progiton.trainee.simple.devicemanagement.repositories.RoleRepository;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.RoleEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.RoleRepository;
 import com.progiton.trainee.simple.devicemanagement.services.RoleService;
 
 @Service

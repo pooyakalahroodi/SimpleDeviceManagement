@@ -1,10 +1,10 @@
-package com.progiton.trainee.simple.devicemanagement.to;
+package com.progiton.trainee.simple.devicemanagement.model.to;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.progiton.trainee.simple.devicemanagement.model.enums.DeviceStatus;
-import com.progiton.trainee.simple.devicemanagement.view.DeviceView;
+import com.progiton.trainee.simple.devicemanagement.view.Device;
 
 import lombok.*;
 
@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DeviceTo implements DeviceView{
+public class DeviceTo implements Device {
 
     private String name; // No need to define getters, Lombok understands and takes care of it
     private String type;

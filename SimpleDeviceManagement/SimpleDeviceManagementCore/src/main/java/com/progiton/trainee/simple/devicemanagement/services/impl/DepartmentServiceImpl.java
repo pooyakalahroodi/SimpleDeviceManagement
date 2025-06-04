@@ -2,9 +2,9 @@ package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.util.List;
 
-import com.progiton.trainee.simple.devicemanagement.model.DepartmentEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.DepartmentEntity;
 import com.progiton.trainee.simple.devicemanagement.services.DepartmentService;
-import com.progiton.trainee.simple.devicemanagement.repositories.DepartmentRepository;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.DepartmentRepository;
 
 import org.springframework.stereotype.Service;
 

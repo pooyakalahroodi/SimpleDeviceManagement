@@ -1,26 +1,24 @@
-package com.progiton.trainee.simple.devicemanagement.model;
+package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.progiton.trainee.simple.devicemanagement.model.enums.*;
-import com.progiton.trainee.simple.devicemanagement.view.DeviceView;
+import com.progiton.trainee.simple.devicemanagement.view.Device;
 
 import jakarta.persistence.*;
-import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-public class DeviceEntity implements DeviceView{
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Builder
+//@Entity
+//@EntityListeners(AuditingEntityListener.class)
+public class DeviceEntity implements Device {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

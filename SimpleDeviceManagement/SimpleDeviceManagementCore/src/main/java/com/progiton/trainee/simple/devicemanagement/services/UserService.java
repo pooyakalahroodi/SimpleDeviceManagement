@@ -1,5 +1,5 @@
 package com.progiton.trainee.simple.devicemanagement.services;
-import com.progiton.trainee.simple.devicemanagement.model.UserEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.UserEntity;
 import java.util.List;
 
 public interface UserService {

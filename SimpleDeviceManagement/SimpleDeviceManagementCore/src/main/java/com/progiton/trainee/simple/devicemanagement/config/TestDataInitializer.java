@@ -1,8 +1,12 @@
 package com.progiton.trainee.simple.devicemanagement.config;
 
-import com.progiton.trainee.simple.devicemanagement.model.*;
 import com.progiton.trainee.simple.devicemanagement.model.enums.DeviceStatus;
-import com.progiton.trainee.simple.devicemanagement.repositories.*;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.RoleEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.UserEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.DeviceRepository;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.RoleRepository;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

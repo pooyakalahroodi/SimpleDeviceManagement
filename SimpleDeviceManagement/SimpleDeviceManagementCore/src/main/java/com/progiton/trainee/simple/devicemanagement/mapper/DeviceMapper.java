@@ -5,8 +5,8 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.progiton.trainee.simple.devicemanagement.model.DeviceEntity;
-import com.progiton.trainee.simple.devicemanagement.to.DeviceTo;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
+import com.progiton.trainee.simple.devicemanagement.model.to.DeviceTo;
 
 @Mapper(componentModel = "spring")
 public interface DeviceMapper {

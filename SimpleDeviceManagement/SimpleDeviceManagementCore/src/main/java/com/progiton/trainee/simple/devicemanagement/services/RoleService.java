@@ -1,6 +1,6 @@
 package com.progiton.trainee.simple.devicemanagement.services;
 
-import com.progiton.trainee.simple.devicemanagement.model.RoleEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.RoleEntity;
 
 import java.util.List;
 import java.util.Optional;

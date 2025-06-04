@@ -1,6 +1,6 @@
 package com.progiton.trainee.simple.devicemanagement.services;
 
-import com.progiton.trainee.simple.devicemanagement.model.DepartmentEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.DepartmentEntity;
 import java.util.List;
 
 public interface DepartmentService {

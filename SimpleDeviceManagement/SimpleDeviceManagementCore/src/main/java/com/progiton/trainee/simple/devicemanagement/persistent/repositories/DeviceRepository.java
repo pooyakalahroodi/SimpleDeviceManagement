@@ -1,6 +1,6 @@
-package com.progiton.trainee.simple.devicemanagement.repositories;
+package com.progiton.trainee.simple.devicemanagement.persistent.repositories;
 
-import com.progiton.trainee.simple.devicemanagement.model.DeviceEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import com.progiton.trainee.simple.devicemanagement.model.enums.DeviceStatus;
 
-public interface DeviceView {
+public interface Device {
 	
 	String getName();
     String getType();

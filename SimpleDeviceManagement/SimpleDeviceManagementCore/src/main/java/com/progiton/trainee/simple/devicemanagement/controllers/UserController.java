@@ -1,9 +1,9 @@
 package com.progiton.trainee.simple.devicemanagement.controllers;
 
 import com.progiton.trainee.simple.devicemanagement.mapper.UserMapper;
-import com.progiton.trainee.simple.devicemanagement.model.UserEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.UserEntity;
 import com.progiton.trainee.simple.devicemanagement.services.UserService;
-import com.progiton.trainee.simple.devicemanagement.to.UserTo;
+import com.progiton.trainee.simple.devicemanagement.model.to.UserTo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

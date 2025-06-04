@@ -2,9 +2,9 @@ package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import com.progiton.trainee.simple.devicemanagement.model.DeviceEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
 import com.progiton.trainee.simple.devicemanagement.services.DeviceService;
-import com.progiton.trainee.simple.devicemanagement.repositories.DeviceRepository;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.DeviceRepository;
 
 import org.springframework.stereotype.Service;
 

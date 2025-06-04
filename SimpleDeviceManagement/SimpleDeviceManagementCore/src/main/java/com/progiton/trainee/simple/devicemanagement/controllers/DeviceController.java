@@ -1,8 +1,8 @@
 package com.progiton.trainee.simple.devicemanagement.controllers;
 
-import com.progiton.trainee.simple.devicemanagement.model.DeviceEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
 import com.progiton.trainee.simple.devicemanagement.services.DeviceService;
-import com.progiton.trainee.simple.devicemanagement.to.DeviceTo;
+import com.progiton.trainee.simple.devicemanagement.model.to.DeviceTo;
 
 import lombok.RequiredArgsConstructor;
 
