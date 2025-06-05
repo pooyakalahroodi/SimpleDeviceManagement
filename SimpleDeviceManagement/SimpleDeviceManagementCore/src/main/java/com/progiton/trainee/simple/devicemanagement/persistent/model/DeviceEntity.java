@@ -11,13 +11,7 @@ import com.progiton.trainee.simple.devicemanagement.model.Device;
 
 import jakarta.persistence.*;
 
-//@Getter
-//@Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Builder
-//@Entity
-//@EntityListeners(AuditingEntityListener.class)
+
 public class DeviceEntity implements Device {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +26,33 @@ public class DeviceEntity implements Device {
     private String manufacturer;
     
     private String location;
+    
 
     private LocalDate purchaseDate;
     
+    @Enumerated(EnumType.STRING)
+    private DeviceStatus status;
+
+    public DeviceEntity() {
+    }
+
+    public DeviceEntity(Long id, String name, String type, String serialNumber,
+                        String manufacturer, String location, LocalDate purchaseDate,
+                        DeviceStatus status, UserEntity assignedTo,
+                        LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.serialNumber = serialNumber;
+        this.manufacturer = manufacturer;
+        this.location = location;
+        this.purchaseDate = purchaseDate;
+        this.status = status;
+        this.assignedTo = assignedTo;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     // Auditing fields =====================
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -45,70 +63,118 @@ public class DeviceEntity implements Device {
     private LocalDateTime updatedAt;
     // ====================================
 
-    @Enumerated(EnumType.STRING)
-    private DeviceStatus status;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity assignedTo;
     
-    // Optional: if DeviceView includes this
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
-    public String getAssignedToName() {
-        return assignedTo != null ? assignedTo.getName() : null;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    @Override
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    @Override
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    @Override
+    public LocalDate getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    @Override
+    public String getStatus() {
+    	return status != null ? status.name() : null;
+    }
+
+    public void setStatus(DeviceStatus status) {
+        this.status = status;
+    }
+
+
+    private UserEntity getAssignedTo() {
+		return assignedTo;
+
+	}
+    
+    public void setAssignedTo(UserEntity assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Override
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getAssignedToUsername() {
+		
+	    if (assignedTo != null) {
+	        return assignedTo.getUsername();
+	    }
+	    return null;
 	}
 
-	@Override
-	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getSerialNumber() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getManufacturer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getLocation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public LocalDate getPurchaseDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public LocalDateTime getCreatedAt() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public LocalDateTime getUpdatedAt() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public DeviceStatus getStatus() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
+

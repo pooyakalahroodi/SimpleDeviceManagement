@@ -1,7 +1,6 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
 import com.progiton.trainee.simple.devicemanagement.model.User;
-import lombok.*;
 import java.util.List;
 import java.util.Set;
 

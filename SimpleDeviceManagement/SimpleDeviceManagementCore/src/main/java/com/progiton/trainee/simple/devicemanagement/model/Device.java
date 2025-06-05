@@ -3,7 +3,6 @@ package com.progiton.trainee.simple.devicemanagement.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.progiton.trainee.simple.devicemanagement.model.enums.DeviceStatus;
 
 public interface Device {
 	
@@ -15,7 +14,9 @@ public interface Device {
     LocalDate getPurchaseDate();
     LocalDateTime getCreatedAt();
     LocalDateTime getUpdatedAt();
-    DeviceStatus getStatus();
-    String getAssignedToName();
+    String getStatus();
+    String getAssignedToUsername();
+
+
 
 }
