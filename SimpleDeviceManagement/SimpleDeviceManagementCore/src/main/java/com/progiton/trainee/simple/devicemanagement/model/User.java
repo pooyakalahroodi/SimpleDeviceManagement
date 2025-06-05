@@ -1,4 +1,4 @@
-package com.progiton.trainee.simple.devicemanagement.view;
+package com.progiton.trainee.simple.devicemanagement.model;
 
 public interface User {
 

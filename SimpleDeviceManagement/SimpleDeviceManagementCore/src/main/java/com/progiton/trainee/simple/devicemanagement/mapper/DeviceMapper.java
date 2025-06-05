@@ -12,7 +12,7 @@ import com.progiton.trainee.simple.devicemanagement.model.to.DeviceTo;
 public interface DeviceMapper {
 	
 
-	@Mapping(source = "assignedTo.name", target = "assignedToName")
+	//@Mapping(source = "assignedTo.name", target = "assignedToName")
 	DeviceTo toTo(DeviceEntity Device);
     
     DeviceEntity toEntity(DeviceTo dto);

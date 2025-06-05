@@ -1,4 +1,4 @@
-package com.progiton.trainee.simple.devicemanagement.view;
+package com.progiton.trainee.simple.devicemanagement.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.progiton.trainee.simple.devicemanagement.model.enums.DeviceStatus;
-import com.progiton.trainee.simple.devicemanagement.view.Device;
+import com.progiton.trainee.simple.devicemanagement.model.Device;
 
 import lombok.*;
 

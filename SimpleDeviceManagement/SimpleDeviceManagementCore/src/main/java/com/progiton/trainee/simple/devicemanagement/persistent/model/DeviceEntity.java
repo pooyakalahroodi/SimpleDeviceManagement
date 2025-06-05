@@ -7,7 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.progiton.trainee.simple.devicemanagement.model.enums.*;
-import com.progiton.trainee.simple.devicemanagement.view.Device;
+import com.progiton.trainee.simple.devicemanagement.model.Device;
 
 import jakarta.persistence.*;
 
@@ -57,4 +57,58 @@ public class DeviceEntity implements Device {
     public String getAssignedToName() {
         return assignedTo != null ? assignedTo.getName() : null;
     }
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getSerialNumber() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getManufacturer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getLocation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LocalDate getPurchaseDate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LocalDateTime getCreatedAt() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LocalDateTime getUpdatedAt() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DeviceStatus getStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
