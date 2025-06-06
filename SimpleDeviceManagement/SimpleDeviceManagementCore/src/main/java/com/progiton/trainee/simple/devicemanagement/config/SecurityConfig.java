@@ -42,6 +42,6 @@ public class SecurityConfig {
         )
         .httpBasic(); // instead of formLogin() for API tools like Postman
 
-        return http.build();
-    }
+    	http.headers(headers -> headers.frameOptions().disable());
+    	return http.build();   }
 }

@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.progiton.trainee.simple.devicemanagement.model.enums.*;
 import com.progiton.trainee.simple.devicemanagement.model.Device;
@@ -12,6 +14,9 @@ import com.progiton.trainee.simple.devicemanagement.model.Device;
 import jakarta.persistence.*;
 
 
+@EnableJpaAuditing  // Add this to your main application class or config
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class DeviceEntity implements Device {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -140,7 +145,7 @@ public class DeviceEntity implements Device {
     }
 
 
-    private UserEntity getAssignedTo() {
+    public UserEntity getAssignedTo() {
 		return assignedTo;
 
 	}

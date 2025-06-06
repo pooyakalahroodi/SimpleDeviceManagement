@@ -3,6 +3,9 @@ package com.progiton.trainee.simple.devicemanagement.services;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public interface DeviceService {
 	List<DeviceEntity> getAllDevices();
 	DeviceEntity getDeviceById(Long id);
