@@ -37,6 +37,20 @@ public class DeviceEntity implements Device {
     
     @Enumerated(EnumType.STRING)
     private DeviceStatus status;
+    
+    // Auditing fields =====================
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+    // ====================================
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity assignedTo;
 
     public DeviceEntity() {
     }
@@ -58,19 +72,7 @@ public class DeviceEntity implements Device {
         this.updatedAt = updatedAt;
     }
 
-    // Auditing fields =====================
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    // ====================================
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity assignedTo;
     
     // Getters and Setters
     public Long getId() {
