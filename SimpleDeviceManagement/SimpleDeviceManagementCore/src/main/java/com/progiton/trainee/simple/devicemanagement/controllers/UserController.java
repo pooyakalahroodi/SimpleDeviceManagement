@@ -1,99 +1,97 @@
 package com.progiton.trainee.simple.devicemanagement.controllers;
 
-import com.progiton.trainee.simple.devicemanagement.mapper.UserMapper;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.UserEntity;
 import com.progiton.trainee.simple.devicemanagement.services.UserService;
 import com.progiton.trainee.simple.devicemanagement.model.to.UserTo;
+import com.progiton.trainee.simple.devicemanagement.mapper.UserMapper;
 
-import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
-@RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    
     private final UserService userService;
     private final UserMapper userMapper;
 
-//    @GetMapping
-//    @PreAuthorize("hasAuthority('USER_READ')")
-//    public List<UserTo> getAllUsers() {
-//        return userService.getAllUsers().stream()
-//                .map(UserMapper::toTo)
-//                .collect(Collectors.toList());
-//    }
-//
-//    @GetMapping("/{id}")
-//    @PreAuthorize("hasAuthority('USER_READ')")
-//    public ResponseEntity<UserTo> getUserById(@PathVariable Long id) {
-//        UserEntity userEntity = userService.getUserById(id);
-//        return ResponseEntity.ok(userMapper.toDto(userEntity));
-//    }
-//
-//    @PostMapping
-//    @PreAuthorize("hasAuthority('USER_CREATE')")
-//    public ResponseEntity<UserTo> createUser(@RequestBody UserTo userTo) {
-//        UserEntity userEntity = userMapper.toEntity(userTo);
-//        UserEntity createdUser = userService.createUser(userEntity);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(userMapper.toDto(createdUser));
-//    }
-//
-//    @PutMapping("/{id}")
-//    @PreAuthorize("hasAuthority('USER_UPDATE')")
-//    public ResponseEntity<UserTo> updateUser(@PathVariable Long id, @RequestBody UserTo userTo) {
-//        UserEntity userEntity = userMapper.toEntity(userTo);
-//        UserEntity updatedUser = userService.updateUser(id, userEntity);
-//        return ResponseEntity.ok(userMapper.toDto(updatedUser));
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    @PreAuthorize("hasAuthority('USER_DELETE')")
-//    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-//        userService.deleteUser(id);
-//        return ResponseEntity.noContent().build();
-//    }
-//
-//    @GetMapping("/by-department/{departmentId}")
-//    @PreAuthorize("hasAuthority('USER_READ')")
-//    public List<UserTo> getUsersByDepartment(@PathVariable Long departmentId) {
-//        return userService.getUsersByDepartment(departmentId).stream()
-//                .map(UserMapper::toDto)
-//                .collect(Collectors.toList());
-//    }
-//
-//    @GetMapping("/by-username/{username}")
-//    @PreAuthorize("hasAuthority('USER_READ')")
-//    public ResponseEntity<UserTo> getUserByUsername(@PathVariable String username) {
-//        UserEntity userEntity = userService.getUserByUsername(username);
-//        return ResponseEntity.ok(userMapper.toDto(userEntity));
-//    }
-//
-//    @PostMapping("/{userId}/assign-role/{roleId}")
-//    @PreAuthorize("hasAuthority('USER_UPDATE')")
-//    public ResponseEntity<UserTo> assignRoleToUser(@PathVariable Long userId, @PathVariable Long roleId) {
-//        UserEntity updatedUser = userService.assignRoleToUser(userId, roleId);
-//        return ResponseEntity.ok(userMapper.toDto(updatedUser));
-//    }
-//
-//    @DeleteMapping("/{userId}/remove-role/{roleId}")
-//    @PreAuthorize("hasAuthority('USER_UPDATE')")
-//    public ResponseEntity<UserTo> removeRoleFromUser(@PathVariable Long userId, @PathVariable Long roleId) {
-//        UserEntity updatedUser = userService.removeRoleFromUser(userId, roleId);
-//        return ResponseEntity.ok(userMapper.toDto(updatedUser));
-//    }
-//
-//    @PostMapping("/{userId}/assign-department/{departmentId}")
-//    @PreAuthorize("hasAuthority('USER_UPDATE')")
-//    public ResponseEntity<UserTo> assignDepartmentToUser(@PathVariable Long userId, @PathVariable Long departmentId) {
-//        UserEntity updatedUser = userService.assignDepartmentToUser(userId, departmentId);
-//        return ResponseEntity.ok(userMapper.toDto(updatedUser));
-//    }
+    public UserController(UserService userService, UserMapper userMapper) {
+        this.userService = userService;
+        this.userMapper = userMapper;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserTo>> getAllUsers() {
+        log.debug("Fetching all users");
+        List<UserEntity> users = userService.getAllUsers();
+        List<UserTo> userTos = userMapper.toToList(users);
+        return ResponseEntity.ok(userTos);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserTo> getUserById(@PathVariable Long id) {
+        log.debug("Fetching user with id: {}", id);
+        UserEntity user = userService.getUserById(id);
+        if (user == null) {
+            log.warn("User with id {} not found", id);
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(userMapper.toTo(user));
+    }
+
+    @PostMapping
+    public ResponseEntity<UserTo> createUser(@RequestBody UserTo userTo) {
+        log.debug("Creating new user: {}", userTo);
+        
+        UserEntity userEntity = userMapper.toEntity(userTo);
+        log.debug("Mapped user entity: {}", userEntity);
+
+        UserEntity savedUser = userService.saveUser(userEntity);
+        log.debug("Saved user: {}", savedUser);
+
+        UserTo savedUserTo = userMapper.toTo(savedUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserTo);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserTo> updateUser(@PathVariable Long id, @RequestBody UserTo userTo) {
+        log.debug("Updating user with id: {}, data: {}", id, userTo);
+        
+        UserEntity existingUser = userService.getUserById(id);
+        if (existingUser == null) {
+            log.warn("User with id {} not found for update", id);
+            return ResponseEntity.notFound().build();
+        }
+
+        UserEntity userEntity = userMapper.toEntity(userTo);
+        userEntity.setId(id); // Ensure the ID is set for update
+        
+        UserEntity updatedUser = userService.saveUser(userEntity);
+        log.debug("Updated user: {}", updatedUser);
+
+        return ResponseEntity.ok(userMapper.toTo(updatedUser));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        log.debug("Deleting user with id: {}", id);
+        
+        UserEntity user = userService.getUserById(id);
+        if (user == null) {
+            log.warn("User with id {} not found for deletion", id);
+            return ResponseEntity.notFound().build();
+        }
+
+        userService.deleteUser(id);
+        log.info("Deleted user with id: {}", id);
+        
+        return ResponseEntity.noContent().build();
+    }
 }

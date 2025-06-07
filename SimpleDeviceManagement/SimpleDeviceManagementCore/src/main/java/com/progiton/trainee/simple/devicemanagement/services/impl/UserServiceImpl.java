@@ -2,62 +2,76 @@ package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 import com.progiton.trainee.simple.devicemanagement.persistent.model.UserEntity;
 import com.progiton.trainee.simple.devicemanagement.services.UserService;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.DepartmentRepository;
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService{
 	
 	private final UserRepository userRepository;
+	private final DepartmentRepository departmentRepository;
 	
-	public UserServiceImpl(UserRepository userRepository) {
-		
-		this.userRepository = userRepository;	
+	public UserServiceImpl(UserRepository userRepository, DepartmentRepository departmentRepository) {
+	    this.userRepository = userRepository;
+	    this.departmentRepository = departmentRepository;
 	}
-
+	
 	@Override
 	public List<UserEntity> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+        return userRepository.findAll();
 	}
 
 	@Override
 	public UserEntity getUserById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new RuntimeException("User not found with id: " + id);
+        }
+        return user.get();		
 	}
 
 	@Override
 	public UserEntity saveUser(UserEntity userEntity) {
-		// TODO Auto-generated method stub
-		return null;
+        return userRepository.save(userEntity);
 	}
 
 	@Override
 	public void deleteUser(Long id) {
-		// TODO Auto-generated method stub
-		
+		if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found with id: " + id);
+        }
+        userRepository.deleteById(id);
 	}
 
 	@Override
 	public UserEntity getUserByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<UserEntity> user = userRepository.findByUsername(username);
+        if (user.isEmpty()) {
+            throw new RuntimeException("User not found with username: " + username);
+        }
+        return user.get();
 	}
 
 	@Override
 	public List<UserEntity> getUsersByDepartment(Long departmentId) {
-		// TODO Auto-generated method stub
-		return null;
+        return userRepository.findByDepartmentEntityId(departmentId);
+
 	}
 
 	@Override
 	public UserEntity updateUser(Long id, UserEntity updatedUser) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		UserEntity existingUser = getUserById(id);
+        existingUser.setName(updatedUser.getName());
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setDepartmentEntity(updatedUser.getDepartmentEntity());
+        existingUser.setRoleEntities(updatedUser.getRoleEntities());
+        return userRepository.save(existingUser);
+    }
+	
 
 	@Override
 	public UserEntity assignRoleToUser(Long userId, Long roleId) {

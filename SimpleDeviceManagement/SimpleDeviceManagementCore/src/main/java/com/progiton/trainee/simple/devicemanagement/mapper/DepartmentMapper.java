@@ -3,11 +3,12 @@ package com.progiton.trainee.simple.devicemanagement.mapper;
 import com.progiton.trainee.simple.devicemanagement.model.to.DepartmentTo;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.DepartmentEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DepartmentMapper {
 
     DepartmentMapper INSTANCE = Mappers.getMapper(DepartmentMapper.class);

@@ -7,7 +7,7 @@ public interface User {
 
 	String getName();
 	String getUsername();
-	Boolean getEnabled();
+	Boolean getEnabled();	
 	String getDepartment();
 	List<String> getDevices();
 	LocalDateTime getCreatedAt();

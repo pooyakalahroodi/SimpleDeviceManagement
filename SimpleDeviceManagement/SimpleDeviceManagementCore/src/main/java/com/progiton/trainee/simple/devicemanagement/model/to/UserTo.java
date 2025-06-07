@@ -1,5 +1,6 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.progiton.trainee.simple.devicemanagement.model.User;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,10 @@ public class UserTo implements User {
 
 	    private String username;
 	    private String name;
+	    
+	    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Only accept password in requests, don't return it
+	    private String password;
+	    
 	    private Boolean enabled;
 	    private String department; // Department name, not ID
 	    private List<String> devices; // Device descriptions, not IDs or objects

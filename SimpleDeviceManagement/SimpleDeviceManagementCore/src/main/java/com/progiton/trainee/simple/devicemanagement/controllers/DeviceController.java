@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+
 @RestController
 @RequestMapping("/api/devices")
 public class DeviceController {
 
-	@Autowired
     private final DeviceService deviceService;
     private final DeviceMapper deviceMapper;
 
@@ -27,6 +26,11 @@ public class DeviceController {
 //        this.deviceService = deviceService;
 //        this.deviceMapper = deviceMapper;
 //    }
+    
+    public DeviceController(DeviceService deviceService, DeviceMapper deviceMapper) {
+        this.deviceService = deviceService;
+        this.deviceMapper = deviceMapper;
+    }
 
     @GetMapping
     public List<DeviceTo> getAllDevices() {
