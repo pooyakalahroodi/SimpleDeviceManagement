@@ -8,4 +8,6 @@ public interface DepartmentService {
 	DepartmentEntity getDepartmentById(Long id);
 	DepartmentEntity saveDepartment(DepartmentEntity departmentEntity);
     void deleteDepartment(Long id);
+	DepartmentEntity updateDepartment(Long id, DepartmentEntity entity);
+	
 }

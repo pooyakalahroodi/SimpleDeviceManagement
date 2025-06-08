@@ -8,45 +8,43 @@ import com.progiton.trainee.simple.devicemanagement.persistent.repositories.Depa
 
 import org.springframework.stereotype.Service;
 
-
 @Service
-public class DepartmentServiceImpl implements DepartmentService{
-	
+public class DepartmentServiceImpl implements DepartmentService {
+
     private final DepartmentRepository departmentRepository;
 
-
-	public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
-		this.departmentRepository = departmentRepository;
-		
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
+        this.departmentRepository = departmentRepository;
     }
 
-	@Override
-	public List<DepartmentEntity> getAllDepartments() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<DepartmentEntity> getAllDepartments() {
+        return departmentRepository.findAll();
+    }
 
+    @Override
+    public DepartmentEntity getDepartmentById(Long id) {
+        return departmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Department not found with ID: " + id));
+    }
 
-	@Override
-	public DepartmentEntity getDepartmentById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public DepartmentEntity saveDepartment(DepartmentEntity departmentEntity) {
+        return departmentRepository.save(departmentEntity);
+    }
 
+    @Override
+    public DepartmentEntity updateDepartment(Long id, DepartmentEntity updatedEntity) {
+        DepartmentEntity existing = getDepartmentById(id);
+        existing.setName(updatedEntity.getName());
+        return departmentRepository.save(existing);
+    }
 
-	@Override
-	public DepartmentEntity saveDepartment(DepartmentEntity departmentEntity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void deleteDepartment(Long id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
+    @Override
+    public void deleteDepartment(Long id) {
+        if (!departmentRepository.existsById(id)) {
+            throw new RuntimeException("Department not found with ID: " + id);
+        }
+        departmentRepository.deleteById(id);
+    }
 }
