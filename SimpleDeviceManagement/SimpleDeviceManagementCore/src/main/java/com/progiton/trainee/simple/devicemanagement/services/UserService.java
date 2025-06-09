@@ -5,8 +5,17 @@ import java.util.List;
 public interface UserService {
     List<UserEntity> getAllUsers();
     UserEntity getUserById(Long id);
-    UserEntity getUserByUsername(String username);
     List<UserEntity> getUsersByDepartment(Long departmentId);
+    
+    
+    List<UserEntity> getUserByUsername(String username);
+    List<UserEntity> getUserByName(String name);
+    List<UserEntity> getUsersByDepartmentName(String departmentName);
+    UserEntity assignDepartmentToUser(String username, String departmentName);
+
+    
+    
+    
     UserEntity saveUser(UserEntity userEntity);
     UserEntity createUser(UserEntity userEntity); // Add this
     UserEntity updateUser(Long id, UserEntity updatedUser);

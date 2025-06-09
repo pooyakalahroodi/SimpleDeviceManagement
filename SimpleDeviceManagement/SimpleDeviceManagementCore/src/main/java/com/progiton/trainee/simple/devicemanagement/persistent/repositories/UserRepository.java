@@ -10,8 +10,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
 
-	Optional<UserEntity> findByUsername(String username);
+	
 
 	List<UserEntity> findByDepartmentEntityId(Long departmentId);
+	
+	List<UserEntity> findByDepartmentEntityNameIgnoreCase(String departmentName);
+	List<UserEntity> findByName(String name);
+	List<UserEntity> findByUsernameStartingWithIgnoreCase(String username);
+	List<UserEntity> findByNameStartingWithIgnoreCase(String name);
+
 
 }

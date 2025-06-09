@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import com.progiton.trainee.simple.devicemanagement.persistent.model.DepartmentEntity;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.UserEntity;
 import com.progiton.trainee.simple.devicemanagement.services.UserService;
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.DepartmentRepository;
@@ -46,20 +47,35 @@ public class UserServiceImpl implements UserService{
         }
         userRepository.deleteById(id);
 	}
+	
+	// finding users by username
 
 	@Override
-	public UserEntity getUserByUsername(String username) {
-		Optional<UserEntity> user = userRepository.findByUsername(username);
-        if (user.isEmpty()) {
-            throw new RuntimeException("User not found with username: " + username);
-        }
-        return user.get();
+	public List<UserEntity> getUserByUsername(String username) {
+		List<UserEntity> users = userRepository.findByUsernameStartingWithIgnoreCase(username);
+        return users;
 	}
 
+	// filtering users by departmentId
+	
 	@Override
 	public List<UserEntity> getUsersByDepartment(Long departmentId) {
         return userRepository.findByDepartmentEntityId(departmentId);
 
+	}
+
+	// filtering users by departmentName
+
+	@Override
+	public List<UserEntity> getUsersByDepartmentName(String departmentName) {
+		return userRepository.findByDepartmentEntityNameIgnoreCase(departmentName);
+	}
+	
+	// finding users by name
+	
+	@Override
+	public List<UserEntity> getUserByName(String name) {
+		return userRepository.findByNameStartingWithIgnoreCase(name);
 	}
 
 	@Override
@@ -71,6 +87,21 @@ public class UserServiceImpl implements UserService{
         existingUser.setRoleEntities(updatedUser.getRoleEntities());
         return userRepository.save(existingUser);
     }
+	
+	@Override
+	public UserEntity assignDepartmentToUser(String username, String departmentName) {
+		 // Find user
+	    List<UserEntity> users = userRepository.findByUsernameStartingWithIgnoreCase(username);
+	    UserEntity user = users.get(0); // Use first one
+
+	    // Find department
+	    DepartmentEntity department = departmentRepository.findByNameIgnoreCase(departmentName)
+	        .orElseThrow(() -> new RuntimeException("Department not found with name: " + departmentName));
+
+	    // Assign department and save
+	    user.setDepartmentEntity(department);
+	    return userRepository.save(user);
+	}
 	
 
 	@Override
@@ -96,4 +127,9 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
+	
 }

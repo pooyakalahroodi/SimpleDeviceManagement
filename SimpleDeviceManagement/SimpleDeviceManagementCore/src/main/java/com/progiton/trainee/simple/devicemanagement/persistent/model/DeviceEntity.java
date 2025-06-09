@@ -24,12 +24,15 @@ public class DeviceEntity implements Device {
 
     private String name;
 
+    @Column(nullable = false)
     private String type;
     
+    @Column(nullable = false, unique = true)
     private String serialNumber;
 
     private String manufacturer;
     
+    @Column(nullable = false)
     private String location;
     
 

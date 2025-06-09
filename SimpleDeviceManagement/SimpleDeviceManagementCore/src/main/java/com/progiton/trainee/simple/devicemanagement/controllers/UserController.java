@@ -94,4 +94,34 @@ public class UserController {
         
         return ResponseEntity.noContent().build();
     }
+    
+    @GetMapping("/department/{departmentName}")
+    public ResponseEntity<List<UserTo>> getUsersByDepartment(@PathVariable  String departmentName) {
+    	
+    	List<UserEntity> users = userService.getUsersByDepartmentName(departmentName);
+    	List<UserTo> usersTO = userMapper.toToList(users);
+    	return ResponseEntity.ok(usersTO);
+    	
+    }
+    
+    @GetMapping("/username/{username}")
+    public ResponseEntity<List<UserTo>> getUsersByUsername(@PathVariable String username) {
+    	List<UserEntity> users = userService.getUserByUsername(username);
+    	List<UserTo> userTos = userMapper.toToList(users);
+    	return ResponseEntity.ok(userTos);
+    }
+    
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<UserTo>> getUsersByname(@PathVariable String name) {
+    	List<UserEntity> users = userService.getUserByName(name);
+    	List<UserTo> userTos = userMapper.toToList(users);
+    	return ResponseEntity.ok(userTos);
+    }
+    
+    @PutMapping("/assign-department")
+    public ResponseEntity<UserTo> assignDepartment(@RequestParam String username,
+                                                   @RequestParam String departmentName) {
+        UserEntity updatedUser = userService.assignDepartmentToUser(username, departmentName);
+        return ResponseEntity.ok(userMapper.toTo(updatedUser));
+    }
 }
