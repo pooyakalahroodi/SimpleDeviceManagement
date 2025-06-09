@@ -11,4 +11,5 @@ public interface DeviceService {
 	DeviceEntity getDeviceById(Long id);
     DeviceEntity saveDevice(DeviceEntity deviceEntity);
     void deleteDevice(Long id);
+    DeviceEntity assignDeviceToUser(String serialNumber, String username);
 }

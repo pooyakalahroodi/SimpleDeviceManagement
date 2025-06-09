@@ -49,4 +49,13 @@ public class DeviceController {
 
         return ResponseEntity.ok(deviceMapper.toTo(saved));
     }
+    
+    // Assigning Device to User
+    
+    @PutMapping("/assign-device")
+    public ResponseEntity<DeviceTo> assignDeviceToUser(@RequestParam String serialNumber,
+                                                        @RequestParam String username) {
+        DeviceEntity updatedDevice = deviceService.assignDeviceToUser(serialNumber, username);
+        return ResponseEntity.ok(deviceMapper.toTo(updatedDevice));
+    }
 }

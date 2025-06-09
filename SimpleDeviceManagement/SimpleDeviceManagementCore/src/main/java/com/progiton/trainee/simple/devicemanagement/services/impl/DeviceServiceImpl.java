@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.UserEntity;
 import com.progiton.trainee.simple.devicemanagement.services.DeviceService;
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.DeviceRepository;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.UserRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,12 @@ import org.springframework.stereotype.Service;
 public class DeviceServiceImpl implements DeviceService{
 	
     private final DeviceRepository deviceRepository;
+    private final UserRepository userRepository;
 
 	
-    public DeviceServiceImpl(DeviceRepository deviceRepository) {
+    public DeviceServiceImpl(DeviceRepository deviceRepository, UserRepository userRepository) {
         this.deviceRepository = deviceRepository;
+		this.userRepository = userRepository;
     }
 
 
@@ -55,5 +59,18 @@ public class DeviceServiceImpl implements DeviceService{
         deviceRepository.deleteById(id);
         log.info("Deleted device with id {}", id);
     }
+
+
+	@Override
+	public DeviceEntity assignDeviceToUser(String serialNumber, String username) {
+		List<UserEntity> users = userRepository.findByUsernameStartingWithIgnoreCase(username);
+		UserEntity user = users.get(0); // Use first one
+
+		    DeviceEntity device = deviceRepository.findBySerialNumber(serialNumber)
+		        .orElseThrow(() -> new RuntimeException("Gerät nicht gefunden: " + serialNumber));
+
+		    device.setAssignedTo(user);
+		    return deviceRepository.save(device);
+	}
 
 }
