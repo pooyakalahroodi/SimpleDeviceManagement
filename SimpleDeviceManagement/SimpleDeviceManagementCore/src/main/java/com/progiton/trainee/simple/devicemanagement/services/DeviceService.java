@@ -1,5 +1,6 @@
 package com.progiton.trainee.simple.devicemanagement.services;
 
+import com.progiton.trainee.simple.devicemanagement.model.enums.DeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface DeviceService {
     DeviceEntity saveDevice(DeviceEntity deviceEntity);
     void deleteDevice(Long id);
     DeviceEntity assignDeviceToUser(String serialNumber, String username);
+    DeviceEntity updateDeviceStatus(String serialNumber, DeviceStatus newStatus);
+
 }

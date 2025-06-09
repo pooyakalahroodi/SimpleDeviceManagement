@@ -2,6 +2,7 @@ package com.progiton.trainee.simple.devicemanagement.controllers;
 
 import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
 import com.progiton.trainee.simple.devicemanagement.services.DeviceService;
+import com.progiton.trainee.simple.devicemanagement.model.enums.DeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.model.to.DeviceTo;
 
 import lombok.RequiredArgsConstructor;
@@ -57,5 +58,11 @@ public class DeviceController {
                                                         @RequestParam String username) {
         DeviceEntity updatedDevice = deviceService.assignDeviceToUser(serialNumber, username);
         return ResponseEntity.ok(deviceMapper.toTo(updatedDevice));
+    }
+    
+    @PutMapping("/update-status")
+    public ResponseEntity<DeviceTo> updateDeviceStatus(@RequestParam String serialNumber, DeviceStatus newStatus) {
+        DeviceEntity updated = deviceService.updateDeviceStatus(serialNumber, newStatus);
+        return ResponseEntity.ok(deviceMapper.toTo(updated));
     }
 }

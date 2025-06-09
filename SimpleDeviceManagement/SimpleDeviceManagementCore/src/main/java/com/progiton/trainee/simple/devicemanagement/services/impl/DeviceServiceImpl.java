@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
+
+import com.progiton.trainee.simple.devicemanagement.model.enums.DeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.DeviceEntity;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.UserEntity;
 import com.progiton.trainee.simple.devicemanagement.services.DeviceService;
@@ -70,6 +72,16 @@ public class DeviceServiceImpl implements DeviceService{
 		        .orElseThrow(() -> new RuntimeException("Gerät nicht gefunden: " + serialNumber));
 
 		    device.setAssignedTo(user);
+		    return deviceRepository.save(device);
+	}
+
+
+	@Override
+	public DeviceEntity updateDeviceStatus(String serialNumber, DeviceStatus newStatus) {
+		DeviceEntity device = deviceRepository.findBySerialNumber(serialNumber)
+		        .orElseThrow(() -> new RuntimeException("Gerät nicht gefunden: " + serialNumber));
+
+		    device.setStatus(newStatus);
 		    return deviceRepository.save(device);
 	}
 
