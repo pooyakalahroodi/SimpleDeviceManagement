@@ -4,20 +4,18 @@ import java.time.LocalDateTime;
 
 import com.progiton.trainee.simple.devicemanagement.model.Department;
 
-public class DepartmentTo implements Department {
+public class DepartmentTo extends SdmBaseTO implements Department {
 
 	private String name;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     // Constructors
     public DepartmentTo() {
+        super();
     }
 
-    public DepartmentTo(String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public DepartmentTo(final String name, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+        super(createdAt, updatedAt);
         this.name = name;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     // Getters & Setters
@@ -28,24 +26,6 @@ public class DepartmentTo implements Department {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    @Override
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
 }
