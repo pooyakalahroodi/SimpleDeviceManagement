@@ -9,6 +9,7 @@ public interface HandOverProtocol {
 	String getPerformedByUsername();
 	LocalDateTime getHandoverDate();
 	String getComments();
+	//TODO (LR): Erste Frag: warum Boolean und nicht boolean
 	Boolean getIsConfirmed();
 	LocalDateTime getConfirmedAt();
 }

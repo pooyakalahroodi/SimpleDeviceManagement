@@ -39,6 +39,8 @@ public class HandOverProtocolEntity implements HandOverProtocol {
     @Column(length = 500)
     private String comments;
 
+    //TODO (LR) was ist mit beide Felder unten los. Warum sind die nicht in DB
+    // Wenn ein Feld nicht persistier werden soll, soll als Transient bezeichnet werden.
     private Boolean isConfirmed = false;
 
     private LocalDateTime confirmedAt;

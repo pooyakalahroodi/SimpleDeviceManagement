@@ -2,6 +2,7 @@ package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,10 +14,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.progiton.trainee.simple.devicemanagement.model.Department;
 
+//TODO (LR) du hast selbst die Kommentar unten, was macht dann diese Annotation hier?
 @EnableJpaAuditing  // Add this to your main application class or config
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class DepartmentEntity implements Department {
+public class DepartmentEntity extends SdmBaseEntity<Long> implements Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,27 +30,30 @@ public class DepartmentEntity implements Department {
     private List<UserEntity> userEntity;
     
     // Auditing fields =====================
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    // TODO (LR) in DB bitte Instant oder besser java.sql.Timestamp
+    // Die sind jetzt in SdmBaseEntity und können hier und in alle andere Entity-Klassen
+    // gelöscht werden
+//    @CreatedDate
+//    @Column(name = "created_at", nullable = false, updatable = false)
+//    private LocalDateTime createdAt;
+//
+//    @LastModifiedDate
+//    @Column(name = "updated_at")
+//    private LocalDateTime updatedAt;
     // ====================================
 
 
     // No-args constructor
     public DepartmentEntity() {
+        super();
     }
 
     // All-args constructor
-    public DepartmentEntity(Long id, String name, List<UserEntity> userEntity, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public DepartmentEntity(final Long id, final String name, final List<UserEntity> userEntity, final Instant createdAt, final Instant updatedAt) {
+        super(createdAt, updatedAt);
         this.id = id;
         this.name = name;
         this.userEntity = userEntity;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     // Getters and setters
@@ -77,24 +82,4 @@ public class DepartmentEntity implements Department {
         this.userEntity = userEntity;
     }
 
-    @Override
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    @Override
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    
-    
 }

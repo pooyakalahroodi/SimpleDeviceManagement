@@ -4,12 +4,11 @@ import java.time.LocalDateTime;
 
 public interface Department {
 	String getName();
-    LocalDateTime getCreatedAt();
-    LocalDateTime getUpdatedAt();
-    
 
     // Optional: You can add user count or a DTO-friendly transformation
-    default String getLabel() {
-        return getName() + " (since " + getCreatedAt().toLocalDate() + ")";
-    }
+    // TODO (LR): Die MEthode hier ist nicht so gut besonders als default
+    // du kannst bei bedarf die toString() überschreiben hat auch ein bessere efekt in Log
+//    default String getLabel() {
+//        return getName() + " (since " + getCreatedAt().toLocalDate() + ")";
+//    }
 }
