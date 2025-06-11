@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DeviceRepository extends JpaRepository<DeviceEntity, Long> {
 
-	Optional<DeviceEntity> findBySerialNumber(String serialNumber);
+	DeviceEntity findBySerialNumber(String serialNumber);
 
 }

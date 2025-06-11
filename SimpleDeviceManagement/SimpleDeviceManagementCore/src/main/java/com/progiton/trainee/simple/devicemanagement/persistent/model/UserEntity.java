@@ -26,6 +26,7 @@ public class UserEntity implements User{
     
     private boolean enabled;
 
+    // TODO remove column password
     @Column(nullable = false)
     private String password; // Should be encrypted
     

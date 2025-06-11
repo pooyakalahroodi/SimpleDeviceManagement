@@ -68,8 +68,7 @@ public class DeviceServiceImpl implements DeviceService{
 		List<UserEntity> users = userRepository.findByUsernameStartingWithIgnoreCase(username);
 		UserEntity user = users.get(0); // Use first one
 
-		    DeviceEntity device = deviceRepository.findBySerialNumber(serialNumber)
-		        .orElseThrow(() -> new RuntimeException("Gerät nicht gefunden: " + serialNumber));
+		    DeviceEntity device = deviceRepository.findBySerialNumber(serialNumber);
 
 		    device.setAssignedTo(user);
 		    return deviceRepository.save(device);
@@ -78,11 +77,18 @@ public class DeviceServiceImpl implements DeviceService{
 
 	@Override
 	public DeviceEntity updateDeviceStatus(String serialNumber, DeviceStatus newStatus) {
-		DeviceEntity device = deviceRepository.findBySerialNumber(serialNumber)
-		        .orElseThrow(() -> new RuntimeException("Gerät nicht gefunden: " + serialNumber));
+		DeviceEntity device = deviceRepository.findBySerialNumber(serialNumber);
 
 		    device.setStatus(newStatus);
 		    return deviceRepository.save(device);
 	}
+
+
+
+	@Override
+	public DeviceEntity getDeviceBySerialNumber(String serialNumber) {
+		return deviceRepository.findBySerialNumber(serialNumber);
+	}
+	
 
 }
