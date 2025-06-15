@@ -3,19 +3,15 @@ package com.progiton.trainee.simple.devicemanagement.persistent.model;
 import java.time.Instant;
 
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
 
 import jakarta.persistence.*;
 
-@EnableJpaAuditing
+
 @Entity
 @Table(name = "handover_protocols")
-@EntityListeners(AuditingEntityListener.class)
 public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements SdmHandOverProtocol {
 
 	@Id
@@ -42,17 +38,11 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
 
     //TODO (LR) was ist mit beide Felder unten los. Warum sind die nicht in DB
     // Wenn ein Feld nicht persistier werden soll, soll als Transient bezeichnet werden.
+    @Column(name = "is_confirmed")
     private Boolean isConfirmed = false;
 
+    @Column(name = "confirmed_at")
     private Instant confirmedAt;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-    
     
     
     public SdmHandOverProtocolEntity() {
@@ -61,7 +51,7 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
 
     public SdmHandOverProtocolEntity(Long id, SdmDeviceEntity device, SdmUserEntity receiver, SdmUserEntity performedBy,
     		Instant handoverDate, String comments, Boolean isConfirmed,
-    		Instant confirmedAt, Instant createdAt, Instant updatedAt) {
+    		Instant confirmedAt) {
         this.id = id;
         this.device = device;
         this.receiver = receiver;
@@ -70,8 +60,6 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
         this.comments = comments;
         this.isConfirmed = isConfirmed;
         this.confirmedAt = confirmedAt;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
     
     

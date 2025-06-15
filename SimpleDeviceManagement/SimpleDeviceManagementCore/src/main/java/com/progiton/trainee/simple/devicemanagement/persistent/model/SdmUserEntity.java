@@ -1,19 +1,14 @@
 package com.progiton.trainee.simple.devicemanagement.persistent.model;
-import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmUser;
 
 
-@EnableJpaAuditing  // Add this to your main application class or config
 @Entity
 @Table(name = "users")
 public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser{
@@ -26,10 +21,6 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser{
     
     private boolean enabled;
 
-    // TODO remove column password
-    @Column(nullable = false)
-    private String password; // Should be encrypted
-    
     private String name;
 
     @OneToMany(mappedBy = "assignedTo")
@@ -55,7 +46,6 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser{
     public SdmUserEntity(String username, String name, String password) {
         this.username = username;
         this.name = name;
-        this.password = password;
     }
 
     // Getters and Setters
@@ -92,14 +82,6 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser{
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override

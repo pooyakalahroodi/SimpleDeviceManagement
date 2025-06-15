@@ -1,21 +1,11 @@
 package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import jakarta.persistence.*;
-
-import java.time.Instant;
 import java.util.List;
-
-
-
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
 import com.progiton.trainee.simple.devicemanagement.model.SdmDepartment;
 
 //TODO (LR) du hast selbst die Kommentar unten, was macht dann diese Annotation hier?
-@EnableJpaAuditing  // Add this to your main application class or config
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 public class SdmDepartmentEntity extends SdmBaseEntity<Long> implements SdmDepartment {
 
     @Id
@@ -43,12 +33,10 @@ public class SdmDepartmentEntity extends SdmBaseEntity<Long> implements SdmDepar
 
     // No-args constructor
     public SdmDepartmentEntity() {
-        super();
     }
 
     // All-args constructor
-    public SdmDepartmentEntity(final Long id, final String name, final List<SdmUserEntity> sdmUserEntity, final Instant createdAt, final Instant updatedAt) {
-        super(createdAt, updatedAt);
+    public SdmDepartmentEntity(final Long id, final String name, final List<SdmUserEntity> sdmUserEntity) {
         this.id = id;
         this.name = name;
         this.sdmUserEntity = sdmUserEntity;

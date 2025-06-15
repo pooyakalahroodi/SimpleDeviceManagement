@@ -5,11 +5,9 @@ import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 
-import lombok.RequiredArgsConstructor;
 
 import com.progiton.trainee.simple.devicemanagement.mapper.SdmDeviceMapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

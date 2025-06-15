@@ -1,22 +1,13 @@
 package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
 import com.progiton.trainee.simple.devicemanagement.model.enums.*;
 import com.progiton.trainee.simple.devicemanagement.model.SdmDevice;
 
 import jakarta.persistence.*;
 
 
-@EnableJpaAuditing  // Add this to your main application class or config
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,16 +32,6 @@ public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
     @Enumerated(EnumType.STRING)
     private SdmDeviceStatus status;
     
-    // Auditing fields =====================
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    // ====================================
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private SdmUserEntity assignedTo;
@@ -60,8 +41,7 @@ public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
 
     public SdmDeviceEntity(Long id, String name, String type, String serialNumber,
                         String manufacturer, String location, LocalDate purchaseDate,
-                        SdmDeviceStatus status, SdmUserEntity assignedTo,
-                        LocalDateTime createdAt, LocalDateTime updatedAt) {
+                        SdmDeviceStatus status, SdmUserEntity assignedTo) {
     	
         this.id = id;
         this.name = name;
@@ -72,8 +52,7 @@ public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
         this.purchaseDate = purchaseDate;
         this.status = status;
         this.assignedTo = assignedTo;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+
     }
 
 
