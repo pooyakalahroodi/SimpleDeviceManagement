@@ -1,34 +1,33 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public class SdmBaseTO {
-    // TODO (LR) : implementiere bitte dies Analog zu SdmBaseEntity
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 
     public SdmBaseTO() {
     }
 
-    public SdmBaseTO(LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public SdmBaseTO(Instant createdAt, Instant updatedAt) {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

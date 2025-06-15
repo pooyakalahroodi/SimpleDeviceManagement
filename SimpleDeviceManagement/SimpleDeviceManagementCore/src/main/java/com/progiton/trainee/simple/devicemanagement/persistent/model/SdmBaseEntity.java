@@ -6,9 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 /**
  * Bassis-Klasse für alle unsere Entity-Klassen.
