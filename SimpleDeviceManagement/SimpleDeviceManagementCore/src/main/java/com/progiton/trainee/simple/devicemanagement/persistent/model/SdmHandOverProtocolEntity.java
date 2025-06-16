@@ -6,6 +6,7 @@ import java.time.Instant;
 
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
+import com.progiton.trainee.simple.devicemanagement.model.enums.ActionType;
 
 import jakarta.persistence.*;
 
@@ -25,6 +26,10 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
     @ManyToOne
     @JoinColumn(name = "receiver_user_id", nullable = false)
     private SdmUserEntity receiver;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "action_type", nullable = false)
+    private ActionType actionType;
 
     @ManyToOne
     @JoinColumn(name = "performed_by_user_id", nullable = false)
@@ -75,6 +80,16 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
     public void setPerformedBy(SdmUserEntity performedBy) { this.performedBy = performedBy; }
 
     // === Interface Getters for TO projection ===
+    
+    @Override
+    public ActionType getActionType() {
+        return this.actionType;
+    }
+    
+    public void setActionType(ActionType actionType) {
+        this.actionType = actionType;
+    }
+
     @Override
     public String getDeviceSerialNumber() {
         return device != null ? device.getSerialNumber() : null;
@@ -121,5 +136,6 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
 	}
 	
     public void setConfirmedAt(Instant confirmedAt) { this.confirmedAt = confirmedAt; }
+
 
 }

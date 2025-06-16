@@ -13,6 +13,7 @@ public interface SdmHandOverProtocolMapper {
     @Mapping(source = "device.serialNumber", target = "deviceSerialNumber")
     @Mapping(source = "receiver.username", target = "receiverUsername")
     @Mapping(source = "performedBy.username", target = "performedByUsername")
+    @Mapping(source = "actionType", target = "actionType")
     SdmHandOverProtocolTo toTo(SdmHandOverProtocolEntity entity);
 
     // === TO → ENTITY ===
@@ -22,6 +23,7 @@ public interface SdmHandOverProtocolMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(source = "actionType", target = "actionType")
     SdmHandOverProtocolEntity toEntity(SdmHandOverProtocolTo dto);
 
     // === LIST MAPPINGS ===

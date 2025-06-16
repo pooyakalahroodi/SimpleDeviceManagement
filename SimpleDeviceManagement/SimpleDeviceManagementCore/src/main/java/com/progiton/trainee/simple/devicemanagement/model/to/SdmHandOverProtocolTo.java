@@ -1,6 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
+import com.progiton.trainee.simple.devicemanagement.model.enums.ActionType;
 
 import java.time.Instant;
 
@@ -9,6 +10,7 @@ public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProto
     private String deviceSerialNumber;
     private String receiverUsername;
     private String performedByUsername;
+    private ActionType actionType; 
     private Instant handoverDate;
     private String comments;
     private Boolean isConfirmed;
@@ -20,19 +22,27 @@ public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProto
     	
     }
     
-    public SdmHandOverProtocolTo(String deviceSerialNumber, String receiverUsername, String performedByUsername,
-                              Instant handoverDate, String comments, Boolean isConfirmed, Instant confirmedAt, final Instant createdAt, final Instant updatedAt) {
-        super(createdAt, updatedAt);
-        this.deviceSerialNumber = deviceSerialNumber;
-        this.receiverUsername = receiverUsername;
-        this.performedByUsername = performedByUsername;
-        this.handoverDate = handoverDate;
-        this.comments = comments;
-        this.isConfirmed = isConfirmed;
-        this.confirmedAt = confirmedAt;
-
-
-    }
+    public SdmHandOverProtocolTo(String deviceSerialNumber,
+            String receiverUsername,
+            String performedByUsername,
+            ActionType actionType, // ✅ neu
+            Instant handoverDate,
+            String comments,
+            Boolean isConfirmed,
+            Instant confirmedAt,
+            final Instant createdAt,
+            final Instant updatedAt) {
+    	
+			super(createdAt, updatedAt);
+			this.deviceSerialNumber = deviceSerialNumber;
+			this.receiverUsername = receiverUsername;
+			this.performedByUsername = performedByUsername;
+			this.actionType = actionType; // ✅ neu
+			this.handoverDate = handoverDate;
+			this.comments = comments;
+			this.isConfirmed = isConfirmed;
+			this.confirmedAt = confirmedAt;
+}
 
     @Override
     public String getDeviceSerialNumber() {
@@ -61,6 +71,17 @@ public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProto
         this.performedByUsername = performedByUsername;
     }
 
+    @Override
+    public ActionType getActionType() {
+        return this.actionType;
+    }
+    
+    
+    public void setActionType(ActionType actionType) {
+        this.actionType = actionType;
+    }
+    
+    
     @Override
     public Instant getHandoverDate() {
         return handoverDate;
@@ -96,4 +117,6 @@ public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProto
     public void setConfirmedAt(Instant confirmedAt) {
         this.confirmedAt = confirmedAt;
     }
+
+
 }

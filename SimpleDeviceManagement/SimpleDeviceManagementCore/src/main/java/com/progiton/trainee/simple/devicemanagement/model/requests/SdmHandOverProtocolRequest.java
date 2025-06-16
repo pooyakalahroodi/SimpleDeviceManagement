@@ -3,6 +3,7 @@ package com.progiton.trainee.simple.devicemanagement.model.requests;
 import java.time.Instant;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
+import com.progiton.trainee.simple.devicemanagement.model.enums.ActionType;
 
 /**
  * This class represents the input request sent from the client when creating a new handover protocol.
@@ -13,6 +14,7 @@ public class SdmHandOverProtocolRequest implements SdmHandOverProtocol {
     private String deviceSerialNumber;
     private String receiverUsername;
     private String performedByUsername;
+    private ActionType actionType;
     private Instant handoverDate;
     private String comments;
     private Boolean isConfirmed;
@@ -86,4 +88,15 @@ public class SdmHandOverProtocolRequest implements SdmHandOverProtocol {
     public void setConfirmedAt(Instant confirmedAt) {
         this.confirmedAt = confirmedAt;
     }
+
+	public void setActionType(ActionType actionType) {
+	    this.actionType = actionType;
+
+	}
+
+	@Override
+	public ActionType getActionType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
