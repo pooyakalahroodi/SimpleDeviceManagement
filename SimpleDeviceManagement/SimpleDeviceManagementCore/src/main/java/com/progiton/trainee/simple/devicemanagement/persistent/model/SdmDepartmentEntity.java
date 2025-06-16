@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.util.List;
 import com.progiton.trainee.simple.devicemanagement.model.SdmDepartment;
 
-//TODO (LR) du hast selbst die Kommentar unten, was macht dann diese Annotation hier?
 @Entity
 public class SdmDepartmentEntity extends SdmBaseEntity<Long> implements SdmDepartment {
 
@@ -17,20 +16,6 @@ public class SdmDepartmentEntity extends SdmBaseEntity<Long> implements SdmDepar
     @OneToMany(mappedBy = "sdmDepartmentEntity")
     private List<SdmUserEntity> sdmUserEntity;
     
-    // Auditing fields =====================
-    // TODO (LR) in DB bitte Instant oder besser java.sql.Timestamp
-    // Die sind jetzt in SdmBaseEntity und können hier und in alle andere Entity-Klassen
-    // gelöscht werden
-//    @CreatedDate
-//    @Column(name = "created_at", nullable = false, updatable = false)
-//    private LocalDateTime createdAt;
-//
-//    @LastModifiedDate
-//    @Column(name = "updated_at")
-//    private LocalDateTime updatedAt;
-    // ====================================
-
-
     // No-args constructor
     public SdmDepartmentEntity() {
     }

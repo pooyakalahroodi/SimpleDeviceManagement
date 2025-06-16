@@ -70,7 +70,7 @@ public class SdmHandOverProtocolRequest implements SdmHandOverProtocol {
     }
 
     @Override
-    public Boolean getIsConfirmed() {
+    public boolean getIsConfirmed() {
         return isConfirmed;
     }
 

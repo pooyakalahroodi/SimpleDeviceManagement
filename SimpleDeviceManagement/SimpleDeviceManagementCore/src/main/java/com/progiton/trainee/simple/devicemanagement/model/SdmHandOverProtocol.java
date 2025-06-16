@@ -9,7 +9,6 @@ public interface SdmHandOverProtocol {
 	String getPerformedByUsername();
 	Instant getHandoverDate();
 	String getComments();
-	//TODO (LR): Erste Frag: warum Boolean und nicht boolean
-	Boolean getIsConfirmed();
+	boolean getIsConfirmed();
 	Instant getConfirmedAt();
 }

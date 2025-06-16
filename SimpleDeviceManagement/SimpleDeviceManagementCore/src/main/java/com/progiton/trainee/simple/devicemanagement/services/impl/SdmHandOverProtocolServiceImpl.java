@@ -76,7 +76,7 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
         entity.setPerformedBy(performedBy);
         entity.setHandoverDate(request.getHandoverDate() != null ? request.getHandoverDate() : Instant.now());
         entity.setComments(request.getComments());
-        entity.setIsConfirmed(request.getIsConfirmed() != null ? request.getIsConfirmed() : false);
+        entity.setIsConfirmed(request.getIsConfirmed());
         entity.setConfirmedAt(request.getConfirmedAt());
 
         // Save to database

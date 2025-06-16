@@ -36,10 +36,8 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
     @Column(length = 500)
     private String comments;
 
-    //TODO (LR) was ist mit beide Felder unten los. Warum sind die nicht in DB
-    // Wenn ein Feld nicht persistier werden soll, soll als Transient bezeichnet werden.
     @Column(name = "is_confirmed")
-    private Boolean isConfirmed = false;
+    private boolean isConfirmed = false;
 
     @Column(name = "confirmed_at")
     private Instant confirmedAt;
@@ -109,7 +107,7 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
 
 
 	@Override
-	public Boolean getIsConfirmed() {
+	public boolean getIsConfirmed() {
 		return isConfirmed;
 	}
 	

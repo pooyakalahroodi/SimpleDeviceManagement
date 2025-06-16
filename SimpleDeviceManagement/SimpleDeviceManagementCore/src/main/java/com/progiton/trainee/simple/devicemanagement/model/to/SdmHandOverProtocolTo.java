@@ -80,7 +80,7 @@ public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProto
     }
 
     @Override
-    public Boolean getIsConfirmed() {
+    public boolean getIsConfirmed() {
         return isConfirmed;
     }
 
