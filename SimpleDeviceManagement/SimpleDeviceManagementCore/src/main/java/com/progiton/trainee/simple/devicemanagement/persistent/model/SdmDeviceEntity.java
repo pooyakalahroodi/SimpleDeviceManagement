@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Table(name = "devices")
 public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

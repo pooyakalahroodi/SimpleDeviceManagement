@@ -5,6 +5,7 @@ import java.util.List;
 import com.progiton.trainee.simple.devicemanagement.model.SdmDepartment;
 
 @Entity
+@Table(name = "departments")
 public class SdmDepartmentEntity extends SdmBaseEntity<Long> implements SdmDepartment {
 
     @Id

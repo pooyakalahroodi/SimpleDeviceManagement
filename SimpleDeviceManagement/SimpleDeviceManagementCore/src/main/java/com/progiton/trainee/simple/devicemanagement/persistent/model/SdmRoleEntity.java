@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "roles")
 public class SdmRoleEntity extends SdmBaseEntity<Long> {
     
     @Id
