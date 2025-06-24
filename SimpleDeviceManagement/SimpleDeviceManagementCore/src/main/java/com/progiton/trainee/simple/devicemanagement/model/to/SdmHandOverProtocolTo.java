@@ -1,7 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
-import com.progiton.trainee.simple.devicemanagement.model.enums.ActionType;
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 
 import java.time.Instant;
 
@@ -10,7 +10,7 @@ public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProto
     private String deviceSerialNumber;
     private String receiverUsername;
     private String performedByUsername;
-    private ActionType actionType; 
+    private SdmActionType actionType; 
     private Instant handoverDate;
     private String comments;
     private Boolean isConfirmed;
@@ -25,7 +25,7 @@ public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProto
     public SdmHandOverProtocolTo(String deviceSerialNumber,
             String receiverUsername,
             String performedByUsername,
-            ActionType actionType, // ✅ neu
+            SdmActionType actionType, 
             Instant handoverDate,
             String comments,
             Boolean isConfirmed,
@@ -37,7 +37,7 @@ public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProto
 			this.deviceSerialNumber = deviceSerialNumber;
 			this.receiverUsername = receiverUsername;
 			this.performedByUsername = performedByUsername;
-			this.actionType = actionType; // ✅ neu
+			this.actionType = actionType; 
 			this.handoverDate = handoverDate;
 			this.comments = comments;
 			this.isConfirmed = isConfirmed;
@@ -72,13 +72,13 @@ public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProto
     }
 
     @Override
-    public ActionType getActionType() {
+    public SdmActionType getSdmActionType() {
         return this.actionType;
     }
     
     
-    public void setActionType(ActionType actionType) {
-        this.actionType = actionType;
+    public void setActionType(SdmActionType sdmActionType) {
+        this.actionType = sdmActionType;
     }
     
     

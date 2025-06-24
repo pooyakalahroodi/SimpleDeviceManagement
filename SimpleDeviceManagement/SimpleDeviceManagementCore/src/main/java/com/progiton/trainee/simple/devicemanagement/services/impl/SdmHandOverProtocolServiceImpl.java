@@ -53,6 +53,9 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
         if (request.getPerformedByUsername() == null || request.getPerformedByUsername().trim().isEmpty()) {
             throw new IllegalArgumentException("Performed by username is required");
         }
+        if (request.getSdmActionType() == null) {
+            throw new IllegalArgumentException("Action type is required");
+        }
 
         // Lookup device and users
         SdmDeviceEntity device = sdmDeviceService.getDeviceBySerialNumber(request.getDeviceSerialNumber());
@@ -78,6 +81,7 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
         entity.setComments(request.getComments());
         entity.setIsConfirmed(request.getIsConfirmed());
         entity.setConfirmedAt(request.getConfirmedAt());
+        entity.setActionType(request.getSdmActionType()); // 🟢 Set the required action type
 
         // Save to database
         return sdmHandOverProtocolRepository.save(entity);
@@ -129,7 +133,8 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
         }
 
         SdmHandOverProtocolEntity entity = protocols.get(0);
-        // entity.setConfirmed(true);  // If you have such a field
+        entity.setIsConfirmed(true);
+        entity.setConfirmedAt(Instant.now());  // If you have such a field
         return sdmHandOverProtocolRepository.save(entity);
     }
 }

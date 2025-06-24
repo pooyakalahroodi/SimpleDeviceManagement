@@ -22,7 +22,8 @@ public class SdmRoleEntity extends SdmBaseEntity<Long> {
     
     @ElementCollection(targetClass = SdmPermission.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "role_permissions")
+    @CollectionTable(name = "role_permissions", joinColumns = @JoinColumn(name = "role_id"))
+    @Column(name = "permissions") // ✅ Match the real DB column
     private Set<SdmPermission> sdmPermissions;
 
     // No-args constructor

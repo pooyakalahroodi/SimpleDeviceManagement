@@ -1,6 +1,8 @@
 package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -88,6 +90,7 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser{
     public String getDepartment() {
         return sdmDepartmentEntity != null ? sdmDepartmentEntity.getName() : null;
     }
+    
 
     public SdmDepartmentEntity getDepartmentEntity() {
         return sdmDepartmentEntity;
@@ -100,12 +103,12 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser{
     @Override
     public List<String> getDevices() {
         if (sdmDeviceEntities == null || sdmDeviceEntities.isEmpty()) {
-            return List.of();
+            return new ArrayList<>(); //  mutable empty list
         }
         // Return device info in format: "DeviceName (SerialNumber)"
         return sdmDeviceEntities.stream()
                 .map(device -> device.getName() + " (" + device.getSerialNumber() + ")")
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(ArrayList::new)); // ✅ mutable list
     }
 
     public List<SdmDeviceEntity> getDeviceEntities() {

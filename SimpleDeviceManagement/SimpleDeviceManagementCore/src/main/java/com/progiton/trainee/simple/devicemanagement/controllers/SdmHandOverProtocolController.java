@@ -65,7 +65,7 @@ public class SdmHandOverProtocolController {
     /**
      *  Confirm the latest unconfirmed handover protocol for a device
      */
-    @PostMapping("/device/{serialNumber}/confirm")
+    @PutMapping("/device/{serialNumber}/confirm")
     public ResponseEntity<SdmHandOverProtocolTo> confirmLatestUnconfirmed(@PathVariable String serialNumber) {
         SdmHandOverProtocolEntity confirmed = service.confirmByDeviceSerialNumber(serialNumber);
         return ResponseEntity.ok(mapper.toTo(confirmed));

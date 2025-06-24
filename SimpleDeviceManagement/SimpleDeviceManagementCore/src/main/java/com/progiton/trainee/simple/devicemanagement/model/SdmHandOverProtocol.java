@@ -2,7 +2,7 @@ package com.progiton.trainee.simple.devicemanagement.model;
 
 import java.time.Instant;
 
-import com.progiton.trainee.simple.devicemanagement.model.enums.ActionType;
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 
 public interface SdmHandOverProtocol {
 	
@@ -13,5 +13,5 @@ public interface SdmHandOverProtocol {
 	String getComments();
 	boolean getIsConfirmed();
 	Instant getConfirmedAt();
-	ActionType getActionType();
+	SdmActionType getSdmActionType();
 }

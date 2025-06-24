@@ -1,6 +1,6 @@
 package com.progiton.trainee.simple.devicemanagement.model.enums;
 
-public enum ActionType {
+public enum SdmActionType {
     /**
      * Übergabe von Gerät an User
      */
@@ -18,7 +18,7 @@ public enum ActionType {
 
     private final String label;
 
-    ActionType(String label) {
+    SdmActionType(String label) {
         this.label = label;
     }
 

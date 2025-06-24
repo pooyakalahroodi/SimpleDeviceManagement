@@ -6,7 +6,7 @@ import java.time.Instant;
 
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
-import com.progiton.trainee.simple.devicemanagement.model.enums.ActionType;
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 
 import jakarta.persistence.*;
 
@@ -29,7 +29,7 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
     
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type", nullable = false)
-    private ActionType actionType;
+    private SdmActionType actionType;
 
     @ManyToOne
     @JoinColumn(name = "performed_by_user_id", nullable = false)
@@ -53,13 +53,14 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
     }
 
     public SdmHandOverProtocolEntity(Long id, SdmDeviceEntity device, SdmUserEntity receiver, SdmUserEntity performedBy,
-    		Instant handoverDate, String comments, Boolean isConfirmed,
+    	    SdmActionType actionType,Instant handoverDate, String comments, Boolean isConfirmed,
     		Instant confirmedAt) {
         this.id = id;
         this.device = device;
         this.receiver = receiver;
         this.performedBy = performedBy;
         this.handoverDate = handoverDate;
+        this.actionType = actionType;
         this.comments = comments;
         this.isConfirmed = isConfirmed;
         this.confirmedAt = confirmedAt;
@@ -82,12 +83,12 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
     // === Interface Getters for TO projection ===
     
     @Override
-    public ActionType getActionType() {
+    public SdmActionType getSdmActionType() {
         return this.actionType;
     }
     
-    public void setActionType(ActionType actionType) {
-        this.actionType = actionType;
+    public void setActionType(SdmActionType sdmActionType) {
+        this.actionType = sdmActionType;
     }
 
     @Override

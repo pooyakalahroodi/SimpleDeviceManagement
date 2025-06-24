@@ -8,7 +8,7 @@ import com.progiton.trainee.simple.devicemanagement.model.SdmDevice;
 
 public class SdmDeviceTo extends SdmBaseTO implements SdmDevice {
 
-    private String name; // No need to define getters, Lombok understands and takes care of it
+    private String name; 
     private String type;
     private String status;
     private String assignedToUsername;

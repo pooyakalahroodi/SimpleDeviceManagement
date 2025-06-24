@@ -7,7 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.progiton.trainee.simple.devicemanagement.model.enums.ActionType;
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 
 import java.io.Serializable;
 import java.time.Instant;
