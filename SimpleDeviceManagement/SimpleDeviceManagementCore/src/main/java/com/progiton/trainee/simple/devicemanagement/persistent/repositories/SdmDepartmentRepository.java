@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface SdmDepartmentRepository extends JpaRepository<SdmDepartmentEntity, Long>{
 
 	Optional<SdmDepartmentEntity> findByNameIgnoreCase(String name);
+	boolean existsByNameIgnoreCase(String name);
 }

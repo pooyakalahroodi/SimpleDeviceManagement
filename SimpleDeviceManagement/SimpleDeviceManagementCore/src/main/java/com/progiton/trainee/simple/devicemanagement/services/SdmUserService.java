@@ -23,4 +23,5 @@ public interface SdmUserService {
     SdmUserEntity assignRoleToUser(Long userId, Long roleId);
     SdmUserEntity removeRoleFromUser(Long userId, Long roleId);
     SdmUserEntity assignDepartmentToUser(Long userId, Long departmentId);
+    
 }

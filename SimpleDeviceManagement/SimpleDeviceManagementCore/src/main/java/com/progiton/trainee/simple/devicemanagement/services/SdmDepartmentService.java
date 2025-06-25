@@ -9,5 +9,6 @@ public interface SdmDepartmentService {
 	SdmDepartmentEntity saveDepartment(SdmDepartmentEntity sdmDepartmentEntity);
     void deleteDepartment(Long id);
 	SdmDepartmentEntity updateDepartment(Long id, SdmDepartmentEntity entity);
+	boolean departmentExists(String departmentName);
 	
 }

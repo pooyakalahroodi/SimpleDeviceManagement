@@ -1,8 +1,11 @@
 package com.progiton.trainee.simple.devicemanagement.controllers;
 
 import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmUserEntity;
+import com.progiton.trainee.simple.devicemanagement.services.SdmDepartmentService;
 import com.progiton.trainee.simple.devicemanagement.services.SdmUserService;
+import com.progiton.trainee.simple.devicemanagement.util.ValidationUtil;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmUserTo;
+import com.progiton.trainee.simple.devicemanagement.exceptions.ApiException;
 import com.progiton.trainee.simple.devicemanagement.mapper.SdmUserMapper;
 
 import org.slf4j.Logger;
@@ -21,16 +24,27 @@ public class SdmUserController {
     
     private final SdmUserService sdmUserService;
     private final SdmUserMapper sdmUserMapper;
+    private final SdmDepartmentService sdmDepartmentService;
 
-    public SdmUserController(SdmUserService sdmUserService, SdmUserMapper sdmUserMapper) {
+ 
+
+    
+
+    public SdmUserController(SdmUserService sdmUserService, SdmUserMapper sdmUserMapper, SdmDepartmentService sdmDepartmentService) {
         this.sdmUserService = sdmUserService;
         this.sdmUserMapper = sdmUserMapper;
+		this.sdmDepartmentService = sdmDepartmentService;
+        
     }
 
     @GetMapping
     public ResponseEntity<List<SdmUserTo>> getAllUsers() {
         log.debug("Fetching all users");
         List<SdmUserEntity> users = sdmUserService.getAllUsers();
+        if (users == null || users.isEmpty()) {
+            log.warn("No users found in the system");
+            throw new ApiException("No users found", HttpStatus.NOT_FOUND);
+        }
         List<SdmUserTo> sdmUserTos = sdmUserMapper.toToList(users);
         return ResponseEntity.ok(sdmUserTos);
     }
@@ -96,17 +110,25 @@ public class SdmUserController {
     }
     
     @GetMapping("/department/{departmentName}")
-    public ResponseEntity<List<SdmUserTo>> getUsersByDepartment(@PathVariable  String departmentName) {
+    public ResponseEntity<List<SdmUserTo>> getUsersByDepartment(@PathVariable String departmentName) {
     	
-    	List<SdmUserEntity> users = sdmUserService.getUsersByDepartmentName(departmentName);
-    	List<SdmUserTo> usersTO = sdmUserMapper.toToList(users);
-    	return ResponseEntity.ok(usersTO);
+        // Check if department name is valid
+    	if (!sdmDepartmentService.departmentExists(departmentName)) {
+    	    throw new ApiException("Department '" + departmentName + "' does not exist", HttpStatus.NOT_FOUND);
+    	}
     	
+        List<SdmUserEntity> users = sdmUserService.getUsersByDepartmentName(departmentName);
+
+        ValidationUtil.throwIfNullOrEmpty(users, "No users found in department: " + departmentName);
+
+        List<SdmUserTo> usersTO = sdmUserMapper.toToList(users);
+        return ResponseEntity.ok(usersTO);
     }
     
     @GetMapping("/username/{username}")
     public ResponseEntity<List<SdmUserTo>> getUsersByUsername(@PathVariable String username) {
     	List<SdmUserEntity> users = sdmUserService.getUserByUsername(username);
+        ValidationUtil.throwIfNullOrEmpty(users, "No users found with the username: " + username);
     	List<SdmUserTo> sdmUserTos = sdmUserMapper.toToList(users);
     	return ResponseEntity.ok(sdmUserTos);
     }
@@ -114,6 +136,7 @@ public class SdmUserController {
     @GetMapping("/name/{name}")
     public ResponseEntity<List<SdmUserTo>> getUsersByname(@PathVariable String name) {
     	List<SdmUserEntity> users = sdmUserService.getUserByName(name);
+        ValidationUtil.throwIfNullOrEmpty(users, "No users found with the name: " + name);
     	List<SdmUserTo> sdmUserTos = sdmUserMapper.toToList(users);
     	return ResponseEntity.ok(sdmUserTos);
     }
@@ -121,6 +144,12 @@ public class SdmUserController {
     @PutMapping("/assign-department")
     public ResponseEntity<SdmUserTo> assignDepartment(@RequestParam String username,
                                                    @RequestParam String departmentName) {
+    	// Check if department name is valid
+    	if (!sdmDepartmentService.departmentExists(departmentName)) {
+    	    throw new ApiException("Department '" + departmentName + "' does not exist", HttpStatus.NOT_FOUND);
+    	}
+    	List<SdmUserEntity> users = sdmUserService.getUserByUsername(username);
+        ValidationUtil.throwIfNullOrEmpty(users, "No users found with the username: " + username);
         SdmUserEntity updatedUser = sdmUserService.assignDepartmentToUser(username, departmentName);
         return ResponseEntity.ok(sdmUserMapper.toTo(updatedUser));
     }

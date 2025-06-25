@@ -58,6 +58,7 @@ public class SdmUserServiceImpl implements SdmUserService{
 
 	// filtering users by departmentId
 	
+	
 	@Override
 	public List<SdmUserEntity> getUsersByDepartment(Long departmentId) {
         return sdmUserRepository.findBySdmDepartmentEntityId(departmentId);
@@ -127,6 +128,8 @@ public class SdmUserServiceImpl implements SdmUserService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 
 

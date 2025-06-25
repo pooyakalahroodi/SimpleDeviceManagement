@@ -47,4 +47,8 @@ public class SdmDepartmentServiceImpl implements SdmDepartmentService {
         }
         sdmDepartmentRepository.deleteById(id);
     }
+	@Override
+	public boolean departmentExists(String departmentName) {
+	    return sdmDepartmentRepository.existsByNameIgnoreCase(departmentName);
+	}
 }
