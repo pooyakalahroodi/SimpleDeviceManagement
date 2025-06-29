@@ -84,8 +84,8 @@ public class SdmUserServiceImpl implements SdmUserService{
 		SdmUserEntity existingUser = getUserById(id);
         existingUser.setName(updatedUser.getName());
         existingUser.setUsername(updatedUser.getUsername());
-        existingUser.setDepartmentEntity(updatedUser.getDepartmentEntity());
-        existingUser.setRoleEntities(updatedUser.getRoleEntities());
+        existingUser.setDepartment(updatedUser.getDepartment());
+        existingUser.setRoles(updatedUser.getRoles());
         return sdmUserRepository.save(existingUser);
     }
 	
@@ -100,7 +100,7 @@ public class SdmUserServiceImpl implements SdmUserService{
 	        .orElseThrow(() -> new RuntimeException("Department not found with name: " + departmentName));
 
 	    // Assign department and save
-	    user.setDepartmentEntity(department);
+	    user.setDepartment(department);
 	    return sdmUserRepository.save(user);
 	}
 	

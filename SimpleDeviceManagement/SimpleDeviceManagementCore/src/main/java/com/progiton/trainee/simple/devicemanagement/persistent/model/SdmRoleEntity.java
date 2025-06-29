@@ -17,7 +17,7 @@ public class SdmRoleEntity extends SdmBaseEntity<Long> {
     
     private String description;
     
-    @ManyToMany(mappedBy = "sdmRoleEntities")
+    @ManyToMany(mappedBy = "sdmRole")
     private Set<SdmUserEntity> sdmUserEntities;
     
     @ElementCollection(targetClass = SdmPermission.class, fetch = FetchType.EAGER)

@@ -36,6 +36,7 @@ public class SdmDeviceController {
         return sdmDeviceMapper.toToList(sdmDeviceService.getAllDevices());
     }
 
+
     @PostMapping
     public ResponseEntity<SdmDeviceTo> saveDevice(@RequestBody SdmDeviceTo dto) {
         System.out.println("💬 Incoming DTO: " + dto); // 🔍 log raw DTO

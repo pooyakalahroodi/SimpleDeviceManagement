@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class SdmUserTo extends SdmBaseTO implements SdmUser {
+public class SdmUserTo extends SdmBaseTO implements SdmUser<SdmDeviceTo> {
 
 	    private String username;
 	    private String name;
@@ -17,8 +17,8 @@ public class SdmUserTo extends SdmBaseTO implements SdmUser {
 	    private String password;
 	    
 	    private Boolean enabled;
-	    private String department; // Department name, not ID
-	    private List<String> devices; // Device descriptions, not IDs or objects
+	    private SdmDepartmentTo department; // Department name, not ID
+	    private List<SdmDeviceTo> devices; // Device descriptions, not IDs or objects
 	    private Instant createdAt;
 	    private Instant updatedAt;
 
@@ -28,7 +28,7 @@ public class SdmUserTo extends SdmBaseTO implements SdmUser {
 	    }
 
 
-	    public SdmUserTo(String username, String name, Boolean enabled, String department, List<String> devices, Instant createdAt, Instant updatedAt) {
+	    public SdmUserTo(String username, String name, Boolean enabled, SdmDepartmentTo department, List<SdmDeviceTo> devices, Instant createdAt, Instant updatedAt) {
 	        super(createdAt, updatedAt);
 	        this.username = username;
 	        this.name = name;
@@ -62,25 +62,25 @@ public class SdmUserTo extends SdmBaseTO implements SdmUser {
 	        return enabled;
 	    }
 
-	    public void setEnabled(Boolean enabled) {
+	    public void setEnabled(final Boolean enabled) {
 	        this.enabled = enabled;
 	    }
 
 	    @Override
-	    public String getDepartment() {
+	    public SdmDepartmentTo getDepartment() {
 	        return department;
 	    }
 
-	    public void setDepartment(String department) {
+	    public void setDepartment(final SdmDepartmentTo department) {
 	        this.department = department;
 	    }
 
 	    @Override
-	    public List<String> getDevices() {
+	    public List<SdmDeviceTo> getDevices() {
 	        return devices;
 	    }
 
-	    public void setDevices(List<String> devices) {
+	    public void setDevices(final List<SdmDeviceTo> devices) {
 	        this.devices = devices;
 	    }
 	    

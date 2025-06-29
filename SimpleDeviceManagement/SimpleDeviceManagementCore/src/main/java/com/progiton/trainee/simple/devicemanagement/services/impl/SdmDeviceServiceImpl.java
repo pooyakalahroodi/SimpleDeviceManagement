@@ -70,7 +70,7 @@ public class SdmDeviceServiceImpl implements SdmDeviceService{
 
 		    SdmDeviceEntity device = sdmDeviceRepository.findBySerialNumber(serialNumber);
 
-		    device.setAssignedTo(user);
+		    device.setUser(user);
 		    return sdmDeviceRepository.save(device);
 	}
 

@@ -2,12 +2,12 @@ package com.progiton.trainee.simple.devicemanagement.model;
 
 import java.util.List;
 
-public interface SdmUser {
+public interface SdmUser<D extends SdmDevice> {
 
 	String getName();
 	String getUsername();
 	Boolean getEnabled();	
-	String getDepartment();
-	List<String> getDevices();
+	SdmDepartment getDepartment();
+	List<D> getDevices();
 
 }

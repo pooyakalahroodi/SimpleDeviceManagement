@@ -11,7 +11,7 @@ public class ValidationUtil {
     /**
      * One smart method: handles null, empty strings, and empty lists
      */
-    public static Object throwIfNullOrEmpty(Object value, String message) {
+    public static Object throwIfNullOrEmpty(Object value, String message) throws ApiException{
         if (value == null) {
             throw new ApiException(message, HttpStatus.NOT_FOUND);
         }

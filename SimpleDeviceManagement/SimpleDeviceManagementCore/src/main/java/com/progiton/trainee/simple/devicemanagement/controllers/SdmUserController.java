@@ -1,5 +1,6 @@
 package com.progiton.trainee.simple.devicemanagement.controllers;
 
+import com.progiton.trainee.simple.devicemanagement.exceptions.ErrorResponse;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmUserEntity;
 import com.progiton.trainee.simple.devicemanagement.services.SdmDepartmentService;
 import com.progiton.trainee.simple.devicemanagement.services.SdmUserService;
@@ -8,6 +9,13 @@ import com.progiton.trainee.simple.devicemanagement.model.to.SdmUserTo;
 import com.progiton.trainee.simple.devicemanagement.exceptions.ApiException;
 import com.progiton.trainee.simple.devicemanagement.mapper.SdmUserMapper;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/users")
@@ -124,15 +133,33 @@ public class SdmUserController {
         List<SdmUserTo> usersTO = sdmUserMapper.toToList(users);
         return ResponseEntity.ok(usersTO);
     }
-    
+
+    @Operation(description = "Liefert ein User für gegebene Name", operationId = "getUsersByUsername",
+            responses = {
+                    @ApiResponse(responseCode = "400",
+                            description = "Bas Request bei invalid username",
+                            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+                    @ApiResponse(responseCode = "404",
+                            description = "Not Found for given username",
+                            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))}),
+                    @ApiResponse(responseCode = "200",
+                            description = "OK",
+                            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = SdmUserTo.class))}),
+    })
+
     @GetMapping("/username/{username}")
-    public ResponseEntity<List<SdmUserTo>> getUsersByUsername(@PathVariable String username) {
+    // TODO definde Response-Class for
+    public ResponseEntity<SdmUserTo> getUsersByUsername(@PathVariable @Valid @Size(min = 6, max = 255) String username) {
+
+        // Objects.requireNonNull(username, "Message .... ");
+
     	List<SdmUserEntity> users = sdmUserService.getUserByUsername(username);
         ValidationUtil.throwIfNullOrEmpty(users, "No users found with the username: " + username);
-    	List<SdmUserTo> sdmUserTos = sdmUserMapper.toToList(users);
+    	List<SdmUserTo> sdmUserTos = sdmUserMapper.toToList(users); // TODO refactor move to service
     	return ResponseEntity.ok(sdmUserTos);
     }
-    
+
+
     @GetMapping("/name/{name}")
     public ResponseEntity<List<SdmUserTo>> getUsersByname(@PathVariable String name) {
     	List<SdmUserEntity> users = sdmUserService.getUserByName(name);

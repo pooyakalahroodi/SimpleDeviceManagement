@@ -2,10 +2,8 @@ package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmUser;
@@ -13,7 +11,7 @@ import com.progiton.trainee.simple.devicemanagement.model.SdmUser;
 
 @Entity
 @Table(name = "users")
-public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser{
+public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser<SdmDeviceEntity> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,12 +23,12 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser{
 
     private String name;
 
-    @OneToMany(mappedBy = "assignedTo")
-    private List<SdmDeviceEntity> sdmDeviceEntities;
+    @OneToMany(mappedBy = "user")
+    private List<SdmDeviceEntity> sdmDevices;
     
     @ManyToOne
     @JoinColumn(name = "department_id")
-    private SdmDepartmentEntity sdmDepartmentEntity;
+    private SdmDepartmentEntity sdmDepartment;
     
     @ManyToMany(fetch = FetchType.EAGER)    
     @JoinTable(
@@ -38,9 +36,7 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser{
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
         )
-    
-    
-    private Set<SdmRoleEntity> sdmRoleEntities;
+    private Set<SdmRoleEntity> sdmRole;
 
  // Constructors
     public SdmUserEntity() {}
@@ -87,44 +83,29 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser{
     }
 
     @Override
-    public String getDepartment() {
-        return sdmDepartmentEntity != null ? sdmDepartmentEntity.getName() : null;
+    public SdmDepartmentEntity getDepartment() {
+        return sdmDepartment;
     }
     
-
-    public SdmDepartmentEntity getDepartmentEntity() {
-        return sdmDepartmentEntity;
-    }
-
-    public void setDepartmentEntity(SdmDepartmentEntity sdmDepartmentEntity) {
-        this.sdmDepartmentEntity = sdmDepartmentEntity;
+    public void setDepartment(SdmDepartmentEntity sdmDepartmentEntity) {
+        this.sdmDepartment = sdmDepartmentEntity;
     }
 
     @Override
-    public List<String> getDevices() {
-        if (sdmDeviceEntities == null || sdmDeviceEntities.isEmpty()) {
-            return new ArrayList<>(); //  mutable empty list
-        }
-        // Return device info in format: "DeviceName (SerialNumber)"
-        return sdmDeviceEntities.stream()
-                .map(device -> device.getName() + " (" + device.getSerialNumber() + ")")
-                .collect(Collectors.toCollection(ArrayList::new)); // ✅ mutable list
+    public List<SdmDeviceEntity> getDevices() {
+        return sdmDevices;
     }
 
-    public List<SdmDeviceEntity> getDeviceEntities() {
-        return sdmDeviceEntities;
+    public void setDevices(final List<SdmDeviceEntity> sdmDevice) {
+        this.sdmDevices = sdmDevice;
     }
 
-    public void setDeviceEntities(List<SdmDeviceEntity> sdmDeviceEntities) {
-        this.sdmDeviceEntities = sdmDeviceEntities;
+    public Set<SdmRoleEntity> getRoles() {
+        return sdmRole;
     }
 
-    public Set<SdmRoleEntity> getRoleEntities() {
-        return sdmRoleEntities;
-    }
-
-    public void setRoleEntities(Set<SdmRoleEntity> sdmRoleEntities) {
-        this.sdmRoleEntities = sdmRoleEntities;
+    public void setRoles(Set<SdmRoleEntity> sdmRoleEntities) {
+        this.sdmRole = sdmRoleEntities;
     }
 
     }

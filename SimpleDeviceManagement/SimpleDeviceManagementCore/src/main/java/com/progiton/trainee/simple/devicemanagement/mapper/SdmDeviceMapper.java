@@ -18,7 +18,7 @@ public interface SdmDeviceMapper {
     @Mapping(source = "status", target = "status")
     SdmDeviceTo toTo(SdmDeviceEntity device);
 
-    @Mapping(target = "assignedTo", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "status", expression = "java(mapStatus(dto.getStatus()))")
     SdmDeviceEntity toEntity(SdmDeviceTo dto);
 

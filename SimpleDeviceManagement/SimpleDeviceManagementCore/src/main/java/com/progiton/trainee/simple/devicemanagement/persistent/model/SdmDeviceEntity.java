@@ -32,10 +32,11 @@ public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
     
     @Enumerated(EnumType.STRING)
     private SdmDeviceStatus status;
-    
+
+    //TODO : make it optional (NPE safe)
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private SdmUserEntity assignedTo;
+    private SdmUserEntity user;
 
     public SdmDeviceEntity() {
     }
@@ -52,7 +53,7 @@ public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
         this.location = location;
         this.purchaseDate = purchaseDate;
         this.status = status;
-        this.assignedTo = assignedTo;
+        this.user = assignedTo;
 
     }
 
@@ -131,23 +132,14 @@ public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
     }
 
 
-    public SdmUserEntity getAssignedTo() {
-		return assignedTo;
+    public SdmUserEntity getUser() {
+		return user;
 
 	}
     
-    public void setAssignedTo(SdmUserEntity assignedTo) {
-        this.assignedTo = assignedTo;
+    public void setUser(SdmUserEntity assignedTo) {
+        this.user = assignedTo;
     }
-
-	@Override
-	public String getAssignedToUsername() {
-		
-	    if (assignedTo != null) {
-	        return assignedTo.getUsername();
-	    }
-	    return null;
-	}
 
 }
 
