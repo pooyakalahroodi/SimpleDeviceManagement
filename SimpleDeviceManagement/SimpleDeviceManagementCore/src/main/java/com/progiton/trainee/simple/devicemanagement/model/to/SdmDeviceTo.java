@@ -1,17 +1,14 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import com.progiton.trainee.simple.devicemanagement.model.SdmDevice;
-import com.progiton.trainee.simple.devicemanagement.model.SdmUser;
 
 
-public class SdmDeviceTo extends SdmBaseTO implements SdmDevice {
+public class SdmDeviceTo implements SdmDevice {
 
     private String name; 
     private String type;
     private String status;
-    private SdmUser<SdmDeviceTo> user;
     private String serialNumber;
     private String manufacturer;
     private String location;
@@ -24,18 +21,13 @@ public class SdmDeviceTo extends SdmBaseTO implements SdmDevice {
     public SdmDeviceTo(String name,
             String type,
             String status,
-            SdmUser<SdmDeviceTo> user,
             String serialNumber,
             String manufacturer,
             String location,
-            LocalDate purchaseDate,
-            Instant createdAt,
-            Instant updatedAt) {
-			super(createdAt, updatedAt);
+            LocalDate purchaseDate) {
 			this.name = name;
 			this.type = type;
 			this.status = status;
-			this.user = user;
 			this.serialNumber = serialNumber;
 			this.manufacturer = manufacturer;
 			this.location = location;
@@ -107,12 +99,5 @@ public class SdmDeviceTo extends SdmBaseTO implements SdmDevice {
         this.status = status;
     }
 
-    public SdmUser<SdmDeviceTo> getUser() {
-        return user;
-    }
-
-    public void setUser(SdmUser<SdmDeviceTo> user) {
-        this.user = user;
-    }
 
 }

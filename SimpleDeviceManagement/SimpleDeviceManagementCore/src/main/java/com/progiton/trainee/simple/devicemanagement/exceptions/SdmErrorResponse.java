@@ -3,7 +3,7 @@ package com.progiton.trainee.simple.devicemanagement.exceptions;
 import java.time.Instant;
 
 
-public class ErrorResponse {
+public class SdmErrorResponse {
     private String code;        // Custom error code like USER_NOT_FOUND
     private String message;     // Detailed message
     private String path;        // Request path
@@ -11,11 +11,11 @@ public class ErrorResponse {
     private Instant timestamp;
 
     
-    public ErrorResponse() {
+    public SdmErrorResponse() {
         this.timestamp = Instant.now();
     }
     
-    public ErrorResponse(String code, String message, String path, int status) {
+    public SdmErrorResponse(String code, String message, String path, int status) {
         this.code = code;
         this.message = message;
         this.path = path;

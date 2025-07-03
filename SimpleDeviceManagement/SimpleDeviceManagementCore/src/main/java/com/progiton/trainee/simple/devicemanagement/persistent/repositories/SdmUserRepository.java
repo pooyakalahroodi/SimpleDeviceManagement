@@ -1,6 +1,8 @@
 package com.progiton.trainee.simple.devicemanagement.persistent.repositories;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmUserEntity;
@@ -9,13 +11,10 @@ import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmUserEnti
 public interface SdmUserRepository extends JpaRepository<SdmUserEntity, Long> {
 
 	
-    List<SdmUserEntity> findBySdmDepartmentEntityId(Long departmentId);
-
-    List<SdmUserEntity> findBySdmDepartmentEntityNameIgnoreCase(String departmentName);
-
-    List<SdmUserEntity> findByName(String name);
-
-    List<SdmUserEntity> findByUsernameStartingWithIgnoreCase(String username);
-
-    List<SdmUserEntity> findByNameStartingWithIgnoreCase(String name);
+    List<SdmUserEntity> findByDepartmentNameIgnoreCase(String departmentName);
+	Optional<SdmUserEntity> findByUsernameIgnoreCase(String username);
+    List<SdmUserEntity> findByNameIgnoreCase(String name);
+    boolean existsByUsername(String username);
+    boolean existsBysurname(String surname);
+    
 }

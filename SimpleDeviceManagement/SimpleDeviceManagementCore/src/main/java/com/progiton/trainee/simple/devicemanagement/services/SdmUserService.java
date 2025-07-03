@@ -1,21 +1,22 @@
 package com.progiton.trainee.simple.devicemanagement.services;
 
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmUserEntity;
-
 import java.util.List;
+
+import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
+import com.progiton.trainee.simple.devicemanagement.model.to.SdmUserTo;
 
 public interface SdmUserService {
 
-    // TODO eliminate Entity from interface
-    SdmUserEntity getUserById(Long id);
+	// TODO eliminate Entity from interface
 
-    //TODO return SdmUserTo
-    List<SdmUserEntity> getUserByUsername(String username);
+	// TODO return SdmUserTo
+	List<SdmUserTo> findAllUsers();
 
-    List<SdmUserEntity> getAllUsers();
-    List<SdmUserEntity> getUserByName(String name);
-//    List<SdmUserTo> getUsersByDepartment(Long departmentId);
-    List<SdmUserEntity> getUsersByDepartmentName(String departmentName);
+	SdmUserTo findUserByUsername(String name);
+
+	List<SdmUserTo> findUsersByDepartmentName(String departmentName);
+
+	List<SdmDeviceTo> findDeviceByUser(String username);
 
 //    TODO .... make it
 //    List<SdmUserTo> findUsers(FindUserRequest request);
@@ -29,14 +30,12 @@ public interface SdmUserService {
 //    List<SdmUserTo> findUsers(String user, String department);
 //
 
-    SdmUserEntity assignDepartmentToUser(String username, String departmentName);
+	SdmUserTo assignDepartmentToUser(String username, String departmentName);
 
-    SdmUserEntity saveUser(SdmUserEntity sdmUserTo);
-    SdmUserEntity createUser(SdmUserEntity sdmUserTo); // Add this
-    SdmUserEntity updateUser(Long id, SdmUserEntity updatedUser);
-    void deleteUser(Long id);
-    SdmUserEntity assignRoleToUser(Long userId, Long roleId);
-    SdmUserEntity removeRoleFromUser(Long userId, Long roleId);
-    SdmUserEntity assignDepartmentToUser(Long userId, Long departmentId);
-    
+	SdmUserTo saveUser(SdmUserTo user);
+
+	SdmUserTo createUser(SdmUserTo request); // Add this
+
+	SdmDeviceTo assignDeviceToUser(String serialNumber, String username);
+
 }

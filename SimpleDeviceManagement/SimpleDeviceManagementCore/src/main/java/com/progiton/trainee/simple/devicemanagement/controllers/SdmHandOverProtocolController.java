@@ -1,79 +1,75 @@
 package com.progiton.trainee.simple.devicemanagement.controllers;
 
-import com.progiton.trainee.simple.devicemanagement.mapper.SdmHandOverProtocolMapper;
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmHandOverProtocolEntity;
-import com.progiton.trainee.simple.devicemanagement.services.SdmHandOverProtocolService;
-import com.progiton.trainee.simple.devicemanagement.model.requests.SdmHandOverProtocolRequest;
-import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
+import com.progiton.trainee.simple.devicemanagement.services.SdmHandOverProtocolService;
 
 @RestController
 @RequestMapping("/api/handover-protocols")
 public class SdmHandOverProtocolController {
 
-    private final SdmHandOverProtocolService service;
-    private final SdmHandOverProtocolMapper mapper;
+	private final SdmHandOverProtocolService sdmHandOverProtocolService;
 
-    
-    public SdmHandOverProtocolController(SdmHandOverProtocolService service, SdmHandOverProtocolMapper mapper) {
-        this.service = service;
-        this.mapper = mapper;
-    }
-    
-    @PostMapping
-    public ResponseEntity<SdmHandOverProtocolTo> createProtocol(@RequestBody SdmHandOverProtocolRequest request) {
-        // Save the entity using service layer
-        SdmHandOverProtocolEntity savedEntity = service.saveHandOverProtocol(request);
+	public SdmHandOverProtocolController(SdmHandOverProtocolService service) {
+		this.sdmHandOverProtocolService = service;
+	}
 
-        // Convert saved entity to a Transfer Object (TO) for response
-        SdmHandOverProtocolTo response = mapper.toTo(savedEntity);
+	@PostMapping
+	public ResponseEntity<SdmHandOverProtocolTo> createProtocol(@RequestBody SdmHandOverProtocolTo request) {
+		// Save the entity using service layer
+		SdmHandOverProtocolTo saved = sdmHandOverProtocolService.saveHandOverProtocol(request);
 
-        // Return 201 Created with the new protocol
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-    
-    
+		// Return 201 Created with the new protocol
+		return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+	}
 
+	/**
+	 * Get ALL handover protocols for a given device serial number
+	 */
+	@GetMapping("/device/{serialNumber}")
+	public ResponseEntity<List<SdmHandOverProtocolTo>> getProtocolsByDeviceSerialNumber(
+			@PathVariable String serialNumber) {
+		List<SdmHandOverProtocolTo> handoverProtocols = sdmHandOverProtocolService
+				.findByDeviceSerialNumber(serialNumber);
+		return ResponseEntity.ok(handoverProtocols);
+	}
 
-    /**
-     *  Get ALL handover protocols for a given device serial number
-     */
-    @GetMapping("/device/{serialNumber}")
-    public ResponseEntity<List<SdmHandOverProtocolTo>> getProtocolsByDeviceSerialNumber(@PathVariable String serialNumber) {
-        List<SdmHandOverProtocolEntity> list = service.getByDeviceSerialNumber(serialNumber);
-        return ResponseEntity.ok(mapper.toToList(list));
-    }
+	/**
+	 * Get the LATEST handover protocol for a device
+	 */
+	@GetMapping("/device/{serialNumber}/latest")
+	public ResponseEntity<SdmHandOverProtocolTo> getLatestProtocol(@PathVariable String serialNumber) {
+		List<SdmHandOverProtocolTo> protocols = sdmHandOverProtocolService.findByDeviceSerialNumber(serialNumber);
+		SdmHandOverProtocolTo latest = protocols.stream()
+				.sorted((a, b) -> b.getHandoverDate().compareTo(a.getHandoverDate())).findFirst().orElseThrow(
+						() -> new IllegalArgumentException("No protocols found for device serial: " + serialNumber));
+		return ResponseEntity.ok(latest);
+	}
 
-    /**
-     *  Get the LATEST handover protocol for a device
-     */
-    @GetMapping("/device/{serialNumber}/latest")
-    public ResponseEntity<SdmHandOverProtocolTo> getLatestProtocol(@PathVariable String serialNumber) {
-        List<SdmHandOverProtocolEntity> protocols = service.getByDeviceSerialNumber(serialNumber);
-        SdmHandOverProtocolEntity latest = protocols.stream()
-                .sorted((a, b) -> b.getHandoverDate().compareTo(a.getHandoverDate()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No protocols found for device serial: " + serialNumber));
-        return ResponseEntity.ok(mapper.toTo(latest));
-    }
+	/**
+	 * Confirm the latest unconfirmed handover protocol for a device
+	 */
+	@PutMapping("/device/{serialNumber}/confirm")
+	public ResponseEntity<SdmHandOverProtocolTo> confirmLatestUnconfirmed(@PathVariable String serialNumber) {
+		SdmHandOverProtocolTo confirmed = sdmHandOverProtocolService.confirmByDeviceSerialNumber(serialNumber);
+		return ResponseEntity.ok(confirmed);
+	}
 
-    /**
-     *  Confirm the latest unconfirmed handover protocol for a device
-     */
-    @PutMapping("/device/{serialNumber}/confirm")
-    public ResponseEntity<SdmHandOverProtocolTo> confirmLatestUnconfirmed(@PathVariable String serialNumber) {
-        SdmHandOverProtocolEntity confirmed = service.confirmByDeviceSerialNumber(serialNumber);
-        return ResponseEntity.ok(mapper.toTo(confirmed));
-    }
-    
-    @GetMapping("/receiver/{username}")
-    public ResponseEntity<List<SdmHandOverProtocolTo>> getProtocolsByReceiverUsername(@PathVariable String username) {
-        List<SdmHandOverProtocolEntity> list = service.getHandOverProtocolsByReceiverUsername(username);
-        return ResponseEntity.ok(mapper.toToList(list));
-    }
+	@GetMapping("/receiver/{username}")
+	public ResponseEntity<List<SdmHandOverProtocolTo>> getProtocolsByReceiverUsername(@PathVariable String username) {
+		List<SdmHandOverProtocolTo> handoverProtocols = sdmHandOverProtocolService
+				.findHandOverProtocolsByReceiverUsername(username);
+		return ResponseEntity.ok(handoverProtocols);
+	}
 }

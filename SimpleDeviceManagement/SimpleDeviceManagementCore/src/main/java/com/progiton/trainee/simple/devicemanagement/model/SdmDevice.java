@@ -12,8 +12,4 @@ public interface SdmDevice {
     String getLocation();
     LocalDate getPurchaseDate();
     String getStatus();
-    SdmUser<? extends SdmDevice> getUser();
-
-
-
 }

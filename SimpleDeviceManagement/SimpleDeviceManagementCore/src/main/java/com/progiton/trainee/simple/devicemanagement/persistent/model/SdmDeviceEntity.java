@@ -1,6 +1,8 @@
 package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import java.time.LocalDate;
+import java.util.Optional;
+
 import com.progiton.trainee.simple.devicemanagement.model.enums.*;
 import com.progiton.trainee.simple.devicemanagement.model.SdmDevice;
 

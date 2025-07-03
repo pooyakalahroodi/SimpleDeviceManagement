@@ -1,94 +1,64 @@
 package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.util.List;
-import java.util.Optional;
-
-import lombok.extern.slf4j.Slf4j;
-
-import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmDeviceEntity;
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmUserEntity;
-import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
-import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmDeviceRepository;
-import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmUserRepository;
 
 import org.springframework.stereotype.Service;
 
+import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityNotFoundException;
+import com.progiton.trainee.simple.devicemanagement.mapper.SdmDeviceMapper;
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
+import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmDeviceEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmDeviceRepository;
+import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
-public class SdmDeviceServiceImpl implements SdmDeviceService{
-	
-    private final SdmDeviceRepository sdmDeviceRepository;
-    private final SdmUserRepository sdmUserRepository;
+public class SdmDeviceServiceImpl implements SdmDeviceService {
 
-	
-    public SdmDeviceServiceImpl(SdmDeviceRepository sdmDeviceRepository, SdmUserRepository sdmUserRepository) {
-        this.sdmDeviceRepository = sdmDeviceRepository;
-		this.sdmUserRepository = sdmUserRepository;
-    }
+	private final SdmDeviceRepository sdmDeviceRepository;
+	private final SdmDeviceMapper mapper;
 
-
-    @Override
-    public List<SdmDeviceEntity> getAllDevices() {
-        List<SdmDeviceEntity> sdmDeviceEntities = sdmDeviceRepository.findAll();
-        log.info("Fetched {} devices from DB", sdmDeviceEntities.size());
-        return sdmDeviceEntities;
-    }
-
-    @Override
-    public SdmDeviceEntity getDeviceById(Long id) {
-        Optional<SdmDeviceEntity> deviceOpt = sdmDeviceRepository.findById(id);
-        if (deviceOpt.isEmpty()) {
-            log.warn("Device with id {} not found", id);
-            return null; // or throw exception
-        }
-        return deviceOpt.get();
-    }
-
-    @Override
-    public SdmDeviceEntity saveDevice(SdmDeviceEntity sdmDeviceEntity) {
-        SdmDeviceEntity saved = sdmDeviceRepository.save(sdmDeviceEntity);
-        log.info("Saved device with id {}", saved.getId());
-        return saved;
-    }
-
-    @Override
-    public void deleteDevice(Long id) {
-        if (!sdmDeviceRepository.existsById(id)) {
-            log.warn("Attempted to delete non-existing device with id {}", id);
-            return;
-        }
-        sdmDeviceRepository.deleteById(id);
-        log.info("Deleted device with id {}", id);
-    }
-
-
-	@Override
-	public SdmDeviceEntity assignDeviceToUser(String serialNumber, String username) {
-		List<SdmUserEntity> users = sdmUserRepository.findByUsernameStartingWithIgnoreCase(username);
-		SdmUserEntity user = users.get(0); // Use first one
-
-		    SdmDeviceEntity device = sdmDeviceRepository.findBySerialNumber(serialNumber);
-
-		    device.setUser(user);
-		    return sdmDeviceRepository.save(device);
+	public SdmDeviceServiceImpl(SdmDeviceRepository sdmDeviceRepository, SdmDeviceMapper mapper) {
+		this.sdmDeviceRepository = sdmDeviceRepository;
+		this.mapper = mapper;
 	}
 
-
 	@Override
-	public SdmDeviceEntity updateDeviceStatus(String serialNumber, SdmDeviceStatus newStatus) {
-		SdmDeviceEntity device = sdmDeviceRepository.findBySerialNumber(serialNumber);
-
-		    device.setStatus(newStatus);
-		    return sdmDeviceRepository.save(device);
+	public List<SdmDeviceTo> findAllDevices() {
+		List<SdmDeviceEntity> devices = sdmDeviceRepository.findAll();
+		log.info("Fetched {} devices from DB", devices.size());
+		return mapper.toToList(devices);
 	}
 
+	@Override
+	public SdmDeviceTo findDeviceBySerialNumber(String serialNumber) {
+		SdmDeviceEntity device = sdmDeviceRepository.findBySerialNumber(serialNumber)
+				.orElseThrow(() -> new SdmEntityNotFoundException("Device not found with serial: " + serialNumber));
 
+		return mapper.toTo(device);
+	}
 
 	@Override
-	public SdmDeviceEntity getDeviceBySerialNumber(String serialNumber) {
-		return sdmDeviceRepository.findBySerialNumber(serialNumber);
+	public SdmDeviceTo saveDevice(SdmDeviceTo deviceTo) {
+		SdmDeviceEntity entity = mapper.toEntity(deviceTo);
+		SdmDeviceEntity saved = sdmDeviceRepository.save(entity);
+
+		log.info("Saved device with id {}", saved.getId());
+		return mapper.toTo(saved);
 	}
-	
+
+	@Override
+	public SdmDeviceTo updateDeviceStatus(String serialNumber, SdmDeviceStatus newStatus) {
+		SdmDeviceEntity device = sdmDeviceRepository.findBySerialNumber(serialNumber)
+				.orElseThrow(() -> new SdmEntityNotFoundException("Device not found with serial: " + serialNumber));
+
+		device.setStatus(newStatus);
+		SdmDeviceEntity saved = sdmDeviceRepository.save(device);
+
+		return mapper.toTo(saved);
+	}
 
 }

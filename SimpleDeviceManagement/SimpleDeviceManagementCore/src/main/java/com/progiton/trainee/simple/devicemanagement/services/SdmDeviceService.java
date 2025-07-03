@@ -1,19 +1,20 @@
 package com.progiton.trainee.simple.devicemanagement.services;
 
-import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmDeviceEntity;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
+import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
+
 @Service
 public interface SdmDeviceService {
-	List<SdmDeviceEntity> getAllDevices();
-	SdmDeviceEntity getDeviceById(Long id);
-    SdmDeviceEntity saveDevice(SdmDeviceEntity sdmDeviceEntity);
-    void deleteDevice(Long id);
-    SdmDeviceEntity getDeviceBySerialNumber(String serialNumber);
-    SdmDeviceEntity assignDeviceToUser(String serialNumber, String username);
-    SdmDeviceEntity updateDeviceStatus(String serialNumber, SdmDeviceStatus newStatus);
+	List<SdmDeviceTo> findAllDevices();
+
+	SdmDeviceTo saveDevice(SdmDeviceTo device);
+
+	SdmDeviceTo findDeviceBySerialNumber(String serialNumber);
+
+	SdmDeviceTo updateDeviceStatus(String serialNumber, SdmDeviceStatus newStatus);
 
 }

@@ -2,53 +2,39 @@ package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.util.List;
 
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmDepartmentEntity;
-import com.progiton.trainee.simple.devicemanagement.services.SdmDepartmentService;
-import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmDepartmentRepository;
-
 import org.springframework.stereotype.Service;
+
+import com.progiton.trainee.simple.devicemanagement.mapper.SdmDepartmentMapper;
+import com.progiton.trainee.simple.devicemanagement.model.to.SdmDepartmentTo;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmDepartmentEntity;
+import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmDepartmentRepository;
+import com.progiton.trainee.simple.devicemanagement.services.SdmDepartmentService;
 
 @Service
 public class SdmDepartmentServiceImpl implements SdmDepartmentService {
 
-    private final SdmDepartmentRepository sdmDepartmentRepository;
+	private final SdmDepartmentRepository sdmDepartmentRepository;
+	private final SdmDepartmentMapper mapper;
 
-    public SdmDepartmentServiceImpl(SdmDepartmentRepository sdmDepartmentRepository) {
-        this.sdmDepartmentRepository = sdmDepartmentRepository;
-    }
+	public SdmDepartmentServiceImpl(SdmDepartmentRepository sdmDepartmentRepository, SdmDepartmentMapper mapper) {
+		this.sdmDepartmentRepository = sdmDepartmentRepository;
+		this.mapper = mapper;
+	}
 
-    @Override
-    public List<SdmDepartmentEntity> getAllDepartments() {
-        return sdmDepartmentRepository.findAll();
-    }
+	@Override
+	public List<SdmDepartmentTo> findAllDepartments() {
+		return mapper.toToList(sdmDepartmentRepository.findAll());
+	}
 
-    @Override
-    public SdmDepartmentEntity getDepartmentById(Long id) {
-        return sdmDepartmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Department not found with ID: " + id));
-    }
+	@Override
+	public SdmDepartmentTo saveDepartment(SdmDepartmentTo department) {
+		SdmDepartmentEntity entity = mapper.toEntity(department);
+		return mapper.toTo(sdmDepartmentRepository.save(entity));
+	}
 
-    @Override
-    public SdmDepartmentEntity saveDepartment(SdmDepartmentEntity sdmDepartmentEntity) {
-        return sdmDepartmentRepository.save(sdmDepartmentEntity);
-    }
-
-    @Override
-    public SdmDepartmentEntity updateDepartment(Long id, SdmDepartmentEntity updatedEntity) {
-        SdmDepartmentEntity existing = getDepartmentById(id);
-        existing.setName(updatedEntity.getName());
-        return sdmDepartmentRepository.save(existing);
-    }
-
-    @Override
-    public void deleteDepartment(Long id) {
-        if (!sdmDepartmentRepository.existsById(id)) {
-            throw new RuntimeException("Department not found with ID: " + id);
-        }
-        sdmDepartmentRepository.deleteById(id);
-    }
 	@Override
 	public boolean departmentExists(String departmentName) {
-	    return sdmDepartmentRepository.existsByNameIgnoreCase(departmentName);
+		return sdmDepartmentRepository.existsByNameIgnoreCase(departmentName);
 	}
+
 }

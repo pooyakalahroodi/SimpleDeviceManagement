@@ -1,10 +1,9 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
-import java.time.Instant;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmDepartment;
 
-public class SdmDepartmentTo extends SdmBaseTO implements SdmDepartment {
+public class SdmDepartmentTo implements SdmDepartment {
 
 	private String name;
 
@@ -13,7 +12,7 @@ public class SdmDepartmentTo extends SdmBaseTO implements SdmDepartment {
         super();
     }
 
-    public SdmDepartmentTo(final String name, final Instant createdAt, final Instant updatedAt) {
+    public SdmDepartmentTo(final String name) {
         this.name = name;
     }
 
@@ -26,5 +25,6 @@ public class SdmDepartmentTo extends SdmBaseTO implements SdmDepartment {
     public void setName(String name) {
         this.name = name;
     }
+
 
 }

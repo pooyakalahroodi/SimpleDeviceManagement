@@ -1,28 +1,23 @@
 package com.progiton.trainee.simple.devicemanagement.services;
 
-import com.progiton.trainee.simple.devicemanagement.model.requests.SdmHandOverProtocolRequest;
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmHandOverProtocolEntity;
-
 import java.util.List;
 
-public interface SdmHandOverProtocolService {
-    List<SdmHandOverProtocolEntity> getAllHandOverProtocols();
-    SdmHandOverProtocolEntity getHandOverProtocolById(Long id);
-    
-    
-    
-    SdmHandOverProtocolEntity saveHandOverProtocol(SdmHandOverProtocolRequest request);
+import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
 
-    
-    
-    void deleteHandOverProtocol(Long id);
-    
-    
-    
-    SdmHandOverProtocolEntity updateHandOverProtocol(Long id, SdmHandOverProtocolEntity entity);
-    SdmHandOverProtocolEntity confirmHandOverProtocol(Long id);
-    List<SdmHandOverProtocolEntity> getHandOverProtocolsByReceiverUsername(String username);
-    List<SdmHandOverProtocolEntity> getByDeviceSerialNumber(String serialNumber);
-    SdmHandOverProtocolEntity confirmByDeviceSerialNumber(String serialNumber);
+public interface SdmHandOverProtocolService {
+	List<SdmHandOverProtocolTo> findAllHandOverProtocols();
+
+	SdmHandOverProtocolTo saveHandOverProtocol(SdmHandOverProtocolTo request);
+
+	List<SdmHandOverProtocolTo> findHandOverProtocolsByReceiverUsername(String username);
+
+	List<SdmHandOverProtocolTo> findByDeviceSerialNumber(String serialNumber);
+
+	SdmHandOverProtocolTo confirmByDeviceSerialNumber(String serialNumber);
 //    HandOverProtocolEntity saveHandOverProtocol(HandOverProtoco dto);
+
+	List<SdmHandOverProtocolTo> findHandOverProtocolsByPerformerUsername(String username);
+
+	SdmHandOverProtocolTo findNonConfirmedProtocolsByDeviceSerialNumber(String serialNumber);
+
 }

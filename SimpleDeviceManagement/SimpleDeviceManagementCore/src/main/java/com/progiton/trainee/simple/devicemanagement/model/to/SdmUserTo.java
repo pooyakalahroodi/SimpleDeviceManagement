@@ -1,41 +1,32 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.progiton.trainee.simple.devicemanagement.model.SdmUser;
 
-import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 
 
-public class SdmUserTo extends SdmBaseTO implements SdmUser<SdmDeviceTo> {
+public class SdmUserTo implements SdmUser<SdmDeviceTo> {
 
 	    private String username;
 	    private String name;
-	    
-	    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Only accept password in requests, don't return it
-	    private String password;
-	    
+		private String surname;
 	    private Boolean enabled;
 	    private SdmDepartmentTo department; // Department name, not ID
 	    private List<SdmDeviceTo> devices; // Device descriptions, not IDs or objects
-	    private Instant createdAt;
-	    private Instant updatedAt;
 
-	    // Constructors
+
+    // Constructors
 	    public SdmUserTo() {
 	        super();
 	    }
 
-
-	    public SdmUserTo(String username, String name, Boolean enabled, SdmDepartmentTo department, List<SdmDeviceTo> devices, Instant createdAt, Instant updatedAt) {
-	        super(createdAt, updatedAt);
+	    public SdmUserTo(String username, String name, String surname,Boolean enabled, SdmDepartmentTo department, List<SdmDeviceTo> devices) {
 	        this.username = username;
 	        this.name = name;
+	        this.surname = surname;
 	        this.enabled = enabled;
 	        this.department = department;
 	        this.devices = devices;
-
 	    }
 
 	    // Getters and Setters
@@ -44,7 +35,7 @@ public class SdmUserTo extends SdmBaseTO implements SdmUser<SdmDeviceTo> {
 	        return username;
 	    }
 
-	    public void setUsername(String username) {
+	    public void setUsername(final String username) {
 	        this.username = username;
 	    }
 
@@ -53,10 +44,19 @@ public class SdmUserTo extends SdmBaseTO implements SdmUser<SdmDeviceTo> {
 	        return name;
 	    }
 
-	    public void setName(String name) {
+	    public void setName(final String name) {
 	        this.name = name;
 	    }
-
+	    
+		public void setSurname(final String surname) {
+			this.surname = surname;
+		}
+		
+		@Override
+		public String getSurname() {
+			return surname;
+		}
+		
 	    @Override
 	    public Boolean getEnabled() {
 	        return enabled;
@@ -83,6 +83,5 @@ public class SdmUserTo extends SdmBaseTO implements SdmUser<SdmDeviceTo> {
 	    public void setDevices(final List<SdmDeviceTo> devices) {
 	        this.devices = devices;
 	    }
-	    
-	    
+
 }

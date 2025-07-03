@@ -5,7 +5,7 @@ import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 
 import java.time.Instant;
 
-public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProtocol {
+public class SdmHandOverProtocolTo implements SdmHandOverProtocol {
 
     private String deviceSerialNumber;
     private String receiverUsername;
@@ -29,11 +29,8 @@ public class SdmHandOverProtocolTo extends SdmBaseTO implements SdmHandOverProto
             Instant handoverDate,
             String comments,
             Boolean isConfirmed,
-            Instant confirmedAt,
-            final Instant createdAt,
-            final Instant updatedAt) {
+            Instant confirmedAt) {
     	
-			super(createdAt, updatedAt);
 			this.deviceSerialNumber = deviceSerialNumber;
 			this.receiverUsername = receiverUsername;
 			this.performedByUsername = performedByUsername;

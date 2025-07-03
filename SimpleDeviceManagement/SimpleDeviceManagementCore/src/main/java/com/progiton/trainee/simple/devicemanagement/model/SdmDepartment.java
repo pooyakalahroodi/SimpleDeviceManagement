@@ -1,13 +1,9 @@
 package com.progiton.trainee.simple.devicemanagement.model;
 
 
-import java.util.List;
 
-public interface SdmDepartment extends Auditable {
+public interface SdmDepartment {
 	String getName();
-	
-    default String getLabel() {
-        return getName() + " (since " + getCreatedAt() + ")";
-    }
+
 
 }
