@@ -1,28 +1,18 @@
 package com.progiton.trainee.simple.devicemanagement.model.enums;
 
 public enum SdmActionType {
-    /**
-     * Übergabe von Gerät an User
-     */
-    HANDOVER("Übergabe"),
+	/**
+	 * Übergabe von Gerät an User
+	 */
+	HANDOVER,
 
-    /**
-     * Rückgabe von Gerät durch User
-     */
-    RETURN("Rückgabe"),
+	/**
+	 * Rückgabe von Gerät durch User
+	 */
+	RETURN
 
-    /**
-     *
-     */
-    TRANSFER("Transfer");
+	/**
+	 *
+	 */
 
-    private final String label;
-
-    SdmActionType(String label) {
-        this.label = label;
-    }
-
-    public String getLabel() {
-        return label;
-    }
 }

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.progiton.trainee.simple.devicemanagement.mapper.SdmDeviceMapper;
-import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 
@@ -58,8 +57,7 @@ public class SdmDeviceController {
 //	}
 
 	@PutMapping("/update-status")
-	public ResponseEntity<SdmDeviceTo> updateDeviceStatus(@RequestParam String serialNumber,
-			SdmDeviceStatus newStatus) {
+	public ResponseEntity<SdmDeviceTo> updateDeviceStatus(@RequestParam String serialNumber, String newStatus) {
 		SdmDeviceTo updated = sdmDeviceService.updateDeviceStatus(serialNumber, newStatus);
 		return ResponseEntity.ok(updated);
 	}

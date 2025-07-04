@@ -51,11 +51,16 @@ public class SdmDeviceServiceImpl implements SdmDeviceService {
 	}
 
 	@Override
-	public SdmDeviceTo updateDeviceStatus(String serialNumber, SdmDeviceStatus newStatus) {
+	public SdmDeviceTo updateDeviceStatus(String serialNumber, String newStatus) {
 		SdmDeviceEntity device = sdmDeviceRepository.findBySerialNumber(serialNumber)
 				.orElseThrow(() -> new SdmEntityNotFoundException("Device not found with serial: " + serialNumber));
 
-		device.setStatus(newStatus);
+		try {
+			device.setStatus(SdmDeviceStatus.valueOf(newStatus));
+		} catch (IllegalArgumentException ex) {
+			throw new IllegalArgumentException("Invalid device status: " + newStatus);
+		}
+
 		SdmDeviceEntity saved = sdmDeviceRepository.save(device);
 
 		return mapper.toTo(saved);

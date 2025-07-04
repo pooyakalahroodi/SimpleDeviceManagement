@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 
 @Service
@@ -15,6 +14,6 @@ public interface SdmDeviceService {
 
 	SdmDeviceTo findDeviceBySerialNumber(String serialNumber);
 
-	SdmDeviceTo updateDeviceStatus(String serialNumber, SdmDeviceStatus newStatus);
+	SdmDeviceTo updateDeviceStatus(String serialNumber, String newStatus);
 
 }

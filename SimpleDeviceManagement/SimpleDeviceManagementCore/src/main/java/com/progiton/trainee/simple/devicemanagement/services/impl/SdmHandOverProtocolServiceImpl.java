@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityAlreadyExistsException;
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityNotFoundException;
 import com.progiton.trainee.simple.devicemanagement.mapper.SdmHandOverProtocolMapper;
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmDeviceEntity;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmHandOverProtocolEntity;
@@ -51,7 +52,7 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 		if (request.getPerformedByUsername() == null || request.getPerformedByUsername().trim().isEmpty()) {
 			throw new IllegalArgumentException("Performed by username is required");
 		}
-		if (request.getSdmActionType() == null) {
+		if (request.getActionType() == null) {
 			throw new IllegalArgumentException("Action type is required");
 		}
 		// Check for existing non-confirmed protocols
@@ -83,7 +84,7 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 		entity.setComments(request.getComments());
 		entity.setIsConfirmed(request.getIsConfirmed());
 		entity.setConfirmedAt(request.getConfirmedAt());
-		entity.setActionType(request.getSdmActionType()); // Set the required action type
+		entity.setActionType(SdmActionType.valueOf(request.getActionType())); // Set the required action type
 
 		// Save to database
 		return mapper.toTo(sdmHandOverProtocolRepository.save(entity));

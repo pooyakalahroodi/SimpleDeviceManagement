@@ -69,7 +69,7 @@ public class SdmUserServiceImpl implements SdmUserService {
 		if (request.getDepartment() != null) {
 			SdmDepartmentEntity department = sdmDepartmentRepository
 					.findByNameIgnoreCase(request.getDepartment().getName())
-					.orElseThrow(() -> new SdmEntityAlreadyExistsException(
+					.orElseThrow(() -> new SdmEntityNotFoundException(
 							"Department not found with name: " + request.getDepartment().getName()));
 			user.setDepartment(department);
 		}

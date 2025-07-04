@@ -1,147 +1,148 @@
 package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
-import com.progiton.trainee.simple.devicemanagement.model.enums.*;
 import com.progiton.trainee.simple.devicemanagement.model.SdmDevice;
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "devices")
 public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String name;
+	private String name;
 
-    @Column(nullable = false)
-    private String type;
-    
-    @Column(nullable = false, unique = true)
-    private String serialNumber;
+	@Column(nullable = false)
+	private String type;
 
-    private String manufacturer;
-    
-    @Column(nullable = false)
-    private String location;
-    
+	@Column(nullable = false, unique = true)
+	private String serialNumber;
 
-    private LocalDate purchaseDate;
-    
-    @Enumerated(EnumType.STRING)
-    private SdmDeviceStatus status;
+	private String manufacturer;
 
-    //TODO : make it optional (NPE safe)
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private SdmUserEntity user;
+	@Column(nullable = false)
+	private String location;
 
-    public SdmDeviceEntity() {
-    }
+	private LocalDate purchaseDate;
 
-    public SdmDeviceEntity(Long id, String name, String type, String serialNumber,
-                        String manufacturer, String location, LocalDate purchaseDate,
-                        SdmDeviceStatus status, SdmUserEntity assignedTo) {
-    	
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.serialNumber = serialNumber;
-        this.manufacturer = manufacturer;
-        this.location = location;
-        this.purchaseDate = purchaseDate;
-        this.status = status;
-        this.user = assignedTo;
+	@Enumerated(EnumType.STRING)
+	private SdmDeviceStatus status;
 
-    }
+	// TODO : make it optional (NPE safe)
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private SdmUserEntity user;
 
+	public SdmDeviceEntity() {
+	}
 
-    
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+	public SdmDeviceEntity(Long id, String name, String type, String serialNumber, String manufacturer, String location,
+			LocalDate purchaseDate, SdmDeviceStatus status, SdmUserEntity assignedTo) {
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+		this.id = id;
+		this.name = name;
+		this.type = type;
+		this.serialNumber = serialNumber;
+		this.manufacturer = manufacturer;
+		this.location = location;
+		this.purchaseDate = purchaseDate;
+		this.status = status;
+		this.user = assignedTo;
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	// Getters and Setters
+	public Long getId() {
+		return id;
+	}
 
-    @Override
-    public String getType() {
-        return type;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    public String getSerialNumber() {
-        return serialNumber;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
-    }
+	@Override
+	public String getType() {
+		return type;
+	}
 
-    @Override
-    public String getManufacturer() {
-        return manufacturer;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
+	@Override
+	public String getSerialNumber() {
+		return serialNumber;
+	}
 
-    @Override
-    public String getLocation() {
-        return location;
-    }
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+	@Override
+	public String getManufacturer() {
+		return manufacturer;
+	}
 
-    @Override
-    public LocalDate getPurchaseDate() {
-        return purchaseDate;
-    }
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
 
-    public void setPurchaseDate(LocalDate purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
+	@Override
+	public String getLocation() {
+		return location;
+	}
 
-    @Override
-    public String getStatus() {
-    	return status != null ? status.name() : null;
-    }
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-    public void setStatus(SdmDeviceStatus status) {
-        this.status = status;
-    }
+	@Override
+	public LocalDate getPurchaseDate() {
+		return purchaseDate;
+	}
 
+	public void setPurchaseDate(LocalDate purchaseDate) {
+		this.purchaseDate = purchaseDate;
+	}
 
-    public SdmUserEntity getUser() {
+	@Override
+	public String getStatus() {
+		return status != null ? status.name() : null;
+	}
+
+	public void setStatus(SdmDeviceStatus status) {
+		this.status = status;
+	}
+
+	public SdmUserEntity getUser() {
 		return user;
 
 	}
-    
-    public void setUser(SdmUserEntity assignedTo) {
-        this.user = assignedTo;
-    }
+
+	public void setUser(SdmUserEntity assignedTo) {
+		this.user = assignedTo;
+	}
 
 }
-

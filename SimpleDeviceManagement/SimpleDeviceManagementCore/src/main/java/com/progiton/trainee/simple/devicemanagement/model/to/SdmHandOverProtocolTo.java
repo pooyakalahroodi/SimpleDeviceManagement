@@ -1,119 +1,109 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
-import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
-import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
-
 import java.time.Instant;
+
+import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
 
 public class SdmHandOverProtocolTo implements SdmHandOverProtocol {
 
-    private String deviceSerialNumber;
-    private String receiverUsername;
-    private String performedByUsername;
-    private SdmActionType actionType; 
-    private Instant handoverDate;
-    private String comments;
-    private Boolean isConfirmed;
-    private Instant confirmedAt;
+	private String deviceSerialNumber;
+	private String receiverUsername;
+	private String performedByUsername;
+	private String actionType;
+	private Instant handoverDate;
+	private String comments;
+	private Boolean isConfirmed;
+	private Instant confirmedAt;
 
-    // Constructors
-    public SdmHandOverProtocolTo() {
-    	super();	
-    	
-    }
-    
-    public SdmHandOverProtocolTo(String deviceSerialNumber,
-            String receiverUsername,
-            String performedByUsername,
-            SdmActionType actionType, 
-            Instant handoverDate,
-            String comments,
-            Boolean isConfirmed,
-            Instant confirmedAt) {
-    	
-			this.deviceSerialNumber = deviceSerialNumber;
-			this.receiverUsername = receiverUsername;
-			this.performedByUsername = performedByUsername;
-			this.actionType = actionType; 
-			this.handoverDate = handoverDate;
-			this.comments = comments;
-			this.isConfirmed = isConfirmed;
-			this.confirmedAt = confirmedAt;
-}
+	// Constructors
+	public SdmHandOverProtocolTo() {
+		super();
 
-    @Override
-    public String getDeviceSerialNumber() {
-        return deviceSerialNumber;
-    }
+	}
 
-    public void setDeviceSerialNumber(String deviceSerialNumber) {
-        this.deviceSerialNumber = deviceSerialNumber;
-    }
+	public SdmHandOverProtocolTo(String deviceSerialNumber, String receiverUsername, String performedByUsername,
+			String actionType, Instant handoverDate, String comments, Boolean isConfirmed, Instant confirmedAt) {
 
-    @Override
-    public String getReceiverUsername() {
-        return receiverUsername;
-    }
+		this.deviceSerialNumber = deviceSerialNumber;
+		this.receiverUsername = receiverUsername;
+		this.performedByUsername = performedByUsername;
+		this.actionType = actionType;
+		this.handoverDate = handoverDate;
+		this.comments = comments;
+		this.isConfirmed = isConfirmed;
+		this.confirmedAt = confirmedAt;
+	}
 
-    public void setReceiverUsername(String receiverUsername) {
-        this.receiverUsername = receiverUsername;
-    }
+	@Override
+	public String getDeviceSerialNumber() {
+		return deviceSerialNumber;
+	}
 
-    @Override
-    public String getPerformedByUsername() {
-        return performedByUsername;
-    }
+	public void setDeviceSerialNumber(String deviceSerialNumber) {
+		this.deviceSerialNumber = deviceSerialNumber;
+	}
 
-    public void setPerformedByUsername(String performedByUsername) {
-        this.performedByUsername = performedByUsername;
-    }
+	@Override
+	public String getReceiverUsername() {
+		return receiverUsername;
+	}
 
-    @Override
-    public SdmActionType getSdmActionType() {
-        return this.actionType;
-    }
-    
-    
-    public void setActionType(SdmActionType sdmActionType) {
-        this.actionType = sdmActionType;
-    }
-    
-    
-    @Override
-    public Instant getHandoverDate() {
-        return handoverDate;
-    }
+	public void setReceiverUsername(String receiverUsername) {
+		this.receiverUsername = receiverUsername;
+	}
 
-    public void setHandoverDate(Instant handoverDate) {
-        this.handoverDate = handoverDate;
-    }
+	@Override
+	public String getPerformedByUsername() {
+		return performedByUsername;
+	}
 
-    @Override
-    public String getComments() {
-        return comments;
-    }
+	public void setPerformedByUsername(String performedByUsername) {
+		this.performedByUsername = performedByUsername;
+	}
 
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
+	@Override
+	public String getActionType() {
+		return this.actionType;
+	}
 
-    @Override
-    public boolean getIsConfirmed() {
-        return isConfirmed;
-    }
+	public void setActionType(String sdmActionType) {
+		this.actionType = sdmActionType;
+	}
 
-    public void setIsConfirmed(Boolean isConfirmed) {
-        this.isConfirmed = isConfirmed;
-    }
+	@Override
+	public Instant getHandoverDate() {
+		return handoverDate;
+	}
 
-    @Override
-    public Instant getConfirmedAt() {
-        return confirmedAt;
-    }
+	public void setHandoverDate(Instant handoverDate) {
+		this.handoverDate = handoverDate;
+	}
 
-    public void setConfirmedAt(Instant confirmedAt) {
-        this.confirmedAt = confirmedAt;
-    }
+	@Override
+	public String getComments() {
+		return comments;
+	}
 
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	@Override
+	public boolean getIsConfirmed() {
+		return isConfirmed;
+	}
+
+	public void setIsConfirmed(Boolean isConfirmed) {
+		this.isConfirmed = isConfirmed;
+	}
+
+	@Override
+	public Instant getConfirmedAt() {
+		return confirmedAt;
+	}
+
+	public void setConfirmedAt(Instant confirmedAt) {
+		this.confirmedAt = confirmedAt;
+	}
 
 }
