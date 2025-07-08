@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.progiton.trainee.simple.devicemanagement.mapper.SdmDepartmentMapper;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDepartmentTo;
 import com.progiton.trainee.simple.devicemanagement.services.SdmDepartmentService;
 
@@ -19,11 +18,9 @@ import com.progiton.trainee.simple.devicemanagement.services.SdmDepartmentServic
 public class SdmDepartmentController {
 
 	private final SdmDepartmentService sdmDepartmentService;
-	private final SdmDepartmentMapper sdmDepartmentMapper;
 
-	public SdmDepartmentController(SdmDepartmentService sdmDepartmentService, SdmDepartmentMapper sdmDepartmentMapper) {
+	public SdmDepartmentController(SdmDepartmentService sdmDepartmentService) {
 		this.sdmDepartmentService = sdmDepartmentService;
-		this.sdmDepartmentMapper = sdmDepartmentMapper;
 	}
 
 	@GetMapping

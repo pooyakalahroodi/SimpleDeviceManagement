@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.progiton.trainee.simple.devicemanagement.mapper.SdmDeviceMapper;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 
@@ -20,16 +19,14 @@ import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 public class SdmDeviceController {
 
 	private final SdmDeviceService sdmDeviceService;
-	private final SdmDeviceMapper sdmDeviceMapper;
 
 //    public DeviceController(DeviceService deviceService, DeviceMapper deviceMapper) {
 //        this.deviceService = deviceService;
 //        this.deviceMapper = deviceMapper;
 //    }
 
-	public SdmDeviceController(SdmDeviceService sdmDeviceService, SdmDeviceMapper sdmDeviceMapper) {
+	public SdmDeviceController(SdmDeviceService sdmDeviceService) {
 		this.sdmDeviceService = sdmDeviceService;
-		this.sdmDeviceMapper = sdmDeviceMapper;
 	}
 
 	@GetMapping

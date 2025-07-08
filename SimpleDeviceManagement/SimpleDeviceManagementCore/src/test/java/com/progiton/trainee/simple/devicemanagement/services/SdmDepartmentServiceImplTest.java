@@ -30,55 +30,56 @@ class SdmDepartmentServiceImplTest {
 	private SdmDepartmentMapper departmentMapper;
 
 	@InjectMocks
-	private SdmDepartmentServiceImpl departmentService;
+	private SdmDepartmentServiceImpl cut; // class under test
 
-	private SdmDepartmentEntity itEntity;
-	private SdmDepartmentEntity hrEntity;
-	private SdmDepartmentEntity financeEntity;
+	private SdmDepartmentEntity itDepartmentEntity;
+	private SdmDepartmentEntity hrDepartmentEntity;
+	private SdmDepartmentEntity financeDepartmentEntity;
 
-	private SdmDepartmentTo itDto;
-	private SdmDepartmentTo hrDto;
-	private SdmDepartmentTo financeDto;
+	private SdmDepartmentTo itDepartmentTo;
+	private SdmDepartmentTo hrDepartmentTo;
+	private SdmDepartmentTo financeDepartmentTo;
 
 	@BeforeEach
 	void setUp() {
 		// IT
-		itEntity = new SdmDepartmentEntity();
-		itEntity.setId(1L);
-		itEntity.setName("IT");
+		itDepartmentEntity = new SdmDepartmentEntity();
+		itDepartmentEntity.setId(1L);
+		itDepartmentEntity.setName("IT");
 
-		itDto = new SdmDepartmentTo();
-		itDto.setName("IT");
+		itDepartmentTo = new SdmDepartmentTo();
+		itDepartmentTo.setName("IT");
 
 		// HR
-		hrEntity = new SdmDepartmentEntity();
-		hrEntity.setId(2L);
-		hrEntity.setName("HR");
+		hrDepartmentEntity = new SdmDepartmentEntity();
+		hrDepartmentEntity.setId(2L);
+		hrDepartmentEntity.setName("HR");
 
-		hrDto = new SdmDepartmentTo();
-		hrDto.setName("HR");
+		hrDepartmentTo = new SdmDepartmentTo();
+		hrDepartmentTo.setName("HR");
 
 		// Finance
-		financeEntity = new SdmDepartmentEntity();
-		financeEntity.setId(3L);
-		financeEntity.setName("Finance");
+		financeDepartmentEntity = new SdmDepartmentEntity();
+		financeDepartmentEntity.setId(3L);
+		financeDepartmentEntity.setName("Finance");
 
-		financeDto = new SdmDepartmentTo();
-		financeDto.setName("Finance");
+		financeDepartmentTo = new SdmDepartmentTo();
+		financeDepartmentTo.setName("Finance");
 	}
 
 	@Test
 	void findAllDepartments_ReturnsMultipleDepartments() {
-		List<SdmDepartmentEntity> entities = Arrays.asList(itEntity, hrEntity, financeEntity);
-		List<SdmDepartmentTo> dtos = Arrays.asList(itDto, hrDto, financeDto);
+		List<SdmDepartmentEntity> entities = Arrays.asList(itDepartmentEntity, hrDepartmentEntity, financeDepartmentEntity);
+		List<SdmDepartmentTo> dtos = Arrays.asList(itDepartmentTo, hrDepartmentTo, financeDepartmentTo);
 
 		when(departmentRepository.findAll()).thenReturn(entities);
 		when(departmentMapper.toToList(entities)).thenReturn(dtos);
 
-		List<SdmDepartmentTo> result = departmentService.findAllDepartments();
+		List<SdmDepartmentTo> result = cut.findAllDepartments();
 
-		assertThat(result).isNotNull().hasSize(3).extracting(SdmDepartmentTo::getName).containsExactlyInAnyOrder("IT",
-				"HR", "Finance");
+		assertThat(result).isNotNull();
+		assertThat(result).hasSize(3);
+		assertThat(result).extracting(SdmDepartmentTo::getName).containsExactlyInAnyOrder("IT", "HR", "Finance");
 
 		verify(departmentRepository).findAll();
 		verify(departmentMapper).toToList(entities);
@@ -86,25 +87,25 @@ class SdmDepartmentServiceImplTest {
 
 	@Test
 	void saveDepartment_ReturnsSavedDto() {
-		when(departmentMapper.toEntity(itDto)).thenReturn(itEntity);
-		when(departmentRepository.save(itEntity)).thenReturn(itEntity);
-		when(departmentMapper.toTo(itEntity)).thenReturn(itDto);
+		when(departmentMapper.toEntity(itDepartmentTo)).thenReturn(itDepartmentEntity);
+		when(departmentRepository.save(itDepartmentEntity)).thenReturn(itDepartmentEntity);
+		when(departmentMapper.toTo(itDepartmentEntity)).thenReturn(itDepartmentTo);
 
-		SdmDepartmentTo result = departmentService.saveDepartment(itDto);
+		SdmDepartmentTo result = cut.saveDepartment(itDepartmentTo);
 
 		assertThat(result).isNotNull();
 		assertThat(result.getName()).isEqualTo("IT");
 
-		verify(departmentMapper).toEntity(itDto);
-		verify(departmentRepository).save(itEntity);
-		verify(departmentMapper).toTo(itEntity);
+		verify(departmentMapper).toEntity(itDepartmentTo);
+		verify(departmentRepository).save(itDepartmentEntity);
+		verify(departmentMapper).toTo(itDepartmentEntity);
 	}
 
 	@Test
 	void departmentExists_ReturnsTrue() {
 		when(departmentRepository.existsByNameIgnoreCase("HR")).thenReturn(true);
 
-		boolean exists = departmentService.departmentExists("HR");
+		boolean exists = cut.departmentExists("HR");
 
 		assertThat(exists).isTrue();
 
@@ -115,7 +116,7 @@ class SdmDepartmentServiceImplTest {
 	void departmentExists_ReturnsFalse() {
 		when(departmentRepository.existsByNameIgnoreCase("NonExistingDept")).thenReturn(false);
 
-		boolean exists = departmentService.departmentExists("NonExistingDept");
+		boolean exists = cut.departmentExists("NonExistingDept");
 
 		assertThat(exists).isFalse();
 
@@ -135,7 +136,7 @@ class SdmDepartmentServiceImplTest {
 		when(departmentRepository.save(savedEntity)).thenReturn(savedEntity);
 		when(departmentMapper.toTo(savedEntity)).thenReturn(nullNameDto);
 
-		SdmDepartmentTo result = departmentService.saveDepartment(nullNameDto);
+		SdmDepartmentTo result = cut.saveDepartment(nullNameDto);
 
 		assertThat(result).isNotNull();
 		assertThat(result.getName()).isNull();

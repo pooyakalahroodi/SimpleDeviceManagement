@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmErrorResponse;
-import com.progiton.trainee.simple.devicemanagement.mapper.SdmUserMapper;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmUserTo;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmUserEntity;
@@ -37,11 +36,9 @@ public class SdmUserController {
 	private static final Logger log = LoggerFactory.getLogger(SdmUserController.class);
 
 	private final SdmUserService sdmUserService;
-	private final SdmUserMapper sdmUserMapper;
 
-	public SdmUserController(SdmUserService sdmUserService, SdmUserMapper sdmUserMapper) {
+	public SdmUserController(SdmUserService sdmUserService) {
 		this.sdmUserService = sdmUserService;
-		this.sdmUserMapper = sdmUserMapper;
 
 	}
 
@@ -106,7 +103,6 @@ public class SdmUserController {
 	public ResponseEntity<SdmUserTo> assignDepartment(@RequestParam String username,
 			@RequestParam String departmentName) {
 
-		SdmUserTo user = sdmUserService.findUserByUsername(username);
 		SdmUserTo updatedUser = sdmUserService.assignDepartmentToUser(username, departmentName);
 		return ResponseEntity.ok(updatedUser);
 	}
