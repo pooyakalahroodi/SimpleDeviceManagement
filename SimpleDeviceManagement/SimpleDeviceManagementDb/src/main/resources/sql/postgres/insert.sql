@@ -20,7 +20,7 @@ VALUES
 
 -- Insert handover protocols
 INSERT INTO handover_protocols (
-  device_id, user_id, department_id, comment, confirmed, confirmed_at, created_at, updated_at
+  device_id, user_id, department_id, description, confirmed, confirmed_at, created_at, updated_at
 )
 VALUES
   (1, 1, 1, 'Initial handover of Laptop X to John Doe.', TRUE, NOW(), NOW(), NOW()),

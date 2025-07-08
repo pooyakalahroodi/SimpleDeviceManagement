@@ -44,7 +44,7 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
 	private Instant handoverDate;
 
 	@Column(length = 500)
-	private String comments;
+	private String description;
 
 	@Column(name = "is_confirmed")
 	private boolean isConfirmed = false;
@@ -64,7 +64,7 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
 		this.performedBy = performedBy;
 		this.handoverDate = handoverDate;
 		this.actionType = actionType;
-		this.comments = comments;
+		this.description = comments;
 		this.isConfirmed = isConfirmed;
 		this.confirmedAt = confirmedAt;
 	}
@@ -138,11 +138,11 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
 
 	@Override
 	public String getComments() {
-		return comments;
+		return description;
 	}
 
 	public void setComments(String comments) {
-		this.comments = comments;
+		this.description = comments;
 	}
 
 	@Override
