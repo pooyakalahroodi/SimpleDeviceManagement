@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmHandOverProtocolEntity;
 
@@ -14,8 +14,8 @@ import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmHandOver
 public interface SdmHandOverProtocolMapper {
 
 	@Named("mapActionType")
-	default SdmDeviceStatus mapStatus(String actionType) {
-		return actionType != null ? SdmDeviceStatus.valueOf(actionType) : null;
+	default SdmActionType mapStatus(String actionType) {
+		return actionType != null ? SdmActionType.valueOf(actionType) : null;
 	}
 
 	// === ENTITY → TO ===

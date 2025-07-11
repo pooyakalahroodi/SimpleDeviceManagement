@@ -53,7 +53,7 @@ public class SdmUserController {
 	public ResponseEntity<SdmUserTo> createUser(@RequestBody SdmUserTo sdmUserTo) {
 		log.debug("Creating new user: {}", sdmUserTo);
 
-		SdmUserTo savedUser = sdmUserService.saveUser(sdmUserTo);
+		SdmUserTo savedUser = sdmUserService.createUser(sdmUserTo);
 		log.debug("Saved user: {}", savedUser);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
@@ -89,7 +89,7 @@ public class SdmUserController {
 	@PutMapping("/{username}/devices/{serialNumber}/assign")
 	@ResponseStatus(HttpStatus.OK)
 	public SdmDeviceTo assignDeviceToUser(@PathVariable String username, @PathVariable String serialNumber) {
-		return sdmUserService.assignDeviceToUser(username, serialNumber);
+		return sdmUserService.assignDeviceToUser(serialNumber, username);
 	}
 
 //	@GetMapping("/name/{name}")

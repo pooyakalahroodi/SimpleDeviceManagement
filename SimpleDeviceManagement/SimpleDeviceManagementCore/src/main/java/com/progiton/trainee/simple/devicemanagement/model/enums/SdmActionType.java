@@ -10,9 +10,4 @@ public enum SdmActionType {
 	 * Rückgabe von Gerät durch User
 	 */
 	RETURN
-
-	/**
-	 *
-	 */
-
 }

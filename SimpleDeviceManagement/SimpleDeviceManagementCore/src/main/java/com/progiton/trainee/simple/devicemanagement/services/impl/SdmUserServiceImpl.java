@@ -2,6 +2,7 @@ package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityAlreadyExistsException;
@@ -20,6 +21,7 @@ import com.progiton.trainee.simple.devicemanagement.services.SdmUserService;
 
 @Service
 public class SdmUserServiceImpl implements SdmUserService {
+	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SdmUserServiceImpl.class);
 
 	private final SdmUserRepository sdmUserRepository;
 	private final SdmDepartmentRepository sdmDepartmentRepository;
@@ -52,11 +54,13 @@ public class SdmUserServiceImpl implements SdmUserService {
 
 	@Override
 	public SdmUserTo createUser(SdmUserTo request) {
+		System.out.println("Checking username: " + request.getUsername());
 		// Check if user already exists
 		if (sdmUserRepository.existsByUsername(request.getUsername())) {
 			throw new SdmEntityAlreadyExistsException(
 					"User with username " + request.getUsername() + " already exists");
 		}
+		System.out.println("Checking username: " + request.getUsername());
 
 		// Create new user
 		SdmUserEntity user = new SdmUserEntity();
@@ -74,11 +78,16 @@ public class SdmUserServiceImpl implements SdmUserService {
 			user.setDepartment(department);
 		}
 
-		// Save entity
-		SdmUserEntity savedUser = sdmUserRepository.save(user);
-
-		// Convert to DTO using your mapper
-		return usermapper.toTo(savedUser);
+		try {
+			// Save entity
+			SdmUserEntity savedUser = sdmUserRepository.save(user);
+			// Convert to DTO
+			return usermapper.toTo(savedUser);
+		} catch (DataIntegrityViolationException ex) {
+			// This catches race conditions or any other unique constraint violations
+			throw new SdmEntityAlreadyExistsException("User with username " + request.getUsername() + " already exists",
+					ex);
+		}
 	}
 
 	@Override

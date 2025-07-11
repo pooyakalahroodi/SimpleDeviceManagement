@@ -42,19 +42,7 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 
 	@Override
 	public SdmHandOverProtocolTo saveHandOverProtocol(SdmHandOverProtocolTo request) {
-		// Validate required fields
-		if (request.getDeviceSerialNumber() == null || request.getDeviceSerialNumber().trim().isEmpty()) {
-			throw new IllegalArgumentException("Device serial number is required");
-		}
-		if (request.getReceiverUsername() == null || request.getReceiverUsername().trim().isEmpty()) {
-			throw new IllegalArgumentException("Receiver username is required");
-		}
-		if (request.getPerformedByUsername() == null || request.getPerformedByUsername().trim().isEmpty()) {
-			throw new IllegalArgumentException("Performed by username is required");
-		}
-		if (request.getActionType() == null) {
-			throw new IllegalArgumentException("Action type is required");
-		}
+
 		// Check for existing non-confirmed protocols
 		boolean hasNonConfirmed = sdmHandOverProtocolRepository
 				.existsByDevice_SerialNumberAndIsConfirmedFalse(request.getDeviceSerialNumber());
