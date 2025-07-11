@@ -45,9 +45,9 @@ CREATE TABLE handover_protocols (
    department_id NUMBER NOT NULL,
    description VARCHAR2(500),
    is_confirmed NUMBER(1) DEFAULT 0,
-   confirmed_at TIMESTAMP,
-   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   updated_at TIMESTAMP,
+   confirmed_at TIMESTAMP WITH TIME ZONE,
+   created_at TIMESTAMP WITH TIME ZONE,
+   updated_at TIMESTAMP WITH TIME ZONE,
    -- you may want this column if you have enum string representation:
    action_type VARCHAR2(50)
 );

@@ -179,8 +179,21 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 		// 4) Confirm it
 		protocolToConfirm.setIsConfirmed(true);
 		protocolToConfirm.setConfirmedAt(Instant.now());
+		// 5) Update device ownership based on action type
+		SdmActionType actionType = protocolToConfirm.getSdmActionType();
+		SdmDeviceEntity device = protocolToConfirm.getDevice();
 
-		// 5) Save and return
+		if (actionType == SdmActionType.HANDOVER) {
+			device.setUser(protocolToConfirm.getReceiver());
+		} else if (actionType == SdmActionType.RETURN) {
+			device.setUser(null);
+		}
+
+		// 6) Save both entities
+		sdmHandOverProtocolRepository.save(protocolToConfirm);
+		sdmDeviceRepository.save(device);
+
+		// 7) Save and return
 		SdmHandOverProtocolEntity saved = sdmHandOverProtocolRepository.save(protocolToConfirm);
 		return mapper.toTo(saved);
 	}
