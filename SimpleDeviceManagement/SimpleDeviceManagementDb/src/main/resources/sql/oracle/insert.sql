@@ -38,6 +38,7 @@ VALUES
     DATE '2023-01-15',
     1
   );
+  
 
 INSERT INTO devices (
   created_at, updated_at, name, type, status, serial_number,
@@ -89,3 +90,5 @@ VALUES
     SYSTIMESTAMP,
     SYSTIMESTAMP
   );
+
+    commit;

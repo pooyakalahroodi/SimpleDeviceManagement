@@ -35,7 +35,7 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser<SdmDev
 
 	@ManyToOne
 	@JoinColumn(name = "department_id")
-	private SdmDepartmentEntity sdmDepartment;
+	private SdmDepartmentEntity department;
 
 	// Constructors
 	public SdmUserEntity() {
@@ -84,11 +84,11 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser<SdmDev
 
 	@Override
 	public SdmDepartmentEntity getDepartment() {
-		return sdmDepartment;
+		return department;
 	}
 
 	public void setDepartment(SdmDepartmentEntity sdmDepartmentEntity) {
-		this.sdmDepartment = sdmDepartmentEntity;
+		this.department = sdmDepartmentEntity;
 	}
 
 	@Override
