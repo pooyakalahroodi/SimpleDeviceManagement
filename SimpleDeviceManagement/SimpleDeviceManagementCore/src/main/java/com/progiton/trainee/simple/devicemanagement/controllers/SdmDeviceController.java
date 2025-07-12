@@ -3,6 +3,7 @@ package com.progiton.trainee.simple.devicemanagement.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,9 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.progiton.trainee.simple.devicemanagement.exceptions.SdmErrorResponse;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+@Validated
 @RestController
 @RequestMapping("/api/devices")
 public class SdmDeviceController {
@@ -30,18 +41,19 @@ public class SdmDeviceController {
 	}
 
 	@GetMapping
+	@Operation(summary = "Liefert alle Geräte", description = "Ruft die Liste aller gespeicherten Geräte ab.", operationId = "getAllDevices", responses = {
+			@ApiResponse(responseCode = "200", description = "Liste erfolgreich abgerufen", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmDeviceTo.class))) })
 	public List<SdmDeviceTo> getAllDevices() {
 		return sdmDeviceService.findAllDevices();
 	}
 
 	@PostMapping
-	public ResponseEntity<SdmDeviceTo> saveDevice(@RequestBody SdmDeviceTo device) {
-		System.out.println("💬 Incoming DTO: " + device); // 🔍 log raw DTO
-
+	@Operation(summary = "Speichert ein neues Gerät", description = "Speichert ein Gerät basierend auf den übergebenen Daten.", operationId = "saveDevice", responses = {
+			@ApiResponse(responseCode = "200", description = "Gerät erfolgreich gespeichert", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmDeviceTo.class))),
+			@ApiResponse(responseCode = "400", description = "Ungültige Gerätedaten", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))) })
+	public ResponseEntity<SdmDeviceTo> saveDevice(@Valid @RequestBody SdmDeviceTo device) {
 		SdmDeviceTo saved = sdmDeviceService.saveDevice(device);
-		System.out.println("💾 Saved Device: " + saved); // ✅ check saved object
-
-		return ResponseEntity.ok(device);
+		return ResponseEntity.ok(saved);
 	}
 
 	// Assigning Device to User
@@ -54,7 +66,12 @@ public class SdmDeviceController {
 //	}
 
 	@PutMapping("/update-status")
-	public ResponseEntity<SdmDeviceTo> updateDeviceStatus(@RequestParam String serialNumber, String newStatus) {
+	@Operation(summary = "Aktualisiert den Status eines Geräts", description = "Ändert den Status eines Geräts anhand der Seriennummer.", operationId = "updateDeviceStatus", responses = {
+			@ApiResponse(responseCode = "200", description = "Status erfolgreich aktualisiert", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmDeviceTo.class))),
+			@ApiResponse(responseCode = "400", description = "Ungültige Parameter", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))),
+			@ApiResponse(responseCode = "404", description = "Gerät nicht gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))) })
+	public ResponseEntity<SdmDeviceTo> updateDeviceStatus(@RequestParam @NotBlank @Size(max = 50) String serialNumber,
+			@RequestParam @NotBlank @Size(max = 50) String newStatus) {
 		SdmDeviceTo updated = sdmDeviceService.updateDeviceStatus(serialNumber, newStatus);
 		return ResponseEntity.ok(updated);
 	}

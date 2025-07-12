@@ -4,15 +4,37 @@ import java.time.Instant;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class SdmHandOverProtocolTo implements SdmHandOverProtocol {
 
+	@NotBlank
+	@Size(max = 50)
 	private String deviceSerialNumber;
+
+	@NotBlank
+	@Size(max = 50)
 	private String receiverUsername;
+
+	@NotBlank
+	@Size(max = 50)
 	private String performedByUsername;
+
+	@NotBlank
+	@Size(max = 50)
 	private String actionType;
+
+	@NotNull
 	private Instant handoverDate;
+
+	@Size(max = 500)
 	private String comments;
+
+	@NotNull
 	private Boolean isConfirmed;
+
 	private Instant confirmedAt;
 
 	// Constructors

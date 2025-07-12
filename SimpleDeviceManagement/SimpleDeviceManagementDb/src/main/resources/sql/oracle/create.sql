@@ -14,7 +14,6 @@ CREATE TABLE users (
     username VARCHAR2(50) NOT NULL UNIQUE,
     name VARCHAR2(100),
     surname VARCHAR2(100),
-    familyname VARCHAR2(100),
     enabled NUMBER(1),
     department_id INTEGER,
     CONSTRAINT fk_users_department FOREIGN KEY (department_id) REFERENCES departments(id)

@@ -1,103 +1,120 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
 import java.time.LocalDate;
+
 import com.progiton.trainee.simple.devicemanagement.model.SdmDevice;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class SdmDeviceTo implements SdmDevice {
 
-    private String name; 
-    private String type;
-    private String status;
-    private String serialNumber;
-    private String manufacturer;
-    private String location;
-    private LocalDate purchaseDate;
-    
- // Constructors
-    public SdmDeviceTo() {
-    	super();
-    }
-    public SdmDeviceTo(String name,
-            String type,
-            String status,
-            String serialNumber,
-            String manufacturer,
-            String location,
-            LocalDate purchaseDate) {
-			this.name = name;
-			this.type = type;
-			this.status = status;
-			this.serialNumber = serialNumber;
-			this.manufacturer = manufacturer;
-			this.location = location;
-			this.purchaseDate = purchaseDate;
-			}
-    
-    
- // === Getters and Setters ===
+	@NotBlank
+	@Size(max = 100)
+	private String name;
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	@NotBlank
+	@Size(max = 50)
+	private String type;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@NotBlank
+	@Size(max = 50)
+	private String status;
 
-    @Override
-    public String getType() {
-        return type;
-    }
+	@NotBlank
+	@Size(max = 50)
+	private String serialNumber;
 
-    public void setType(String type) {
-        this.type = type;
-    }
-    
-    @Override
-    public String getSerialNumber() {
-        return serialNumber;
-    }
+	@NotBlank
+	@Size(max = 100)
+	private String manufacturer;
 
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
-    }
+	@NotBlank
+	@Size(max = 100)
+	private String location;
 
-    @Override
-    public String getManufacturer() {
-        return manufacturer;
-    }
+	@NotNull
+	private LocalDate purchaseDate;
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
+	// Constructors
+	public SdmDeviceTo() {
+		super();
+	}
 
-    @Override
-    public String getLocation() {
-        return location;
-    }
+	public SdmDeviceTo(String name, String type, String status, String serialNumber, String manufacturer,
+			String location, LocalDate purchaseDate) {
+		this.name = name;
+		this.type = type;
+		this.status = status;
+		this.serialNumber = serialNumber;
+		this.manufacturer = manufacturer;
+		this.location = location;
+		this.purchaseDate = purchaseDate;
+	}
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+	// === Getters and Setters ===
 
-    @Override
-    public LocalDate getPurchaseDate() {
-        return purchaseDate;
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    public void setPurchaseDate(LocalDate purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	@Override
+	public String getType() {
+		return type;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
+	@Override
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+	@Override
+	public String getManufacturer() {
+		return manufacturer;
+	}
+
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+
+	@Override
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	@Override
+	public LocalDate getPurchaseDate() {
+		return purchaseDate;
+	}
+
+	public void setPurchaseDate(LocalDate purchaseDate) {
+		this.purchaseDate = purchaseDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 }
