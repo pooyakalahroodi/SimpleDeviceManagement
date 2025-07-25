@@ -2,7 +2,10 @@ package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityAlreadyExistsException;
@@ -17,6 +20,7 @@ import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmD
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmHandOverProtocolRepository;
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmUserRepository;
 import com.progiton.trainee.simple.devicemanagement.services.SdmHandOverProtocolService;
+import org.springframework.validation.annotation.Validated;
 
 @Service
 public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolService {
@@ -43,6 +47,9 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 	@Override
 	public SdmHandOverProtocolTo saveHandOverProtocol(SdmHandOverProtocolTo request) {
 
+		Objects.requireNonNull(request, "Required Paarmeter 'request' is null!");
+		Objects.requireNonNull(request.getActionType(), "Required Paarmeter 'request.getActionType' is null!");
+
 		// Check for existing non-confirmed protocols
 		boolean hasNonConfirmed = sdmHandOverProtocolRepository
 				.existsByDevice_SerialNumberAndIsConfirmedFalse(request.getDeviceSerialNumber());
@@ -53,26 +60,31 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 		}
 
 		// Lookup device and users
-		SdmDeviceEntity device = sdmDeviceRepository.findBySerialNumber(request.getDeviceSerialNumber())
-				.orElseThrow(() -> new SdmEntityAlreadyExistsException(
-						"Device not found with name: " + request.getDeviceSerialNumber()));
+		Optional<SdmDeviceEntity> device = Optional.ofNullable(
+				sdmDeviceRepository.findBySerialNumber(request.getDeviceSerialNumber()).orElseThrow(
+						() -> new SdmEntityNotFoundException(
+								"Device not found with name: " + request.getDeviceSerialNumber())));
 
-		SdmUserEntity receiver = sdmUserRepository.findByUsernameIgnoreCase(request.getReceiverUsername()).orElseThrow(
-				() -> new SdmEntityNotFoundException("Receiver user not found: " + request.getReceiverUsername()));
-		SdmUserEntity performer = sdmUserRepository.findByUsernameIgnoreCase(request.getPerformedByUsername())
-				.orElseThrow(() -> new SdmEntityNotFoundException(
-						"PerformedBy user not found: " + request.getPerformedByUsername()));
+		Optional<SdmUserEntity> receiver = Optional.ofNullable(
+				sdmUserRepository.findByUsernameIgnoreCase(request.getReceiverUsername()).orElseThrow(
+						() -> new SdmEntityNotFoundException(
+								"Receiver user not found: " + request.getReceiverUsername())));
+		Optional<SdmUserEntity> performer = Optional.ofNullable(
+				sdmUserRepository.findByUsernameIgnoreCase(request.getPerformedByUsername()).orElseThrow(
+						() -> new SdmEntityNotFoundException(
+								"PerformedBy user not found: " + request.getPerformedByUsername())));
+
 
 		// Create and populate the entity
 		SdmHandOverProtocolEntity entity = new SdmHandOverProtocolEntity();
-		entity.setDevice(device);
-		entity.setReceiver(receiver);
-		entity.setPerformedBy(performer);
+		entity.setDevice(device.orElseThrow());
+		entity.setReceiver(receiver.orElseThrow());
+		entity.setPerformedBy(performer.orElseThrow());
 		entity.setHandoverDate(request.getHandoverDate() != null ? request.getHandoverDate() : Instant.now());
 		entity.setComments(request.getComments());
 		entity.setIsConfirmed(request.getIsConfirmed());
 		entity.setConfirmedAt(request.getConfirmedAt());
-		entity.setActionType(SdmActionType.valueOf(request.getActionType())); // Set the required action type
+		entity.setActionType(request.getActionType()); // Set the required action type
 
 		// Save to database
 		return mapper.toTo(sdmHandOverProtocolRepository.save(entity));

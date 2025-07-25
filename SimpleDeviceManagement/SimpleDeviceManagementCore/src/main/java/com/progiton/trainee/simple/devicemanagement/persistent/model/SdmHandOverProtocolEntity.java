@@ -164,8 +164,8 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
 	}
 
 	@Override
-	public String getActionType() {
-		return actionType != null ? actionType.name() : null;
+	public SdmActionType getActionType() {
+		return actionType;
 	}
 
 }

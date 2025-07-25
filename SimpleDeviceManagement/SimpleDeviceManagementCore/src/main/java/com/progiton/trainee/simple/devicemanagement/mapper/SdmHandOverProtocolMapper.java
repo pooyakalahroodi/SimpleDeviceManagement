@@ -13,16 +13,16 @@ import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmHandOver
 @Mapper(componentModel = "spring")
 public interface SdmHandOverProtocolMapper {
 
-	@Named("mapActionType")
-	default SdmActionType mapStatus(String actionType) {
-		return actionType != null ? SdmActionType.valueOf(actionType) : null;
-	}
+//	@Named("mapActionType")
+//	default SdmActionType mapStatus(String actionType) {
+//		return actionType != null ? SdmActionType.valueOf(actionType) : null;
+//	}
 
 	// === ENTITY → TO ===
 	@Mapping(source = "device.serialNumber", target = "deviceSerialNumber")
 	@Mapping(source = "receiver.username", target = "receiverUsername")
 	@Mapping(source = "performedBy.username", target = "performedByUsername")
-	@Mapping(target = "actionType", source = "actionType", qualifiedByName = "mapActionType")
+//	@Mapping(target = "actionType", source = "actionType", qualifiedByName = "mapActionType")
 	SdmHandOverProtocolTo toTo(SdmHandOverProtocolEntity entity);
 
 	// === TO → ENTITY ===
@@ -32,8 +32,8 @@ public interface SdmHandOverProtocolMapper {
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "createdAt", ignore = true)
 	@Mapping(target = "updatedAt", ignore = true)
-	@Mapping(source = "actionType", target = "actionType")
-	SdmHandOverProtocolEntity toEntity(SdmHandOverProtocolTo dto);
+//	@Mapping(source = "actionType", target = "actionType")
+	SdmHandOverProtocolEntity toEntity(SdmHandOverProtocolTo to);
 
 	// === LIST MAPPINGS ===
 	List<SdmHandOverProtocolTo> toToList(List<SdmHandOverProtocolEntity> entities);

@@ -63,7 +63,7 @@ class SdmHandOverProtocolServiceImplTest {
 		requestTo.setDeviceSerialNumber("SN123");
 		requestTo.setReceiverUsername("receiver");
 		requestTo.setPerformedByUsername("performer");
-		requestTo.setActionType(SdmActionType.HANDOVER.name());
+		requestTo.setActionType(SdmActionType.HANDOVER);
 		requestTo.setIsConfirmed(true);
 		requestTo.setHandoverDate(Instant.now());
 
@@ -139,11 +139,15 @@ class SdmHandOverProtocolServiceImplTest {
 
 	@Test
 	void saveHandOverProtocol_ThrowsWhenActionTypeMissing() {
+
+//		when(deviceRepository.findBySerialNumber(requestTo.getDeviceSerialNumber())).thenReturn(Optional.of(deviceEntity));
+//		when(userRepository.findByUsernameIgnoreCase(requestTo.getReceiverUsername())).thenReturn(Optional.of(receiverUser));
+//		when(userRepository.findByUsernameIgnoreCase(requestTo.getPerformedByUsername())).thenReturn(Optional.of(performerUser));
 		requestTo.setActionType(null);
 
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+		NullPointerException ex = assertThrows(NullPointerException.class,
 				() -> service.saveHandOverProtocol(requestTo));
-		assertThat(ex.getMessage()).contains("Action type");
+		assertThat(ex.getMessage()).contains("ActionType");
 	}
 
 	@Test

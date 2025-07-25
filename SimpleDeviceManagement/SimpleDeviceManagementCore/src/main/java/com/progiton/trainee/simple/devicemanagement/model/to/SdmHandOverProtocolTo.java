@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
 
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,9 +23,8 @@ public class SdmHandOverProtocolTo implements SdmHandOverProtocol {
 	@Size(max = 50)
 	private String performedByUsername;
 
-	@NotBlank
-	@Size(max = 50)
-	private String actionType;
+	@NotNull
+	private SdmActionType actionType;
 
 	@NotNull
 	private Instant handoverDate;
@@ -44,7 +44,7 @@ public class SdmHandOverProtocolTo implements SdmHandOverProtocol {
 	}
 
 	public SdmHandOverProtocolTo(String deviceSerialNumber, String receiverUsername, String performedByUsername,
-			String actionType, Instant handoverDate, String comments, Boolean isConfirmed, Instant confirmedAt) {
+			SdmActionType actionType, Instant handoverDate, String comments, Boolean isConfirmed, Instant confirmedAt) {
 
 		this.deviceSerialNumber = deviceSerialNumber;
 		this.receiverUsername = receiverUsername;
@@ -84,11 +84,11 @@ public class SdmHandOverProtocolTo implements SdmHandOverProtocol {
 	}
 
 	@Override
-	public String getActionType() {
+	public SdmActionType getActionType() {
 		return this.actionType;
 	}
 
-	public void setActionType(String sdmActionType) {
+	public void setActionType(SdmActionType sdmActionType) {
 		this.actionType = sdmActionType;
 	}
 
