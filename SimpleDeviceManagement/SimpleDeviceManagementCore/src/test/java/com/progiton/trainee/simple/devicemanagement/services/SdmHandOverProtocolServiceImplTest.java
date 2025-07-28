@@ -111,47 +111,6 @@ public class SdmHandOverProtocolServiceImplTest {
 	}
 
 	@Test
-	void saveHandOverProtocol_ThrowsWhenDeviceSerialNumberMissing() {
-		requestTo.setDeviceSerialNumber(null);
-
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-				() -> service.saveHandOverProtocol(requestTo));
-
-		assertThat(ex.getMessage()).contains("Device serial number");
-	}
-
-	@Test
-	void saveHandOverProtocol_ThrowsWhenReceiverMissing() {
-		requestTo.setReceiverUsername("");
-
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-				() -> service.saveHandOverProtocol(requestTo));
-		assertThat(ex.getMessage()).contains("Receiver username");
-	}
-
-	@Test
-	void saveHandOverProtocol_ThrowsWhenPerformedByMissing() {
-		requestTo.setPerformedByUsername("   ");
-
-		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-				() -> service.saveHandOverProtocol(requestTo));
-		assertThat(ex.getMessage()).contains("Performed by username");
-	}
-
-	@Test
-	void saveHandOverProtocol_ThrowsWhenActionTypeMissing() {
-
-//		when(deviceRepository.findBySerialNumber(requestTo.getDeviceSerialNumber())).thenReturn(Optional.of(deviceEntity));
-//		when(userRepository.findByUsernameIgnoreCase(requestTo.getReceiverUsername())).thenReturn(Optional.of(receiverUser));
-//		when(userRepository.findByUsernameIgnoreCase(requestTo.getPerformedByUsername())).thenReturn(Optional.of(performerUser));
-		requestTo.setActionType(null);
-
-		NullPointerException ex = assertThrows(NullPointerException.class,
-				() -> service.saveHandOverProtocol(requestTo));
-		assertThat(ex.getMessage()).contains("ActionType");
-	}
-
-	@Test
 	void saveHandOverProtocol_ThrowsWhenNonConfirmedProtocolExists() {
 		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(true);
 

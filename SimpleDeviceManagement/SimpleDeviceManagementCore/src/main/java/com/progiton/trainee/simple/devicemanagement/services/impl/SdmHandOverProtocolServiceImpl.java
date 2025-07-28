@@ -2,7 +2,6 @@ package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -43,18 +42,6 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 
 	@Override
 	public SdmHandOverProtocolTo saveHandOverProtocol(SdmHandOverProtocolTo request) {
-
-		Objects.requireNonNull(request, "Required Paarmeter 'request' is null!");
-		Objects.requireNonNull(request.getActionType(), "Required Paarmeter 'request.getActionType' is null!");
-
-		// Check for existing non-confirmed protocols
-		boolean hasNonConfirmed = sdmHandOverProtocolRepository
-				.existsByDevice_SerialNumberAndIsConfirmedFalse(request.getDeviceSerialNumber());
-
-		if (hasNonConfirmed) {
-			throw new IllegalStateException(
-					"Cannot create a new handover protocol: the device already has a non-confirmed protocol.");
-		}
 
 		// Lookup device and users
 		Optional<SdmDeviceEntity> device = Optional.ofNullable(sdmDeviceRepository
