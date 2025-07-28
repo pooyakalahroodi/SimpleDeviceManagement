@@ -128,8 +128,8 @@ public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
 	}
 
 	@Override
-	public String getStatus() {
-		return status != null ? status.name() : null;
+	public SdmDeviceStatus getStatus() {
+		return status != null ? status : null;
 	}
 
 	public void setStatus(SdmDeviceStatus status) {

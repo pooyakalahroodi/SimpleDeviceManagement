@@ -52,7 +52,7 @@ class SdmDeviceServiceImplTest {
 		deviceTo = new SdmDeviceTo();
 		deviceTo.setSerialNumber("SN123");
 		deviceTo.setName("Laptop");
-		deviceTo.setStatus(SdmDeviceStatus.ACTIVE.name());
+		deviceTo.setStatus(SdmDeviceStatus.ACTIVE);
 	}
 
 	@Test
@@ -66,7 +66,7 @@ class SdmDeviceServiceImplTest {
 		SdmDeviceTo secondTo = new SdmDeviceTo();
 		secondTo.setName("Tablet");
 		secondTo.setSerialNumber("SN999");
-		secondTo.setStatus(SdmDeviceStatus.INACTIVE.name());
+		secondTo.setStatus(SdmDeviceStatus.INACTIVE);
 
 		// 👈 Important: Put BOTH entities into the list
 		List<SdmDeviceEntity> entities = Arrays.asList(deviceEntity, secondDevice);

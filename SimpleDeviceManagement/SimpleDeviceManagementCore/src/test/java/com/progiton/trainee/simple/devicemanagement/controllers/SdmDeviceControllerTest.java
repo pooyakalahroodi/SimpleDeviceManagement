@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 
@@ -71,7 +72,7 @@ class SdmDeviceControllerTest {
 		SdmDeviceTo updated = new SdmDeviceTo();
 		updated.setSerialNumber("SN777");
 		updated.setType("Phone");
-		updated.setStatus("Active");
+		updated.setStatus(SdmDeviceStatus.INACTIVE);
 
 		when(sdmDeviceService.updateDeviceStatus("SN777", "Active")).thenReturn(updated);
 

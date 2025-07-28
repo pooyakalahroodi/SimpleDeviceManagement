@@ -33,7 +33,7 @@ import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmU
 import com.progiton.trainee.simple.devicemanagement.services.impl.SdmHandOverProtocolServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-class SdmHandOverProtocolServiceImplTest {
+public class SdmHandOverProtocolServiceImplTest {
 
 	@Mock
 	private SdmHandOverProtocolRepository protocolRepository;
@@ -116,6 +116,7 @@ class SdmHandOverProtocolServiceImplTest {
 
 		IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
 				() -> service.saveHandOverProtocol(requestTo));
+
 		assertThat(ex.getMessage()).contains("Device serial number");
 	}
 

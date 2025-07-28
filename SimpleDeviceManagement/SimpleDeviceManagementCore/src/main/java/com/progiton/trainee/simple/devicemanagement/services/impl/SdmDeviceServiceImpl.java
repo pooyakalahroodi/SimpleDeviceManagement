@@ -12,9 +12,7 @@ import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmDeviceEn
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmDeviceRepository;
 import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class SdmDeviceServiceImpl implements SdmDeviceService {
 
@@ -29,7 +27,6 @@ public class SdmDeviceServiceImpl implements SdmDeviceService {
 	@Override
 	public List<SdmDeviceTo> findAllDevices() {
 		List<SdmDeviceEntity> devices = sdmDeviceRepository.findAll();
-		log.info("Fetched {} devices from DB", devices.size());
 		return mapper.toToList(devices);
 	}
 
@@ -46,7 +43,6 @@ public class SdmDeviceServiceImpl implements SdmDeviceService {
 		SdmDeviceEntity entity = mapper.toEntity(deviceTo);
 		SdmDeviceEntity saved = sdmDeviceRepository.save(entity);
 
-		log.info("Saved device with id {}", saved.getId());
 		return mapper.toTo(saved);
 	}
 

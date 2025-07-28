@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
-import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityAlreadyExistsException;
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityNotFoundException;
 import com.progiton.trainee.simple.devicemanagement.mapper.SdmHandOverProtocolMapper;
 import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
@@ -20,7 +18,6 @@ import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmD
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmHandOverProtocolRepository;
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmUserRepository;
 import com.progiton.trainee.simple.devicemanagement.services.SdmHandOverProtocolService;
-import org.springframework.validation.annotation.Validated;
 
 @Service
 public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolService {
@@ -60,20 +57,18 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 		}
 
 		// Lookup device and users
-		Optional<SdmDeviceEntity> device = Optional.ofNullable(
-				sdmDeviceRepository.findBySerialNumber(request.getDeviceSerialNumber()).orElseThrow(
-						() -> new SdmEntityNotFoundException(
-								"Device not found with name: " + request.getDeviceSerialNumber())));
+		Optional<SdmDeviceEntity> device = Optional.ofNullable(sdmDeviceRepository
+				.findBySerialNumber(request.getDeviceSerialNumber()).orElseThrow(() -> new SdmEntityNotFoundException(
+						"Device not found with name: " + request.getDeviceSerialNumber())));
 
-		Optional<SdmUserEntity> receiver = Optional.ofNullable(
-				sdmUserRepository.findByUsernameIgnoreCase(request.getReceiverUsername()).orElseThrow(
-						() -> new SdmEntityNotFoundException(
+		Optional<SdmUserEntity> receiver = Optional
+				.ofNullable(sdmUserRepository.findByUsernameIgnoreCase(request.getReceiverUsername())
+						.orElseThrow(() -> new SdmEntityNotFoundException(
 								"Receiver user not found: " + request.getReceiverUsername())));
-		Optional<SdmUserEntity> performer = Optional.ofNullable(
-				sdmUserRepository.findByUsernameIgnoreCase(request.getPerformedByUsername()).orElseThrow(
-						() -> new SdmEntityNotFoundException(
+		Optional<SdmUserEntity> performer = Optional
+				.ofNullable(sdmUserRepository.findByUsernameIgnoreCase(request.getPerformedByUsername())
+						.orElseThrow(() -> new SdmEntityNotFoundException(
 								"PerformedBy user not found: " + request.getPerformedByUsername())));
-
 
 		// Create and populate the entity
 		SdmHandOverProtocolEntity entity = new SdmHandOverProtocolEntity();

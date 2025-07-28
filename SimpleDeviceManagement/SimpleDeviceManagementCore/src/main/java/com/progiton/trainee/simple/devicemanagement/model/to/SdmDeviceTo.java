@@ -3,6 +3,7 @@ package com.progiton.trainee.simple.devicemanagement.model.to;
 import java.time.LocalDate;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmDevice;
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,8 +20,7 @@ public class SdmDeviceTo implements SdmDevice {
 	private String type;
 
 	@NotBlank
-	@Size(max = 50)
-	private String status;
+	private SdmDeviceStatus status;
 
 	@NotBlank
 	@Size(max = 50)
@@ -42,7 +42,7 @@ public class SdmDeviceTo implements SdmDevice {
 		super();
 	}
 
-	public SdmDeviceTo(String name, String type, String status, String serialNumber, String manufacturer,
+	public SdmDeviceTo(String name, String type, SdmDeviceStatus status, String serialNumber, String manufacturer,
 			String location, LocalDate purchaseDate) {
 		this.name = name;
 		this.type = type;
@@ -109,11 +109,11 @@ public class SdmDeviceTo implements SdmDevice {
 		this.purchaseDate = purchaseDate;
 	}
 
-	public String getStatus() {
+	public SdmDeviceStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(SdmDeviceStatus status) {
 		this.status = status;
 	}
 

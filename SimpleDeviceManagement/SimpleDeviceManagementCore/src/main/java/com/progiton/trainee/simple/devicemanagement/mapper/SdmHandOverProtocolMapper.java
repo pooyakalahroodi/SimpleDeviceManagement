@@ -2,21 +2,16 @@ package com.progiton.trainee.simple.devicemanagement.mapper;
 
 import java.util.List;
 
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
-import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
+import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmDeviceEntity;
 import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmHandOverProtocolEntity;
 
 @Mapper(componentModel = "spring")
 public interface SdmHandOverProtocolMapper {
-
-//	@Named("mapActionType")
-//	default SdmActionType mapStatus(String actionType) {
-//		return actionType != null ? SdmActionType.valueOf(actionType) : null;
-//	}
 
 	// === ENTITY → TO ===
 	@Mapping(source = "device.serialNumber", target = "deviceSerialNumber")
@@ -36,7 +31,9 @@ public interface SdmHandOverProtocolMapper {
 	SdmHandOverProtocolEntity toEntity(SdmHandOverProtocolTo to);
 
 	// === LIST MAPPINGS ===
+	@IterableMapping(elementTargetType = SdmHandOverProtocolTo.class)
 	List<SdmHandOverProtocolTo> toToList(List<SdmHandOverProtocolEntity> entities);
 
-	List<SdmHandOverProtocolEntity> toEntityList(List<SdmHandOverProtocolTo> dtos);
+	@IterableMapping(elementTargetType = SdmDeviceEntity.class)
+	List<SdmDeviceEntity> toEntityList(List<SdmHandOverProtocolTo> dtos);
 }
