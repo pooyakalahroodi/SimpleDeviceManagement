@@ -43,6 +43,15 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 	@Override
 	public SdmHandOverProtocolTo saveHandOverProtocol(SdmHandOverProtocolTo request) {
 
+		// Check for existing non-confirmed protocol
+		boolean hasUnconfirmed = sdmHandOverProtocolRepository
+				.existsByDevice_SerialNumberAndIsConfirmedFalse(request.getDeviceSerialNumber());
+
+		if (hasUnconfirmed) {
+			throw new IllegalStateException(
+					"Cannot create a new handover protocol: the device already has a non-confirmed protocol.");
+		}
+
 		// Lookup device and users
 		Optional<SdmDeviceEntity> device = Optional.ofNullable(sdmDeviceRepository
 				.findBySerialNumber(request.getDeviceSerialNumber()).orElseThrow(() -> new SdmEntityNotFoundException(

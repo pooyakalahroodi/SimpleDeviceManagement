@@ -19,7 +19,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityAlreadyExistsException;
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityNotFoundException;
 import com.progiton.trainee.simple.devicemanagement.mapper.SdmHandOverProtocolMapper;
 import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
@@ -124,7 +123,7 @@ public class SdmHandOverProtocolServiceImplTest {
 		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
 		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.empty());
 
-		assertThrows(SdmEntityAlreadyExistsException.class, () -> service.saveHandOverProtocol(requestTo));
+		assertThrows(SdmEntityNotFoundException.class, () -> service.saveHandOverProtocol(requestTo));
 	}
 
 	@Test
