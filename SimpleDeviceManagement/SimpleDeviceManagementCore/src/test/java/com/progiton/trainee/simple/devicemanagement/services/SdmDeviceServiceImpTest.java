@@ -140,7 +140,7 @@ class SdmDeviceServiceImplTest {
 		verify(deviceMapper).toTo(deviceEntity);
 
 		// additionally confirm status was updated
-		assertThat(deviceEntity.getStatus()).isEqualTo("INACTIVE");
+		assertThat(deviceEntity.getStatus()).isEqualTo(SdmDeviceStatus.INACTIVE);
 	}
 
 	@Test

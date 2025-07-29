@@ -81,6 +81,6 @@ class SdmDeviceControllerTest {
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
 		assertThat(response.getBody()).isNotNull();
 		assertThat(response.getBody().getSerialNumber()).isEqualTo("SN777");
-		assertThat(response.getBody().getStatus()).isEqualTo("Active");
+		assertThat(response.getBody().getStatus()).isEqualTo(SdmDeviceStatus.ACTIVE);
 	}
 }
