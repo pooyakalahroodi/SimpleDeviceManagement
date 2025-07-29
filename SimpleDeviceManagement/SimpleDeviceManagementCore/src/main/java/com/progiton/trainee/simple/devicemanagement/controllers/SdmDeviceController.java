@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmErrorResponse;
+import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 
@@ -71,8 +72,8 @@ public class SdmDeviceController {
 			@ApiResponse(responseCode = "400", description = "Ungültige Parameter", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Gerät nicht gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))) })
 	public ResponseEntity<SdmDeviceTo> updateDeviceStatus(@RequestParam @NotBlank @Size(max = 50) String serialNumber,
-			@RequestParam @NotBlank @Size(max = 50) String newStatus) {
-		SdmDeviceTo updated = sdmDeviceService.updateDeviceStatus(serialNumber, newStatus);
+			@RequestParam @NotBlank SdmDeviceStatus status) {
+		SdmDeviceTo updated = sdmDeviceService.updateDeviceStatus(serialNumber, status);
 		return ResponseEntity.ok(updated);
 	}
 }

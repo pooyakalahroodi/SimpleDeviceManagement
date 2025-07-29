@@ -130,7 +130,7 @@ class SdmDeviceServiceImplTest {
 		when(deviceRepository.save(deviceEntity)).thenReturn(deviceEntity);
 		when(deviceMapper.toTo(deviceEntity)).thenReturn(deviceTo);
 
-		SdmDeviceTo result = deviceService.updateDeviceStatus("SN123", SdmDeviceStatus.INACTIVE.name());
+		SdmDeviceTo result = deviceService.updateDeviceStatus("SN123", SdmDeviceStatus.INACTIVE);
 
 		assertThat(result).isNotNull();
 		assertThat(result.getSerialNumber()).isEqualTo("SN123");
@@ -148,7 +148,7 @@ class SdmDeviceServiceImplTest {
 		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.empty());
 
 		assertThrows(SdmEntityNotFoundException.class,
-				() -> deviceService.updateDeviceStatus("SN123", SdmDeviceStatus.INACTIVE.name()));
+				() -> deviceService.updateDeviceStatus("SN123", SdmDeviceStatus.INACTIVE));
 
 		verify(deviceRepository).findBySerialNumber("SN123");
 		verify(deviceRepository, never()).save(any());

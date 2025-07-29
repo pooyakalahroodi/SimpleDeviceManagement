@@ -2,6 +2,7 @@ package com.progiton.trainee.simple.devicemanagement.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -67,20 +68,32 @@ class SdmDeviceControllerTest {
 	}
 
 	@Test
-	@DisplayName("updateDeviceStatus returns updated device")
-	void testUpdateDeviceStatus() {
+	@DisplayName("updateDeviceStatus changes INACTIVE to ACTIVE")
+	void testUpdateDeviceStatusChange() {
+		// Simulate the original device
+		SdmDeviceTo original = new SdmDeviceTo();
+		original.setSerialNumber("SN777");
+		original.setType("Phone");
+		original.setStatus(SdmDeviceStatus.INACTIVE); // initial state
+
+		// Simulate updated result
 		SdmDeviceTo updated = new SdmDeviceTo();
 		updated.setSerialNumber("SN777");
 		updated.setType("Phone");
-		updated.setStatus(SdmDeviceStatus.INACTIVE);
+		updated.setStatus(SdmDeviceStatus.ACTIVE); // expected new state
 
-		when(sdmDeviceService.updateDeviceStatus("SN777", "Active")).thenReturn(updated);
+		// Mock service to simulate the update
+		when(sdmDeviceService.updateDeviceStatus("SN777", SdmDeviceStatus.ACTIVE)).thenReturn(updated);
 
-		ResponseEntity<SdmDeviceTo> response = controller.updateDeviceStatus("SN777", "Active");
+		// Act
+		ResponseEntity<SdmDeviceTo> response = controller.updateDeviceStatus("SN777", SdmDeviceStatus.ACTIVE);
+
+		// Assert
+		verify(sdmDeviceService).updateDeviceStatus("SN777", SdmDeviceStatus.ACTIVE);
 
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
 		assertThat(response.getBody()).isNotNull();
 		assertThat(response.getBody().getSerialNumber()).isEqualTo("SN777");
-		assertThat(response.getBody().getStatus()).isEqualTo("Active");
+		assertThat(response.getBody().getStatus()).isEqualTo(SdmDeviceStatus.ACTIVE);
 	}
 }

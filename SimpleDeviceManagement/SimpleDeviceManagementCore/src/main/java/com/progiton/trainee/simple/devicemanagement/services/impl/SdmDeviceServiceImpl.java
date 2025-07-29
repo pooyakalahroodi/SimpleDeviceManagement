@@ -12,7 +12,6 @@ import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmDeviceEn
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmDeviceRepository;
 import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 
-
 @Service
 public class SdmDeviceServiceImpl implements SdmDeviceService {
 
@@ -47,12 +46,12 @@ public class SdmDeviceServiceImpl implements SdmDeviceService {
 	}
 
 	@Override
-	public SdmDeviceTo updateDeviceStatus(String serialNumber, String newStatus) {
+	public SdmDeviceTo updateDeviceStatus(String serialNumber, SdmDeviceStatus newStatus) {
 		SdmDeviceEntity device = sdmDeviceRepository.findBySerialNumber(serialNumber)
 				.orElseThrow(() -> new SdmEntityNotFoundException("Device not found with serial: " + serialNumber));
 
 		try {
-			device.setStatus(SdmDeviceStatus.valueOf(newStatus));
+			device.setStatus(newStatus);
 		} catch (IllegalArgumentException ex) {
 			throw new IllegalArgumentException("Invalid device status: " + newStatus);
 		}
