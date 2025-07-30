@@ -62,7 +62,7 @@ class SdmUserControllerTest {
 		saved.setName("New");
 		saved.setSurname("User");
 
-		when(sdmUserService.saveUser(any(SdmUserTo.class))).thenReturn(saved);
+		when(sdmUserService.createUser(any(SdmUserTo.class))).thenReturn(saved);
 
 		ResponseEntity<SdmUserTo> response = controller.createUser(input);
 
