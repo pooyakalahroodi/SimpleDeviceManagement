@@ -47,7 +47,7 @@ class SdmUserServiceImplTest {
 	@Mock
 	private SdmUserMapper userMapper;
 
-	@Mock
+	@Mock 
 	private SdmDeviceMapper deviceMapper;
 
 	@InjectMocks
