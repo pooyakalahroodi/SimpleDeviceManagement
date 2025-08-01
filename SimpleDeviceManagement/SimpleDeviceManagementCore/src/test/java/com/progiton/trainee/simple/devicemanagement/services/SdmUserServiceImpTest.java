@@ -142,7 +142,7 @@ class SdmUserServiceImplTest {
 		when(deviceRepository.save(deviceEntity)).thenReturn(deviceEntity);
 		when(deviceMapper.toTo(deviceEntity)).thenReturn(deviceTo);
 
-		SdmDeviceTo result = userService.assignDeviceToUser("ABC123", "testuser");
+		SdmDeviceTo result = userService.assignDeviceToUser("testuser", "ABC123");
 
 		assertThat(result).isNotNull();
 		assertThat(result.getSerialNumber()).isEqualTo("ABC123");
@@ -156,7 +156,7 @@ class SdmUserServiceImplTest {
 	void assignDeviceToUser_DeviceNotFound_ThrowsException() {
 		when(deviceRepository.findBySerialNumber("ABC123")).thenReturn(Optional.empty());
 
-		assertThrows(SdmEntityNotFoundException.class, () -> userService.assignDeviceToUser("ABC123", "testuser"));
+		assertThrows(SdmEntityNotFoundException.class, () -> userService.assignDeviceToUser("testuser", "ABC123"));
 
 		verify(deviceRepository).findBySerialNumber("ABC123");
 		verify(userRepository, never()).findByUsernameIgnoreCase(anyString());
@@ -167,7 +167,7 @@ class SdmUserServiceImplTest {
 		when(deviceRepository.findBySerialNumber("ABC123")).thenReturn(Optional.of(deviceEntity));
 		when(userRepository.findByUsernameIgnoreCase("testuser")).thenReturn(Optional.empty());
 
-		assertThrows(SdmEntityNotFoundException.class, () -> userService.assignDeviceToUser("ABC123", "testuser"));
+		assertThrows(SdmEntityNotFoundException.class, () -> userService.assignDeviceToUser("testuser", "ABC123"));
 
 		verify(deviceRepository).findBySerialNumber("ABC123");
 		verify(userRepository).findByUsernameIgnoreCase("testuser");

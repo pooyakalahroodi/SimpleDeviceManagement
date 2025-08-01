@@ -23,7 +23,7 @@ public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String name;
+	private String name; 
 
 	@Column(nullable = false)
 	private String type;

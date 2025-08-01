@@ -2,6 +2,7 @@ package com.progiton.trainee.simple.devicemanagement.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import com.progiton.trainee.simple.devicemanagement.services.SdmUserService;
 class SdmUserControllerTest {
 
 	@Mock
-	private SdmUserService sdmUserService;
+	private SdmUserService service;
 
 	@InjectMocks
 	private SdmUserController controller;
@@ -40,7 +41,7 @@ class SdmUserControllerTest {
 		user.setName("Test");
 		user.setSurname("User");
 
-		when(sdmUserService.findAllUsers()).thenReturn(List.of(user));
+		when(service.findAllUsers()).thenReturn(List.of(user));
 
 		ResponseEntity<List<SdmUserTo>> response = controller.getAllUsers();
 
@@ -62,7 +63,7 @@ class SdmUserControllerTest {
 		saved.setName("New");
 		saved.setSurname("User");
 
-		when(sdmUserService.createUser(any(SdmUserTo.class))).thenReturn(saved);
+		when(service.createUser(any(SdmUserTo.class))).thenReturn(saved);
 
 		ResponseEntity<SdmUserTo> response = controller.createUser(input);
 
@@ -76,7 +77,7 @@ class SdmUserControllerTest {
 		SdmUserTo user = new SdmUserTo();
 		user.setUsername("deptuser");
 
-		when(sdmUserService.findUsersByDepartmentName("IT")).thenReturn(List.of(user));
+		when(service.findUsersByDepartmentName("IT")).thenReturn(List.of(user));
 
 		ResponseEntity<List<SdmUserTo>> response = controller.getUsersByDepartment("IT");
 
@@ -91,7 +92,7 @@ class SdmUserControllerTest {
 		SdmUserTo user = new SdmUserTo();
 		user.setUsername("johnsmith");
 
-		when(sdmUserService.findUserByUsername("johnsmith")).thenReturn(user);
+		when(service.findUserByUsername("johnsmith")).thenReturn(user);
 
 		ResponseEntity<SdmUserTo> response = controller.getUsersByUsername("johnsmith");
 
@@ -106,10 +107,12 @@ class SdmUserControllerTest {
 		device.setSerialNumber("SN1234");
 		device.setType("ModelX");
 
-		when(sdmUserService.assignDeviceToUser("johnsmith", "SN1234")).thenReturn(device);
+		when(service.assignDeviceToUser("johnsmith", "SN1234")).thenReturn(device);
 
 		SdmDeviceTo result = controller.assignDeviceToUser("johnsmith", "SN1234");
+		System.out.println("Result: " + result);
 
+		verify(service).assignDeviceToUser("johnsmith", "SN1234");
 		assertThat(result).isNotNull();
 		assertThat(result.getSerialNumber()).isEqualTo("SN1234");
 		assertThat(result.getType()).isEqualTo("ModelX");
@@ -125,7 +128,7 @@ class SdmUserControllerTest {
 		deptTo.setName("IT");
 		user.setDepartment(deptTo);
 
-		when(sdmUserService.assignDepartmentToUser("johnsmith", "IT")).thenReturn(user);
+		when(service.assignDepartmentToUser("johnsmith", "IT")).thenReturn(user);
 
 		ResponseEntity<SdmUserTo> response = controller.assignDepartment("johnsmith", "IT");
 
