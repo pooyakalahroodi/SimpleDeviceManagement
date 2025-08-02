@@ -45,5 +45,19 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>../SimpleDeviceManagementDb/src/main/resources/sql/postgres</directory>
+				<targetPath>sql/postgres</targetPath>
+				<includes>
+					<include>schema.sql</include>
+					<include>data.sql</include>
+					<!-- drop.sql can also be included if needed -->
+				</includes>
+			</resource>
+		</resources>
 	</build>
 </project>
