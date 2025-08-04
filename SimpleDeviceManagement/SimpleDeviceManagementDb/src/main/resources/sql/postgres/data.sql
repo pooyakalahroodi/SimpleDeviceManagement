@@ -15,8 +15,8 @@ INSERT INTO devices (
   created_at, updated_at, name, type, status, serial_number, manufacturer, location, purchase_date, user_id
 )
 VALUES
-  (NOW(), NOW(), 'Laptop X', 'Laptop', 'Active', 'SN123456', 'Dell', 'Office 101', '2023-01-15', 1),
-  (NOW(), NOW(), 'Phone Y', 'Mobile', 'Inactive', 'SN789012', 'Apple', 'Office 102', '2022-06-01', 2);
+  (NOW(), NOW(), 'Laptop X', 'Laptop', 'ACTIVE', 'SN123456', 'Dell', 'Office 101', '2023-01-15', 1),
+  (NOW(), NOW(), 'Phone Y', 'Mobile', 'INACTIVE', 'SN789012', 'Apple', 'Office 102', '2022-06-01', 2);
 
 -- Insert handover protocols
 INSERT INTO handover_protocols (

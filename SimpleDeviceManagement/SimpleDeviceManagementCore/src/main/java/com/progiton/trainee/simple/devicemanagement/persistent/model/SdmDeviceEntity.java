@@ -38,6 +38,7 @@ public class SdmDeviceEntity extends SdmBaseEntity<Long> implements SdmDevice {
 
 	private LocalDate purchaseDate;
 
+
 	@Enumerated(EnumType.STRING)
 	private SdmDeviceStatus status;
 
