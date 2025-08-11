@@ -2,6 +2,7 @@ package com.progiton.trainee.simple.devicemanagement.controllers;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,7 +73,7 @@ public class SdmDeviceController {
 			@ApiResponse(responseCode = "400", description = "Ungültige Parameter", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Gerät nicht gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))) })
 	public ResponseEntity<SdmDeviceTo> updateDeviceStatus(@RequestParam @NotBlank @Size(max = 50) String serialNumber,
-			@RequestParam @NotBlank SdmDeviceStatus status) {
+			@RequestParam @NotNull SdmDeviceStatus status) {
 		SdmDeviceTo updated = sdmDeviceService.updateDeviceStatus(serialNumber, status);
 		return ResponseEntity.ok(updated);
 	}

@@ -19,7 +19,7 @@ services:
     depends_on:
       - postgres
     environment:
-      SPRING_PROFILES_ACTIVE: dev-postgre
+      SPRING_PROFILES_ACTIVE: dev-postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
       SPRING_DATASOURCE_USERNAME: sdmdev01
       SPRING_DATASOURCE_PASSWORD: tyKul25
