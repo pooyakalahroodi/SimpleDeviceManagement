@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityNotFoundException;
+import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityAlreadyExistsException;
 import com.progiton.trainee.simple.devicemanagement.mapper.SdmDeviceMapper;
 import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
@@ -39,6 +40,12 @@ public class SdmDeviceServiceImpl implements SdmDeviceService {
 
 	@Override
 	public SdmDeviceTo saveDevice(SdmDeviceTo deviceTo) {
+		final String serial = deviceTo.getSerialNumber();
+		// pre-check purely by serial
+		sdmDeviceRepository.findBySerialNumber(serial).ifPresent(existing -> {
+			throw new SdmEntityAlreadyExistsException(
+					"A device with serialNumber '" + serial + "' already exists.");
+		});
 		SdmDeviceEntity entity = mapper.toEntity(deviceTo);
 		SdmDeviceEntity saved = sdmDeviceRepository.save(entity);
 
