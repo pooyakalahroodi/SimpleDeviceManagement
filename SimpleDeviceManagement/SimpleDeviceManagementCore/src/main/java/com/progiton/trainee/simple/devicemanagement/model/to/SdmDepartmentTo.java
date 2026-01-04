@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 
 public class SdmDepartmentTo implements SdmDepartment {
 
-	@NotBlank
+	@NotBlank // testable annotations
 	@Size(max = 50)
 	private String name;
 
