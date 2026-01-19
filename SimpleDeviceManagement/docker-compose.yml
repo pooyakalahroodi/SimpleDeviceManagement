@@ -11,7 +11,18 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+  # New test database container
+  postgres-test:
+    image: postgres:16
+    container_name: sdm-postgres-test
+    environment:
+      POSTGRES_DB: mydb_test
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpass
+    ports:
+      - "5433:5432"  # Different port to avoid conflict with dev
+    tmpfs:
+      - /var/lib/postgresql/data  # In-memory storage - data deleted when stopped
   app:
     build:
       context: .

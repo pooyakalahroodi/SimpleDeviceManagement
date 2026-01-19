@@ -26,7 +26,7 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 	private final SdmDeviceRepository sdmDeviceRepository;
 	private final SdmHandOverProtocolMapper mapper;
 
-	public SdmHandOverProtocolServiceImpl(SdmHandOverProtocolRepository sdmHandOverProtocolRepository,
+	public  SdmHandOverProtocolServiceImpl(SdmHandOverProtocolRepository sdmHandOverProtocolRepository,
 			SdmUserRepository sdmUserRepository, SdmDeviceRepository sdmDeviceRepository,
 			SdmHandOverProtocolMapper mapper) {
 		this.sdmHandOverProtocolRepository = sdmHandOverProtocolRepository;
