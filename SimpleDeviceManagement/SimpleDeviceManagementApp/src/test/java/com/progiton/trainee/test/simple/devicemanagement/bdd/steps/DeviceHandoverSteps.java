@@ -232,7 +232,7 @@ public class DeviceHandoverSteps {
     public void userShouldHaveDevices(String username, int expectedCount) throws Exception {
         Long userId = userIds.get(username);
 
-        MvcResult result = mockMvc.perform(get("/api/users/" + userId)
+        MvcResult result = mockMvc.perform(get("/api/users/username/" + username)
                         .with(user("admin").roles("ADMIN")))
                 .andExpect(status().isOk())
                 .andReturn();

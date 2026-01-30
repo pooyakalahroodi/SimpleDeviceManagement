@@ -11,43 +11,36 @@ Feature: Device Handover Management
     And I confirm the handover protocol for device "SN-12345"
     Then user "john.doe" should have device "SN-12345" in their device list
 
-#  Scenario: Assign multiple devices to one user
-#    Given a department exists with name "Engineering"
-#    And a user exists with username "alice.smith" in department "Engineering"
-#    And a device exists with serial number "LAPTOP-001"
-#    And a device exists with serial number "MOUSE-002"
-#    When I create a handover protocol for device "LAPTOP-001" to user "alice.smith"
-#    And I confirm the handover protocol for device "LAPTOP-001"
-#    And I create a handover protocol for device "MOUSE-002" to user "alice.smith"
-#    And I confirm the handover protocol for device "MOUSE-002"
-#    Then user "alice.smith" should have 2 devices
-#
-#  Scenario: Multiple users in different departments
-#    Given a department exists with name "Sales"
-#    And a department exists with name "Marketing"
-#    And a user exists with username "bob.jones" in department "Sales"
-#    And a user exists with username "carol.white" in department "Marketing"
-#    And a device exists with serial number "PHONE-001"
-#    And a device exists with serial number "TABLET-002"
-#    When I create a handover protocol for device "PHONE-001" to user "bob.jones"
-#    And I confirm the handover protocol for device "PHONE-001"
-#    And I create a handover protocol for device "TABLET-002" to user "carol.white"
-#    And I confirm the handover protocol for device "TABLET-002"
-#    Then user "bob.jones" should have device "PHONE-001" in their device list
-#    And user "carol.white" should have device "TABLET-002" in their device list
-#
+  Scenario: Assign multiple devices to one user
+    Given a department exists with name "Engineering"
+    And a user exists with username "alice.smith" in department "Engineering"
+    And a device exists with serial number "LAPTOP-001"
+    And a device exists with serial number "MOUSE-002"
+    When I create a handover protocol for device "LAPTOP-001" to user "alice.smith"
+    And I confirm the handover protocol for device "LAPTOP-001"
+    And I create a handover protocol for device "MOUSE-002" to user "alice.smith"
+    And I confirm the handover protocol for device "MOUSE-002"
+    Then user "alice.smith" should have 2 devices
+
+  Scenario: Multiple users in different departments
+    Given a department exists with name "Sales"
+    And a department exists with name "Marketing"
+    And a user exists with username "bob.jones" in department "Sales"
+    And a user exists with username "carol.white" in department "Marketing"
+    And a device exists with serial number "PHONE-001"
+    And a device exists with serial number "TABLET-002"
+    When I create a handover protocol for device "PHONE-001" to user "bob.jones"
+    And I confirm the handover protocol for device "PHONE-001"
+    And I create a handover protocol for device "TABLET-002" to user "carol.white"
+    And I confirm the handover protocol for device "TABLET-002"
+    Then user "bob.jones" should have device "PHONE-001" in their device list
+    And user "carol.white" should have device "TABLET-002" in their device list
+
 #  Scenario: Create handover protocol without confirmation
 #    Given a department exists with name "HR"
 #    And a user exists with username "dave.brown" in department "HR"
 #    And a device exists with serial number "LAPTOP-003"
 #    When I create a handover protocol for device "LAPTOP-003" to user "dave.brown"
 #    Then the handover protocol should exist but not be confirmed
-#
-#  Scenario: Assign same device to different users sequentially
-#    Given a department exists with name "IT Support"
-#    And a user exists with username "user1" in department "IT Support"
-#    And a user exists with username "user2" in department "IT Support"
-#    And a device exists with serial number "SHARED-LAPTOP"
-#    When I create a handover protocol for device "SHARED-LAPTOP" to user "user1"
-#    And I confirm the handover protocol for device "SHARED-LAPTOP"
-#    Then user "user1" should have device "SHARED-LAPTOP" in their device list
+
+
