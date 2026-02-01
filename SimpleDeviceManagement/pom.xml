@@ -16,9 +16,9 @@
     <name>SimpleDeviceManagement</name>
 
     <modules>
-        <module>SimpleDeviceManagementApp</module>
-        <module>SimpleDeviceManagementCore</module>
-        <module>SimpleDeviceManagementApi</module>
+        <module>SdmCore</module>
+        <module>SdmServices</module>
+        <module>SdmStarter</module>
     </modules>
 
     <properties>

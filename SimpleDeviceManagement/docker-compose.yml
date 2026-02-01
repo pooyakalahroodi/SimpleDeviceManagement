@@ -36,8 +36,8 @@ services:
     volumes:
       - oracle-data:/opt/oracle/oradata
       # Skripte für die initiale Einrichtung (CDB & PDB)
-      - ./SimpleDeviceManagementDb/src/main/resources/sql/oracle-setup:/opt/oracle/scripts/setup:ro
-      - ./SimpleDeviceManagementDb/src/main/resources/sql/oracle-setup:/opt/oracle/scripts/startup:ro
+      - ./SdmDataBase/src/main/resources/sql/oracle-setup:/opt/oracle/scripts/setup:ro
+      - ./SdmDataBase/src/main/resources/sql/oracle-setup:/opt/oracle/scripts/startup:ro
     shm_size: 2g  # Required for Oracle SGA/PGA memory
 
     healthcheck:

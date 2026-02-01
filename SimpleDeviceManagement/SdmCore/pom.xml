@@ -7,7 +7,7 @@
 		<artifactId>SimpleDeviceManagement</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>SimpleDeviceManagementCore</artifactId>
+	<artifactId>SdmCore</artifactId>
 	<repositories>
 		<repository>
 			<id>oracle-public-repo</id>
