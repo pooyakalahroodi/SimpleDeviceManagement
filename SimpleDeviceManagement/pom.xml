@@ -18,6 +18,7 @@
     <modules>
         <module>SimpleDeviceManagementApp</module>
         <module>SimpleDeviceManagementCore</module>
+        <module>SimpleDeviceManagementApi</module>
     </modules>
 
     <properties>
