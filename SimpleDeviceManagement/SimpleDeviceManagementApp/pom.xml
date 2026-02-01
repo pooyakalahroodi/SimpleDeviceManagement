@@ -73,17 +73,9 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.progiton.trainee</groupId>
-			<artifactId>SimpleDeviceManagementCore</artifactId>
-			<version>${project.version}</version>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 	</dependencies>
 	<build>
@@ -103,7 +95,14 @@
 				<includes>
 					<include>schema.sql</include>
 					<include>data.sql</include>
-					<!-- drop.sql can also be included if needed -->
+				</includes>
+			</resource>
+			<resource>
+				<directory>../SimpleDeviceManagementDb/src/main/resources/sql/oracle</directory>
+				<targetPath>sql/oracle</targetPath>
+				<includes>
+					<include>schema.sql</include>
+					<include>data.sql</include>
 				</includes>
 			</resource>
 		</resources>
