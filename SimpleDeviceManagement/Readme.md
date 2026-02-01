@@ -17,3 +17,6 @@ Für Batch und JMS sollen wir ein eigene Module erstellen: Auftrag Bearbeitung.
 
 **TODO 5:**<br/>
 Wir bieten auch eine Web UI an.
+
+**TODO 6:**<br/>
+Refactoring von Spring Security und Anbindung von Keycloak und vielleicht OpenFGA.
