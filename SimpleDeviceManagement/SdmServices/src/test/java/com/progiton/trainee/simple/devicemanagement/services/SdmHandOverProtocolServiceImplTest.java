@@ -1,176 +1,104 @@
 package com.progiton.trainee.simple.devicemanagement.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import java.time.Instant;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityNotFoundException;
-import com.progiton.trainee.simple.devicemanagement.mapper.SdmHandOverProtocolMapper;
-import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmDeviceEntity;
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmHandOverProtocolEntity;
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmUserEntity;
-import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmDeviceRepository;
-import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmHandOverProtocolRepository;
-import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmUserRepository;
 import com.progiton.trainee.simple.devicemanagement.services.impl.SdmHandOverProtocolServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class SdmHandOverProtocolServiceImplTest {
+class SdmHandOverProtocolServiceImplTest {
 
 	@Mock
-	private SdmHandOverProtocolRepository protocolRepository;
-
-	@Mock
-	private SdmUserRepository userRepository;
-
-	@Mock
-	private SdmDeviceRepository deviceRepository;
-
-	@Mock
-	private SdmHandOverProtocolMapper mapper;
+	private SdmHandOverProtocolCoreService sdmHandOverProtocolCoreService;
 
 	@InjectMocks
-	private SdmHandOverProtocolServiceImpl service;
+	private SdmHandOverProtocolServiceImpl sdmHandOverProtocolService;
 
-	private SdmHandOverProtocolTo requestTo;
-	private SdmHandOverProtocolEntity savedEntity;
-	private SdmDeviceEntity deviceEntity;
-	private SdmUserEntity receiverUser;
-	private SdmUserEntity performerUser;
-	private SdmHandOverProtocolTo savedTo;
+	@Test
+	void findAllHandOverProtocols_DelegatesToCoreService() {
+		List<SdmHandOverProtocolTo> expected = Collections.singletonList(new SdmHandOverProtocolTo());
+		when(sdmHandOverProtocolCoreService.findAllHandOverProtocols()).thenReturn(expected);
 
-	@BeforeEach
-	void setUp() {
-		requestTo = new SdmHandOverProtocolTo();
-		requestTo.setDeviceSerialNumber("SN123");
-		requestTo.setReceiverUsername("receiver");
-		requestTo.setPerformedByUsername("performer");
-		requestTo.setActionType(SdmActionType.HANDOVER);
-		requestTo.setIsConfirmed(true);
-		requestTo.setHandoverDate(Instant.now());
+		List<SdmHandOverProtocolTo> result = sdmHandOverProtocolService.findAllHandOverProtocols();
 
-		deviceEntity = new SdmDeviceEntity();
-		receiverUser = new SdmUserEntity();
-		performerUser = new SdmUserEntity();
-		savedEntity = new SdmHandOverProtocolEntity();
-		savedTo = new SdmHandOverProtocolTo();
+		assertThat(result).isEqualTo(expected);
+		verify(sdmHandOverProtocolCoreService).findAllHandOverProtocols();
 	}
 
 	@Test
-	void findAllHandOverProtocols_ReturnsList() {
-		List<SdmHandOverProtocolEntity> entities = Arrays.asList(savedEntity);
-		List<SdmHandOverProtocolTo> tos = Arrays.asList(savedTo);
+	void saveHandOverProtocol_DelegatesToCoreService() {
+		SdmHandOverProtocolTo request = new SdmHandOverProtocolTo();
+		when(sdmHandOverProtocolCoreService.saveHandOverProtocol(request)).thenReturn(request);
 
-		when(protocolRepository.findAll()).thenReturn(entities);
-		when(mapper.toToList(entities)).thenReturn(tos);
+		SdmHandOverProtocolTo result = sdmHandOverProtocolService.saveHandOverProtocol(request);
 
-		List<SdmHandOverProtocolTo> result = service.findAllHandOverProtocols();
-
-		assertThat(result).isEqualTo(tos);
-
-		verify(protocolRepository).findAll();
-		verify(mapper).toToList(entities);
+		assertThat(result).isEqualTo(request);
+		verify(sdmHandOverProtocolCoreService).saveHandOverProtocol(request);
 	}
 
 	@Test
-	void saveHandOverProtocol_Success() {
-		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
-		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.of(deviceEntity));
-		when(userRepository.findByUsernameIgnoreCase("receiver")).thenReturn(Optional.of(receiverUser));
-		when(userRepository.findByUsernameIgnoreCase("performer")).thenReturn(Optional.of(performerUser));
-		when(protocolRepository.save(any(SdmHandOverProtocolEntity.class))).thenReturn(savedEntity);
-		when(mapper.toTo(savedEntity)).thenReturn(savedTo);
+	void findHandOverProtocolsByReceiverUsername_DelegatesToCoreService() {
+		List<SdmHandOverProtocolTo> expected = Collections.singletonList(new SdmHandOverProtocolTo());
+		when(sdmHandOverProtocolCoreService.findHandOverProtocolsByReceiverUsername("user")).thenReturn(expected);
 
-		SdmHandOverProtocolTo result = service.saveHandOverProtocol(requestTo);
+		List<SdmHandOverProtocolTo> result = sdmHandOverProtocolService.findHandOverProtocolsByReceiverUsername("user");
 
-		assertThat(result).isEqualTo(savedTo);
-
-		verify(protocolRepository).existsByDevice_SerialNumberAndIsConfirmedFalse("SN123");
-		verify(deviceRepository).findBySerialNumber("SN123");
-		verify(userRepository).findByUsernameIgnoreCase("receiver");
-		verify(userRepository).findByUsernameIgnoreCase("performer");
-		verify(protocolRepository).save(any(SdmHandOverProtocolEntity.class));
+		assertThat(result).isEqualTo(expected);
+		verify(sdmHandOverProtocolCoreService).findHandOverProtocolsByReceiverUsername("user");
 	}
 
 	@Test
-	void saveHandOverProtocol_ThrowsWhenNonConfirmedProtocolExists() {
-		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(true);
+	void findHandOverProtocolsByPerformerUsername_DelegatesToCoreService() {
+		List<SdmHandOverProtocolTo> expected = Collections.singletonList(new SdmHandOverProtocolTo());
+		when(sdmHandOverProtocolCoreService.findHandOverProtocolsByPerformerUsername("user")).thenReturn(expected);
 
-		IllegalStateException ex = assertThrows(IllegalStateException.class,
-				() -> service.saveHandOverProtocol(requestTo));
-		assertThat(ex.getMessage()).contains("non-confirmed protocol");
+		List<SdmHandOverProtocolTo> result = sdmHandOverProtocolService.findHandOverProtocolsByPerformerUsername("user");
+
+		assertThat(result).isEqualTo(expected);
+		verify(sdmHandOverProtocolCoreService).findHandOverProtocolsByPerformerUsername("user");
 	}
 
 	@Test
-	void saveHandOverProtocol_ThrowsWhenDeviceNotFound() {
-		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
-		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.empty());
+	void findByDeviceSerialNumber_DelegatesToCoreService() {
+		List<SdmHandOverProtocolTo> expected = Collections.singletonList(new SdmHandOverProtocolTo());
+		when(sdmHandOverProtocolCoreService.findByDeviceSerialNumber("SN123")).thenReturn(expected);
 
-		assertThrows(SdmEntityNotFoundException.class, () -> service.saveHandOverProtocol(requestTo));
+		List<SdmHandOverProtocolTo> result = sdmHandOverProtocolService.findByDeviceSerialNumber("SN123");
+
+		assertThat(result).isEqualTo(expected);
+		verify(sdmHandOverProtocolCoreService).findByDeviceSerialNumber("SN123");
 	}
 
 	@Test
-	void saveHandOverProtocol_ThrowsWhenReceiverNotFound() {
-		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
-		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.of(deviceEntity));
-		when(userRepository.findByUsernameIgnoreCase("receiver")).thenReturn(Optional.empty());
+	void findNonConfirmedProtocolsByDeviceSerialNumber_DelegatesToCoreService() {
+		SdmHandOverProtocolTo expected = new SdmHandOverProtocolTo();
+		when(sdmHandOverProtocolCoreService.findNonConfirmedProtocolsByDeviceSerialNumber("SN123")).thenReturn(expected);
 
-		assertThrows(SdmEntityNotFoundException.class, () -> service.saveHandOverProtocol(requestTo));
+		SdmHandOverProtocolTo result = sdmHandOverProtocolService.findNonConfirmedProtocolsByDeviceSerialNumber("SN123");
+
+		assertThat(result).isEqualTo(expected);
+		verify(sdmHandOverProtocolCoreService).findNonConfirmedProtocolsByDeviceSerialNumber("SN123");
 	}
 
 	@Test
-	void saveHandOverProtocol_ThrowsWhenPerformerNotFound() {
-		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
-		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.of(deviceEntity));
-		when(userRepository.findByUsernameIgnoreCase("receiver")).thenReturn(Optional.of(receiverUser));
-		when(userRepository.findByUsernameIgnoreCase("performer")).thenReturn(Optional.empty());
+	void confirmByDeviceSerialNumber_DelegatesToCoreService() {
+		SdmHandOverProtocolTo expected = new SdmHandOverProtocolTo();
+		when(sdmHandOverProtocolCoreService.confirmByDeviceSerialNumber("SN123")).thenReturn(expected);
 
-		assertThrows(SdmEntityNotFoundException.class, () -> service.saveHandOverProtocol(requestTo));
-	}
+		SdmHandOverProtocolTo result = sdmHandOverProtocolService.confirmByDeviceSerialNumber("SN123");
 
-	@Test
-	void findHandOverProtocolsByReceiverUsername_Success() {
-		when(userRepository.existsByUsername("receiver")).thenReturn(true);
-		List<SdmHandOverProtocolEntity> entities = Arrays.asList(savedEntity);
-		List<SdmHandOverProtocolTo> tos = Arrays.asList(savedTo);
-
-		when(protocolRepository.findByReceiver_Username("receiver")).thenReturn(entities);
-		when(mapper.toToList(entities)).thenReturn(tos);
-
-		List<SdmHandOverProtocolTo> result = service.findHandOverProtocolsByReceiverUsername("receiver");
-
-		assertThat(result).isEqualTo(tos);
-
-		verify(userRepository).existsByUsername("receiver");
-		verify(protocolRepository).findByReceiver_Username("receiver");
-		verify(mapper).toToList(entities);
-	}
-
-	@Test
-	void findHandOverProtocolsByReceiverUsername_UserNotFound() {
-		when(userRepository.existsByUsername("receiver")).thenReturn(false);
-
-		assertThrows(SdmEntityNotFoundException.class,
-				() -> service.findHandOverProtocolsByReceiverUsername("receiver"));
-
-		verify(userRepository).existsByUsername("receiver");
-		verifyNoInteractions(protocolRepository);
+		assertThat(result).isEqualTo(expected);
+		verify(sdmHandOverProtocolCoreService).confirmByDeviceSerialNumber("SN123");
 	}
 }

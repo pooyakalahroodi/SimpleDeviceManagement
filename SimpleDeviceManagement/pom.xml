@@ -17,6 +17,7 @@
 
     <modules>
         <module>SdmCore</module>
+        <module>SdmCoreApi</module>
         <module>SdmServices</module>
         <module>SdmStarter</module>
     </modules>
