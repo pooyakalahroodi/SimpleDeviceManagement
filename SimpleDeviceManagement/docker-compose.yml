@@ -23,6 +23,20 @@ services:
       - "5433:5432"  # Different port to avoid conflict with dev
     tmpfs:
       - /var/lib/postgresql/data  # In-memory storage - data deleted when stopped
+
+
+  oracle-db:
+    image: container-registry.oracle.com/database/free:23.5.0.0
+    container_name: sdm-oracle
+    environment:
+      ORACLE_PWD: tyKul25  # Sets SYS/SYSTEM/PDBADMIN password
+      ORACLE_CHARACTERSET: AL32UTF8  # UTF-8 charset (recommended for new DBs)
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    shm_size: 2g  # Required for Oracle SGA/PGA memory (add this line)
+
   app:
     build:
       context: .
@@ -39,3 +53,4 @@ services:
 
 volumes:
   pgdata:
+  oracle-data:

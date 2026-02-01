@@ -1,3 +1,5 @@
+ALTER SESSION SET CURRENT_SCHEMA = SDMDEV01;
+
 -- Insert departments
 INSERT INTO departments (name, created_at, updated_at)
 VALUES
