@@ -1,8 +1,11 @@
 Beschreibung von Projekt
 
-**TODO 1:**<br/>
+~~**TODO 1:**<br/>~~
 Die Persistence API und Model soll noch ein isolierte Module werden, 
 welche aus Core benutze werden darf aber die API nicht bekannt sein soll. 
+
+~~**TODO 1.1:**<br/>~~
+maven dependency ist noch da per exclusion oder provided die Sache lösen!
 
 **TODO 2:**<br/>
 Wie Rest werden wir in API auch ein GraphQL anbieten, welche die gleiche Services 
