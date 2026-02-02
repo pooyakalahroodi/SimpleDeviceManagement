@@ -10,6 +10,9 @@ maven dependency ist noch da per exclusion oder provided die Sache lösen!
 **TODO 1.2:**
 Liquibase oder equivalentes Tool für Datenbankmigrationen verwenden.
 
+**TODO 1.3:**
+Mehr Configuration für JPA und co...
+
 **TODO 2:**<br/>
 Wie Rest werden wir in API auch ein GraphQL anbieten, welche die gleiche Services 
 in Core nutzt.
