@@ -7,6 +7,9 @@ welche aus Core benutze werden darf aber die API nicht bekannt sein soll.
 ~~**TODO 1.1:**<br/>~~
 maven dependency ist noch da per exclusion oder provided die Sache lösen!
 
+**TODO 1.2:**
+Liquibase oder equivalentes Tool für Datenbankmigrationen verwenden.
+
 **TODO 2:**<br/>
 Wie Rest werden wir in API auch ein GraphQL anbieten, welche die gleiche Services 
 in Core nutzt.
