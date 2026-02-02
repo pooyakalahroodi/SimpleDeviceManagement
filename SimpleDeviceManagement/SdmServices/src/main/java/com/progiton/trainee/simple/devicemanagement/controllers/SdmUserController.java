@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmErrorResponse;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmUserTo;
-import com.progiton.trainee.simple.devicemanagement.persistent.model.SdmUserEntity;
 import com.progiton.trainee.simple.devicemanagement.services.SdmUserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -86,7 +85,7 @@ public class SdmUserController {
 			@ApiResponse(responseCode = "404", description = "Not Found for given username", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class)) }),
 			@ApiResponse(responseCode = "200", description = "OK", content = {
-					@Content(mediaType = "application/json", schema = @Schema(implementation = SdmUserEntity.class)) }), })
+					@Content(mediaType = "application/json", schema = @Schema(implementation = SdmUserTo.class)) }), })
 	// TODO definde Response-Class for
 	public ResponseEntity<SdmUserTo> getUsersByUsername(
 			@PathVariable @Valid @Size(min = 6, max = 255) String username) {

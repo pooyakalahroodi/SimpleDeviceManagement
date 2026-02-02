@@ -9,11 +9,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 
-@EnableJpaRepositories(basePackages = "com.progiton.trainee.simple.devicemanagement.persistent.repositories")
-@SpringBootApplication(scanBasePackages = {
-    "com.progiton.trainee.simple.devicemanagement"})
+@SpringBootApplication(scanBasePackages = "com.progiton.trainee.simple.devicemanagement")
 @EnableJpaAuditing
-@ComponentScan(basePackages = "com.progiton.trainee")
+@EnableJpaRepositories(basePackages = "com.progiton.trainee.simple.devicemanagement.persistent.repositories")
 @EntityScan(basePackages = "com.progiton.trainee.simple.devicemanagement.persistent.model")
 public class SimpleDeviceManagementApplication {
     public static void main(String[] args) {

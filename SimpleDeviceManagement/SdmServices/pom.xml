@@ -14,6 +14,14 @@
 			<groupId>com.progiton.trainee</groupId>
 			<artifactId>SdmCore</artifactId>
 			<version>${project.version}</version>
+<!--
+			<exclusions>
+				<exclusion>
+					<groupId>com.progiton.trainee</groupId>
+					<artifactId>SdmCorePersistent</artifactId>
+				</exclusion>
+			</exclusions>
+-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

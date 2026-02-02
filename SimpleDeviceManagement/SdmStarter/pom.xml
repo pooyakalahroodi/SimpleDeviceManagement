@@ -13,6 +13,12 @@
 
 
 	<dependencies>
+		<dependency>
+			<groupId>com.progiton.trainee</groupId>
+			<artifactId>SdmCorePersistent</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<!-- Spring Security Test -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
