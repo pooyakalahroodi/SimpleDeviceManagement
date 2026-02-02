@@ -17,7 +17,7 @@ public class SecurityConfig {
     @Bean
     public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails admin = User.builder()
-                .username("admin")
+                .username("admin") //TODO: change to user.properties
                 .password(passwordEncoder.encode("admin123")) // Custom password
                 .roles("ADMIN") // Role ADMIN
                 .authorities("USER_READ", "USER_CREATE", "USER_UPDATE", "USER_DELETE") // Full access

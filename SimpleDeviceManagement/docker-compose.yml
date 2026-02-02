@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: sdmdev01
+      POSTGRES_PASSWORD: tyKul25
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # New test database container
+  postgres-test:
+    image: postgres:16
+    container_name: sdm-postgres-test
+    environment:
+      POSTGRES_DB: mydb_test
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpass
+    ports:
+      - "5433:5432"  # Different port to avoid conflict with dev
+    tmpfs:
+      - /var/lib/postgresql/data  # In-memory storage - data deleted when stopped
+
+  oracle-db:
+    image: container-registry.oracle.com/database/free:23.5.0.0
+    container_name: sdm-oracle
+    environment:
+      ORACLE_PWD: tyKul25  # Sets SYS/SYSTEM/PDBADMIN password
+      ORACLE_CHARACTERSET: AL32UTF8  # UTF-8 charset (recommended for new DBs)
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      # Skripte für die initiale Einrichtung (CDB & PDB)
+      - ./SimpleDeviceManagementDb/src/main/resources/sql/oracle-setup:/opt/oracle/scripts/setup:ro
+      - ./SimpleDeviceManagementDb/src/main/resources/sql/oracle-setup:/opt/oracle/scripts/startup:ro
+    shm_size: 2g  # Required for Oracle SGA/PGA memory
+
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'select 1 from dual;' | sqlplus -s system/tyKul25@//localhost:1521/FREEPDB1 > /dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  # App gegen Postgres (default)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: dev-postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
+      SPRING_DATASOURCE_USERNAME: sdmdev01
+      SPRING_DATASOURCE_PASSWORD: tyKul25
+    ports:
+      - "8080:8080"
+
+  # App gegen Oracle (optional via profile)
+  app-oracle:
+    profiles: ["oracle"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      oracle-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: dev-oracle
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@//oracle-db:1521/FREEPDB1
+      SPRING_DATASOURCE_USERNAME: sdmdev01
+      SPRING_DATASOURCE_PASSWORD: tyKul25
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
+  oracle-data:

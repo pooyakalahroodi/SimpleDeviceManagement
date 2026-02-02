@@ -91,7 +91,7 @@ public class SdmUserServiceImpl implements SdmUserService {
 	}
 
 	@Override
-	public SdmDeviceTo assignDeviceToUser(String serialNumber, String username) {
+	public SdmDeviceTo assignDeviceToUser(String username,String serialNumber) {
 		// Fetch the device
 		SdmDeviceEntity device = sdmDeviceRepository.findBySerialNumber(serialNumber)
 				.orElseThrow(() -> new SdmEntityNotFoundException("Device not found with serial: " + serialNumber));

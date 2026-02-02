@@ -36,6 +36,6 @@ public interface SdmUserService {
 
 	SdmUserTo createUser(SdmUserTo request); // Add this
 
-	SdmDeviceTo assignDeviceToUser(String serialNumber, String username);
+	SdmDeviceTo assignDeviceToUser( String username,String serialNumber);
 
 }

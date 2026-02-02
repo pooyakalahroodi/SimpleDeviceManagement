@@ -19,7 +19,7 @@ public class SdmDeviceTo implements SdmDevice {
 	@Size(max = 50)
 	private String type;
 
-	@NotBlank
+	@NotNull
 	private SdmDeviceStatus status;
 
 	@NotBlank

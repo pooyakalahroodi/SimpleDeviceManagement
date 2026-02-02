@@ -2,15 +2,13 @@ package com.progiton.trainee.simple.devicemanagement.controllers;
 
 import java.util.List;
 
+import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityAlreadyExistsException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmErrorResponse;
 import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
@@ -56,8 +54,14 @@ public class SdmDeviceController {
 		SdmDeviceTo saved = sdmDeviceService.saveDevice(device);
 		return ResponseEntity.ok(saved);
 	}
+	@ExceptionHandler({ SdmEntityAlreadyExistsException.class })
+	public ResponseEntity<String> handleSdmEntityAlreadyExistsException(HttpServletRequest request, SdmEntityAlreadyExistsException e) {
+		return ResponseEntity
+				.status(HttpStatus.CONFLICT)
+				.body(String.format("\"Error\": \"%s\"", e.getMessage()));
+	}
 
-	// Assigning Device to User
+		// Assigning Device to User
 //
 //	@PutMapping("/assign-device")
 //	public ResponseEntity<SdmDeviceTo> assignDeviceToUser(@RequestParam String serialNumber,
@@ -72,7 +76,7 @@ public class SdmDeviceController {
 			@ApiResponse(responseCode = "400", description = "Ungültige Parameter", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Gerät nicht gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))) })
 	public ResponseEntity<SdmDeviceTo> updateDeviceStatus(@RequestParam @NotBlank @Size(max = 50) String serialNumber,
-			@RequestParam @NotBlank SdmDeviceStatus status) {
+			@RequestParam @NotNull SdmDeviceStatus status) {
 		SdmDeviceTo updated = sdmDeviceService.updateDeviceStatus(serialNumber, status);
 		return ResponseEntity.ok(updated);
 	}

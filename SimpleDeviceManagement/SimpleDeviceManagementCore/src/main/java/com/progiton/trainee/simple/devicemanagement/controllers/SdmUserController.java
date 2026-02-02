@@ -105,7 +105,7 @@ public class SdmUserController {
 	@ResponseStatus(HttpStatus.OK)
 	public SdmDeviceTo assignDeviceToUser(@PathVariable @NotBlank @Size(min = 6, max = 255) String username,
 			@PathVariable @NotBlank @Size(max = 50) String serialNumber) {
-		return sdmUserService.assignDeviceToUser(serialNumber, username);
+		return sdmUserService.assignDeviceToUser(username,serialNumber);
 	}
 
 //	@GetMapping("/name/{name}")
