@@ -21,7 +21,7 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser<SdmDev
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(unique = true, nullable = false)
+	@Column(length = 50,unique = true, nullable = false)
 	private String username;
 
 	private boolean enabled;
