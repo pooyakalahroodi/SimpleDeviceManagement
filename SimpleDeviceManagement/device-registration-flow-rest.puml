@@ -1,0 +1,32 @@
+@startuml
+skinparam backgroundColor #ffffff
+skinparam Shadowing false
+
+title REST device registration (existing user only)
+
+actor User
+
+box "REST Adapter"
+  participant REST as "SdmAppController"
+end box
+
+box "SdmServices (Use-Cases)"
+  participant Services as "DeviceRegistrationService\nUserIdentityService"
+end box
+
+box "SdmCore (Technical)"
+  participant Core as "Repositories\nSignatureVerifier"
+end box
+
+User --> REST : RegisterDeviceCommand
+REST --> Services : registerDevice(cmd, ctx=REST)
+Services --> Core : verifySignature(userId, signature)
+
+alt userId present
+  Services -> Services : registerForExistingUser
+  Services --> Core : storeDevice + link user
+else userId missing
+  Services --> REST : error(user not found)
+end
+
+@enduml
