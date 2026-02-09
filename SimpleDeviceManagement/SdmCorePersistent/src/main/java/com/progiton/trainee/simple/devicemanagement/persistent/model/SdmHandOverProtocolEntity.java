@@ -1,6 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
 import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
@@ -118,13 +119,13 @@ public class SdmHandOverProtocolEntity extends SdmBaseEntity<Long> implements Sd
 	}
 
 	@Override
-	public String getReceiverUsername() {
-		return receiver != null ? receiver.getUsername() : null;
+	public UUID getReceiverUserId() {
+		return receiver != null ? receiver.getUserId() : null;
 	}
 
 	@Override
-	public String getPerformedByUsername() {
-		return performedBy != null ? performedBy.getUsername() : null;
+	public UUID getPerformedByUserId() {
+		return performedBy != null ? performedBy.getUserId() : null;
 	}
 
 	@Override

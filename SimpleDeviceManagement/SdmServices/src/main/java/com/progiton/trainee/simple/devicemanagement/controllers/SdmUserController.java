@@ -1,7 +1,10 @@
 package com.progiton.trainee.simple.devicemanagement.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -87,12 +90,12 @@ public class SdmUserController {
 			@ApiResponse(responseCode = "200", description = "OK", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = SdmUserTo.class)) }), })
 	// TODO definde Response-Class for
-	public ResponseEntity<SdmUserTo> getUsersByUsername(
-			@PathVariable @Valid @Size(min = 6, max = 255) String username) {
+	public ResponseEntity<SdmUserTo> getUsersByUserId(
+			@PathVariable @NotNull UUID userId) {
 
 		// Objects.requireNonNull(username, "Message .... ");
 
-		SdmUserTo user = sdmUserService.findUserByUsername(username);
+		SdmUserTo user = sdmUserService.findUserByUserId(userId);
 		return ResponseEntity.ok(user);
 	}
 
@@ -102,9 +105,9 @@ public class SdmUserController {
 			@ApiResponse(responseCode = "400", description = "Ungültiger Benutzername oder Seriennummer", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Benutzer oder Gerät nicht gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))) })
 	@ResponseStatus(HttpStatus.OK)
-	public SdmDeviceTo assignDeviceToUser(@PathVariable @NotBlank @Size(min = 6, max = 255) String username,
+	public SdmDeviceTo assignDeviceToUser( @PathVariable @NotNull UUID userId,
 			@PathVariable @NotBlank @Size(max = 50) String serialNumber) {
-		return sdmUserService.assignDeviceToUser(username,serialNumber);
+		return sdmUserService.assignDeviceToUser(userId,serialNumber);
 	}
 
 //	@GetMapping("/name/{name}")
@@ -115,14 +118,34 @@ public class SdmUserController {
 //	}
 
 	@PutMapping("/assign-department")
-	@Operation(summary = "Weist einen Benutzer einer Abteilung zu", description = "Ordnet einen Benutzer anhand des Benutzernamens einer angegebenen Abteilung zu.", operationId = "assignDepartmentToUser", responses = {
-			@ApiResponse(responseCode = "200", description = "Benutzer erfolgreich aktualisiert", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmUserTo.class))),
-			@ApiResponse(responseCode = "400", description = "Ungültiger Benutzername oder Abteilungsname", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))),
-			@ApiResponse(responseCode = "404", description = "Benutzer oder Abteilung nicht gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))) })
-	public ResponseEntity<SdmUserTo> assignDepartment(@RequestParam @NotBlank @Size(min = 6, max = 255) String username,
-			@RequestParam @NotBlank @Size(max = 100) String departmentName) {
+	@Operation(
+			summary = "Weist einen Benutzer einer Abteilung zu",
+			description = "Ordnet einen Benutzer anhand der User-ID einer angegebenen Abteilung zu.",
+			operationId = "assignDepartmentToUser",
+			responses = {
+					@ApiResponse(responseCode = "200",
+							description = "Benutzer erfolgreich aktualisiert",
+							content = @Content(mediaType = "application/json",
+									schema = @Schema(implementation = SdmUserTo.class))),
+					@ApiResponse(responseCode = "400",
+							description = "Ungültige User-ID oder Abteilungsname",
+							content = @Content(mediaType = "application/json",
+									schema = @Schema(implementation = SdmErrorResponse.class))),
+					@ApiResponse(responseCode = "404",
+							description = "Benutzer oder Abteilung nicht gefunden",
+							content = @Content(mediaType = "application/json",
+									schema = @Schema(implementation = SdmErrorResponse.class)))
+			})
+	public ResponseEntity<SdmUserTo> assignDepartment(
+			@RequestParam @NotNull
+			@Parameter(description = "User-ID (UUID)")
+			UUID userId,  // ✅ Changed to UUID
 
-		SdmUserTo updatedUser = sdmUserService.assignDepartmentToUser(username, departmentName);
+			@RequestParam @NotBlank @Size(max = 100)
+			@Parameter(description = "Abteilungsname")
+			String departmentName) {
+
+		SdmUserTo updatedUser = sdmUserService.assignDepartmentToUser(userId, departmentName);  // ✅ UUID
 		return ResponseEntity.ok(updatedUser);
 	}
 }

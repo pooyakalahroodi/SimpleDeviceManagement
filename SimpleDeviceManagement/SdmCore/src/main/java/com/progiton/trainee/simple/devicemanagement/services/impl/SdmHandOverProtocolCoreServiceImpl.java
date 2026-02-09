@@ -3,6 +3,7 @@ package com.progiton.trainee.simple.devicemanagement.services.impl;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -58,13 +59,13 @@ public class SdmHandOverProtocolCoreServiceImpl implements SdmHandOverProtocolCo
 						"Device not found with name: " + request.getDeviceSerialNumber())));
 
 		Optional<SdmUserEntity> receiver = Optional
-				.ofNullable(sdmUserRepository.findByUsernameIgnoreCase(request.getReceiverUsername())
+				.ofNullable(sdmUserRepository.findByUserId(request.getReceiverUserId())
 						.orElseThrow(() -> new SdmEntityNotFoundException(
-								"Receiver user not found: " + request.getReceiverUsername())));
+								"Receiver user not found: " + request.getReceiverUserId())));
 		Optional<SdmUserEntity> performer = Optional
-				.ofNullable(sdmUserRepository.findByUsernameIgnoreCase(request.getPerformedByUsername())
+				.ofNullable(sdmUserRepository.findByUserId(request.getPerformedByUserId())
 						.orElseThrow(() -> new SdmEntityNotFoundException(
-								"PerformedBy user not found: " + request.getPerformedByUsername())));
+								"PerformedBy user not found: " + request.getPerformedByUserId())));
 
 		// Create and populate the entity
 		SdmHandOverProtocolEntity entity = new SdmHandOverProtocolEntity();
@@ -82,18 +83,18 @@ public class SdmHandOverProtocolCoreServiceImpl implements SdmHandOverProtocolCo
 	}
 
 	@Override
-	public List<SdmHandOverProtocolTo> findHandOverProtocolsByReceiverUsername(String username) {
+	public List<SdmHandOverProtocolTo> findHandOverProtocolsByReceiverUserId(UUID userId) {
 		// 1) Check if user exists
-		if (!sdmUserRepository.existsByUsername(username)) {
-			throw new SdmEntityNotFoundException("User not found with username: " + username);
+		if (!sdmUserRepository.existsByUserId(userId)) {
+			throw new SdmEntityNotFoundException("User not found with userId: " + userId);
 		}
 
 		// 2) Fetch protocols
-		List<SdmHandOverProtocolEntity> protocols = sdmHandOverProtocolRepository.findByReceiver_Username(username);
+		List<SdmHandOverProtocolEntity> protocols = sdmHandOverProtocolRepository.findByReceiver_UserId(userId);
 
 		// 3) Check if user has any protocols
 		if (protocols == null || protocols.isEmpty()) {
-			throw new SdmEntityNotFoundException("No handover protocols found for user: " + username);
+			throw new SdmEntityNotFoundException("No handover protocols found for user: " + userId);
 		}
 
 		// 4) Convert and return
@@ -101,18 +102,18 @@ public class SdmHandOverProtocolCoreServiceImpl implements SdmHandOverProtocolCo
 	}
 
 	@Override
-	public List<SdmHandOverProtocolTo> findHandOverProtocolsByPerformerUsername(String username) {
+	public List<SdmHandOverProtocolTo> findHandOverProtocolsByPerformerUserId(UUID userId) {
 		// 1) Check if user exists
-		if (!sdmUserRepository.existsByUsername(username)) {
-			throw new SdmEntityNotFoundException("User not found with username: " + username);
+		if (!sdmUserRepository.existsByUserId(userId)) {
+			throw new SdmEntityNotFoundException("User not found with userId: " + userId);
 		}
 
 		// 2) Fetch protocols
-		List<SdmHandOverProtocolEntity> protocols = sdmHandOverProtocolRepository.findByPerformedBy_Username(username);
+		List<SdmHandOverProtocolEntity> protocols = sdmHandOverProtocolRepository.findByPerformedBy_UserId(userId);
 
 		// 3) Check if user has any protocols
 		if (protocols == null || protocols.isEmpty()) {
-			throw new SdmEntityNotFoundException("No handover protocols found for performer: " + username);
+			throw new SdmEntityNotFoundException("No handover protocols found for performer: " + userId);
 		}
 
 		// 4) Convert and return
@@ -197,5 +198,7 @@ public class SdmHandOverProtocolCoreServiceImpl implements SdmHandOverProtocolCo
 		SdmHandOverProtocolEntity saved = sdmHandOverProtocolRepository.save(protocolToConfirm);
 		return mapper.toTo(saved);
 	}
+
+
 
 }

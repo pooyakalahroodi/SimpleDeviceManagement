@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,8 +37,9 @@ class SdmUserControllerTest {
 	@Test
 	@DisplayName("getAllUsers returns all users")
 	void testGetAllUsers() {
+		UUID userId = UUID.randomUUID();
 		SdmUserTo user = new SdmUserTo();
-		user.setUsername("testuser");
+		user.setUserId(userId);
 		user.setName("Test");
 		user.setSurname("User");
 
@@ -47,19 +49,20 @@ class SdmUserControllerTest {
 
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
 		assertThat(response.getBody()).hasSize(1);
-		assertThat(response.getBody().get(0).getUsername()).isEqualTo("testuser");
+		assertThat(response.getBody().get(0).getEmailAddress()).isEqualTo("testuser");
 	}
 
 	@Test
 	@DisplayName("createUser returns created user")
 	void testCreateUser() {
+		UUID userId = UUID.randomUUID();
 		SdmUserTo input = new SdmUserTo();
-		input.setUsername("newuser");
+		input.setUserId(userId);
 		input.setName("New");
 		input.setSurname("User");
 
 		SdmUserTo saved = new SdmUserTo();
-		saved.setUsername("newuser");
+		saved.setUserId(userId);
 		saved.setName("New");
 		saved.setSurname("User");
 
@@ -68,14 +71,15 @@ class SdmUserControllerTest {
 		ResponseEntity<SdmUserTo> response = controller.createUser(input);
 
 		assertThat(response.getStatusCodeValue()).isEqualTo(201);
-		assertThat(response.getBody().getUsername()).isEqualTo("newuser");
+		assertThat(response.getBody().getEmailAddress()).isEqualTo("newuser");
 	}
 
 	@Test
 	@DisplayName("getUsersByDepartment returns users")
 	void testGetUsersByDepartment() {
+		UUID userId = UUID.randomUUID();
 		SdmUserTo user = new SdmUserTo();
-		user.setUsername("deptuser");
+		user.setUserId(userId);
 
 		when(service.findUsersByDepartmentName("IT")).thenReturn(List.of(user));
 
@@ -83,36 +87,38 @@ class SdmUserControllerTest {
 
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
 		assertThat(response.getBody()).hasSize(1);
-		assertThat(response.getBody().get(0).getUsername()).isEqualTo("deptuser");
+		assertThat(response.getBody().get(0).getEmailAddress()).isEqualTo("deptuser");
 	}
 
 	@Test
 	@DisplayName("getUsersByUsername returns user")
 	void testGetUsersByUsername() {
+		UUID userId = UUID.randomUUID();
 		SdmUserTo user = new SdmUserTo();
-		user.setUsername("johnsmith");
+		user.setUserId(userId);
 
-		when(service.findUserByUsername("johnsmith")).thenReturn(user);
+		when(service.findUserByUserId(userId)).thenReturn(user);
 
-		ResponseEntity<SdmUserTo> response = controller.getUsersByUsername("johnsmith");
+		ResponseEntity<SdmUserTo> response = controller.getUsersByUserId(userId);
 
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-		assertThat(response.getBody().getUsername()).isEqualTo("johnsmith");
+		assertThat(response.getBody().getEmailAddress()).isEqualTo("johnsmith");
 	}
 
 	@Test
 	@DisplayName("assignDeviceToUser returns device")
 	void testAssignDeviceToUser() {
+		UUID userId = UUID.randomUUID();
 		SdmDeviceTo device = new SdmDeviceTo();
 		device.setSerialNumber("SN1234");
 		device.setType("ModelX");
 
-		when(service.assignDeviceToUser("johnsmith", "SN1234")).thenReturn(device);
+		when(service.assignDeviceToUser(userId, "SN1234")).thenReturn(device);
 
-		SdmDeviceTo result = controller.assignDeviceToUser("johnsmith", "SN1234");
+		SdmDeviceTo result = controller.assignDeviceToUser(userId, "SN1234");
 		System.out.println("Result: " + result);
 
-		verify(service).assignDeviceToUser("johnsmith", "SN1234");
+		verify(service).assignDeviceToUser(userId, "SN1234");
 		assertThat(result).isNotNull();
 		assertThat(result.getSerialNumber()).isEqualTo("SN1234");
 		assertThat(result.getType()).isEqualTo("ModelX");
@@ -121,19 +127,20 @@ class SdmUserControllerTest {
 	@Test
 	@DisplayName("assignDepartment returns updated user")
 	void testAssignDepartmentToUser() {
+		UUID userId = UUID.randomUUID();
 		SdmUserTo user = new SdmUserTo();
-		user.setUsername("johnsmith");
+		user.setUserId(userId);
 
 		SdmDepartmentTo deptTo = new SdmDepartmentTo();
 		deptTo.setName("IT");
 		user.setDepartment(deptTo);
 
-		when(service.assignDepartmentToUser("johnsmith", "IT")).thenReturn(user);
+		when(service.assignDepartmentToUser(userId, "IT")).thenReturn(user);
 
-		ResponseEntity<SdmUserTo> response = controller.assignDepartment("johnsmith", "IT");
+		ResponseEntity<SdmUserTo> response = controller.assignDepartment(userId, "IT");
 
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-		assertThat(response.getBody().getUsername()).isEqualTo("johnsmith");
+		assertThat(response.getBody().getEmailAddress()).isEqualTo("johnsmith");
 		assertThat(response.getBody().getDepartment().getName()).isEqualTo("IT");
 	}
 }

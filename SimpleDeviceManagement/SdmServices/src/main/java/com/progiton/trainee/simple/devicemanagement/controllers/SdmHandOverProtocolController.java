@@ -1,7 +1,10 @@
 package com.progiton.trainee.simple.devicemanagement.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -90,15 +93,34 @@ public class SdmHandOverProtocolController {
 		return ResponseEntity.ok(confirmed);
 	}
 
-	@GetMapping("/receiver/{username}")
-	@Operation(summary = "Liefert alle Protokolle für einen Empfänger", description = "Ruft alle Übergabeprotokolle für den angegebenen Benutzernamen des Empfängers ab.", operationId = "getProtocolsByReceiverUsername", responses = {
-			@ApiResponse(responseCode = "200", description = "Protokolle erfolgreich abgerufen", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmHandOverProtocolTo.class))),
-			@ApiResponse(responseCode = "400", description = "Ungültiger Benutzername", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))),
-			@ApiResponse(responseCode = "404", description = "Keine Protokolle gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))) })
-	public ResponseEntity<List<SdmHandOverProtocolTo>> getProtocolsByReceiverUsername(
-			@PathVariable @NotBlank @Size(min = 6, max = 255) String username) {
-		List<SdmHandOverProtocolTo> handoverProtocols = sdmHandOverProtocolService
-				.findHandOverProtocolsByReceiverUsername(username);
+	@GetMapping("/receiver/{userId}")
+	@Operation(
+			summary = "Liefert alle Protokolle für einen Empfänger",
+			description = "Ruft alle Übergabeprotokolle für die angegebene User-ID des Empfängers ab.",
+			operationId = "getProtocolsByReceiverUserId",
+			responses = {
+					@ApiResponse(responseCode = "200",
+							description = "Protokolle erfolgreich abgerufen",
+							content = @Content(mediaType = "application/json",
+									schema = @Schema(implementation = SdmHandOverProtocolTo.class))),
+					@ApiResponse(responseCode = "400",
+							description = "Ungültige User-ID",
+							content = @Content(mediaType = "application/json",
+									schema = @Schema(implementation = SdmErrorResponse.class))),
+					@ApiResponse(responseCode = "404",
+							description = "Keine Protokolle gefunden",
+							content = @Content(mediaType = "application/json",
+									schema = @Schema(implementation = SdmErrorResponse.class)))
+			})
+	public ResponseEntity<List<SdmHandOverProtocolTo>> getProtocolsByReceiverUserId(
+			@PathVariable
+			@NotNull
+			@Parameter(description = "User-ID des Empfängers (UUID)")
+			UUID userId) {  // ✅ Changed to UUID
+
+		List<SdmHandOverProtocolTo> handoverProtocols =
+				sdmHandOverProtocolService.findHandOverProtocolsByReceiverUserId(userId);  // ✅ Pass UUID
+
 		return ResponseEntity.ok(handoverProtocols);
 	}
 }

@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,18 +59,35 @@ public class SdmHandOverProtocolCoreServiceImplTest {
 
 	@BeforeEach
 	void setUp() {
+		// Generate test UUIDs
+		UUID receiverUuid = UUID.randomUUID();
+		UUID performerUuid = UUID.randomUUID();
+
 		requestTo = new SdmHandOverProtocolTo();
 		requestTo.setDeviceSerialNumber("SN123");
-		requestTo.setReceiverUsername("receiver");
-		requestTo.setPerformedByUsername("performer");
+		requestTo.setReceiverUserId(receiverUuid);       // ✅ UUID instead of String
+		requestTo.setReceiverUserId(receiverUuid);       // ✅ UUID instead of String
+		requestTo.setPerformedByUserId(performerUuid);   // ✅ UUID instead of String
 		requestTo.setActionType(SdmActionType.HANDOVER);
 		requestTo.setIsConfirmed(true);
 		requestTo.setHandoverDate(Instant.now());
 
 		deviceEntity = new SdmDeviceEntity();
+		deviceEntity.setSerialNumber("SN123");
+
 		receiverUser = new SdmUserEntity();
+		receiverUser.setUserId(receiverUuid);  // Match the UUID
+		receiverUser.setEmailAddress("receiver@example.com");
+
 		performerUser = new SdmUserEntity();
+		performerUser.setUserId(performerUuid);  // Match the UUID
+		performerUser.setEmailAddress("performer@example.com");
+
 		savedEntity = new SdmHandOverProtocolEntity();
+		savedEntity.setReceiver(receiverUser);
+		savedEntity.setPerformedBy(performerUser);
+		savedEntity.setDevice(deviceEntity);
+
 		savedTo = new SdmHandOverProtocolTo();
 	}
 
@@ -91,10 +109,12 @@ public class SdmHandOverProtocolCoreServiceImplTest {
 
 	@Test
 	void saveHandOverProtocol_Success() {
+		UUID receiverUuid = UUID.randomUUID();
+		UUID performerUuid = UUID.randomUUID();
 		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
 		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.of(deviceEntity));
-		when(userRepository.findByUsernameIgnoreCase("receiver")).thenReturn(Optional.of(receiverUser));
-		when(userRepository.findByUsernameIgnoreCase("performer")).thenReturn(Optional.of(performerUser));
+		when(userRepository.findByUserId(receiverUuid)).thenReturn(Optional.of(receiverUser));
+		when(userRepository.findByUserId(performerUuid)).thenReturn(Optional.of(performerUser));
 		when(protocolRepository.save(any(SdmHandOverProtocolEntity.class))).thenReturn(savedEntity);
 		when(mapper.toTo(savedEntity)).thenReturn(savedTo);
 
@@ -104,8 +124,8 @@ public class SdmHandOverProtocolCoreServiceImplTest {
 
 		verify(protocolRepository).existsByDevice_SerialNumberAndIsConfirmedFalse("SN123");
 		verify(deviceRepository).findBySerialNumber("SN123");
-		verify(userRepository).findByUsernameIgnoreCase("receiver");
-		verify(userRepository).findByUsernameIgnoreCase("performer");
+		verify(userRepository).findByUserId(receiverUuid);
+		verify(userRepository).findByUserId(performerUuid);
 		verify(protocolRepository).save(any(SdmHandOverProtocolEntity.class));
 	}
 
@@ -128,49 +148,57 @@ public class SdmHandOverProtocolCoreServiceImplTest {
 
 	@Test
 	void saveHandOverProtocol_ThrowsWhenReceiverNotFound() {
+		UUID receiverUuid = UUID.randomUUID();
+		UUID performerUuid = UUID.randomUUID();
 		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
 		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.of(deviceEntity));
-		when(userRepository.findByUsernameIgnoreCase("receiver")).thenReturn(Optional.empty());
+		when(userRepository.findByUserId(receiverUuid)).thenReturn(Optional.empty());
 
 		assertThrows(SdmEntityNotFoundException.class, () -> service.saveHandOverProtocol(requestTo));
 	}
 
 	@Test
 	void saveHandOverProtocol_ThrowsWhenPerformerNotFound() {
+		UUID receiverUuid = UUID.randomUUID();
+		UUID performerUuid = UUID.randomUUID();
 		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
 		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.of(deviceEntity));
-		when(userRepository.findByUsernameIgnoreCase("receiver")).thenReturn(Optional.of(receiverUser));
-		when(userRepository.findByUsernameIgnoreCase("performer")).thenReturn(Optional.empty());
+		when(userRepository.findByUserId(receiverUuid)).thenReturn(Optional.of(receiverUser));
+		when(userRepository.findByUserId(performerUuid)).thenReturn(Optional.empty());
 
 		assertThrows(SdmEntityNotFoundException.class, () -> service.saveHandOverProtocol(requestTo));
 	}
 
 	@Test
-	void findHandOverProtocolsByReceiverUsername_Success() {
-		when(userRepository.existsByUsername("receiver")).thenReturn(true);
+	void findHandOverProtocolsByReceiverUserId_Success() {
+		UUID receiverUuid = UUID.randomUUID();
+		UUID performerUuid = UUID.randomUUID();
+		when(userRepository.existsByUserId(receiverUuid)).thenReturn(true);
 		List<SdmHandOverProtocolEntity> entities = Arrays.asList(savedEntity);
 		List<SdmHandOverProtocolTo> tos = Arrays.asList(savedTo);
 
-		when(protocolRepository.findByReceiver_Username("receiver")).thenReturn(entities);
+		when(protocolRepository.findByReceiver_UserId(receiverUuid)).thenReturn(entities);
 		when(mapper.toToList(entities)).thenReturn(tos);
 
-		List<SdmHandOverProtocolTo> result = service.findHandOverProtocolsByReceiverUsername("receiver");
+		List<SdmHandOverProtocolTo> result = service.findHandOverProtocolsByReceiverUserId(receiverUuid);
 
 		assertThat(result).isEqualTo(tos);
 
-		verify(userRepository).existsByUsername("receiver");
-		verify(protocolRepository).findByReceiver_Username("receiver");
+		verify(userRepository).existsByUserId(receiverUuid);
+		verify(protocolRepository).findByReceiver_UserId(receiverUuid);
 		verify(mapper).toToList(entities);
 	}
 
 	@Test
-	void findHandOverProtocolsByReceiverUsername_UserNotFound() {
-		when(userRepository.existsByUsername("receiver")).thenReturn(false);
+	void findHandOverProtocolsByReceiverUserId_UserNotFound() {
+		UUID receiverUuid = UUID.randomUUID();
+		UUID performerUuid = UUID.randomUUID();
+		when(userRepository.existsByUserId(receiverUuid)).thenReturn(false);
 
 		assertThrows(SdmEntityNotFoundException.class,
-				() -> service.findHandOverProtocolsByReceiverUsername("receiver"));
+				() -> service.findHandOverProtocolsByReceiverUserId(receiverUuid));
 
-		verify(userRepository).existsByUsername("receiver");
+		verify(userRepository).existsByUserId(receiverUuid);
 		verifyNoInteractions(protocolRepository);
 	}
 }

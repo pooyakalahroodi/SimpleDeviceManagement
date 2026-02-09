@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,25 +49,28 @@ class SdmHandOverProtocolServiceImplTest {
 	}
 
 	@Test
-	void findHandOverProtocolsByReceiverUsername_DelegatesToCoreService() {
-		List<SdmHandOverProtocolTo> expected = Collections.singletonList(new SdmHandOverProtocolTo());
-		when(sdmHandOverProtocolCoreService.findHandOverProtocolsByReceiverUsername("user")).thenReturn(expected);
+	void findHandOverProtocolsByReceiverUserId_DelegatesToCoreService() {
 
-		List<SdmHandOverProtocolTo> result = sdmHandOverProtocolService.findHandOverProtocolsByReceiverUsername("user");
+		UUID receiverUserId = UUID.randomUUID();
+		List<SdmHandOverProtocolTo> expected = Collections.singletonList(new SdmHandOverProtocolTo());
+		when(sdmHandOverProtocolCoreService.findHandOverProtocolsByReceiverUserId(receiverUserId)).thenReturn(expected);
+
+		List<SdmHandOverProtocolTo> result = sdmHandOverProtocolService.findHandOverProtocolsByReceiverUserId(receiverUserId);
 
 		assertThat(result).isEqualTo(expected);
-		verify(sdmHandOverProtocolCoreService).findHandOverProtocolsByReceiverUsername("user");
+		verify(sdmHandOverProtocolCoreService).findHandOverProtocolsByReceiverUserId(receiverUserId);
 	}
 
 	@Test
 	void findHandOverProtocolsByPerformerUsername_DelegatesToCoreService() {
+		UUID receiverUserId = UUID.randomUUID();
 		List<SdmHandOverProtocolTo> expected = Collections.singletonList(new SdmHandOverProtocolTo());
-		when(sdmHandOverProtocolCoreService.findHandOverProtocolsByPerformerUsername("user")).thenReturn(expected);
+		when(sdmHandOverProtocolCoreService.findHandOverProtocolsByPerformerUserId(receiverUserId)).thenReturn(expected);
 
-		List<SdmHandOverProtocolTo> result = sdmHandOverProtocolService.findHandOverProtocolsByPerformerUsername("user");
+		List<SdmHandOverProtocolTo> result = sdmHandOverProtocolService.findHandOverProtocolsByPerformerUsername(receiverUserId);
 
 		assertThat(result).isEqualTo(expected);
-		verify(sdmHandOverProtocolCoreService).findHandOverProtocolsByPerformerUsername("user");
+		verify(sdmHandOverProtocolCoreService).findHandOverProtocolsByPerformerUserId(receiverUserId);
 	}
 
 	@Test

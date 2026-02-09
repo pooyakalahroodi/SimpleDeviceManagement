@@ -1,6 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
 
@@ -9,14 +10,14 @@ public interface SdmHandOverProtocolService {
 
 	SdmHandOverProtocolTo saveHandOverProtocol(SdmHandOverProtocolTo request);
 
-	List<SdmHandOverProtocolTo> findHandOverProtocolsByReceiverUsername(String username);
+	List<SdmHandOverProtocolTo> findHandOverProtocolsByReceiverUserId(UUID userId);
 
 	List<SdmHandOverProtocolTo> findByDeviceSerialNumber(String serialNumber);
 
 	SdmHandOverProtocolTo confirmByDeviceSerialNumber(String serialNumber);
 //    HandOverProtocolEntity saveHandOverProtocol(HandOverProtoco dto);
 
-	List<SdmHandOverProtocolTo> findHandOverProtocolsByPerformerUsername(String username);
+	List<SdmHandOverProtocolTo> findHandOverProtocolsByPerformerUsername(UUID userId);
 
 	SdmHandOverProtocolTo findNonConfirmedProtocolsByDeviceSerialNumber(String serialNumber);
 

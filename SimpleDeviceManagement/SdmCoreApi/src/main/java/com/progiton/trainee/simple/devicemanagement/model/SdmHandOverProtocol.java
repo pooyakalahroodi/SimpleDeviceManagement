@@ -3,14 +3,15 @@ package com.progiton.trainee.simple.devicemanagement.model;
 import com.progiton.trainee.simple.devicemanagement.model.enums.SdmActionType;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public interface SdmHandOverProtocol {
 
 	String getDeviceSerialNumber();
 
-	String getReceiverUsername();
+	UUID getReceiverUserId();
 
-	String getPerformedByUsername();
+	UUID getPerformedByUserId();
 
 	Instant getHandoverDate();
 

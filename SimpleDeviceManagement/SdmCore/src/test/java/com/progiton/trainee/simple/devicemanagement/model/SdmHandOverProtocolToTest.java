@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,10 +28,12 @@ class SdmHandOverProtocolToTest {
     }
 
     private static SdmHandOverProtocolTo validProtocol() {
+        UUID receiverUserId = UUID.randomUUID();
+        UUID performerUserId = UUID.randomUUID();
         return new SdmHandOverProtocolTo(
                 "SN-12345",
-                "receiver1",
-                "admin1",
+                receiverUserId,
+                performerUserId,
                 SdmActionType.HANDOVER,      // adjust to a real enum value in your project
                 Instant.parse("2025-01-01T10:15:30Z"),
                 "All good.",
@@ -59,23 +62,25 @@ class SdmHandOverProtocolToTest {
     }
 
     @Test
-    void receiverUsernameTooLong_thenViolationOnReceiverUsername() {
+    void deviceSerialNumberTooLong_thenViolationOnDeviceSerialNumber() {
         SdmHandOverProtocolTo to = validProtocol();
-        to.setReceiverUsername("a".repeat(51)); // @Size(max=50)
+        to.setDeviceSerialNumber("a".repeat(51));  // ✅ @Size(max=50) on String field
 
         Set<ConstraintViolation<SdmHandOverProtocolTo>> violations = validator.validate(to);
 
-        assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("receiverUsername"));
+        assertThat(violations)
+                .hasSize(1)
+                .anyMatch(v -> v.getPropertyPath().toString().equals("deviceSerialNumber"));
     }
 
     @Test
-    void performedByUsernameNull_thenViolationOnPerformedByUsername() {
+    void performedByUserIdNull_thenViolationOnPerformedByUserId() {
         SdmHandOverProtocolTo to = validProtocol();
-        to.setPerformedByUsername(null); // @NotBlank also fails for null in most providers
+        to.setPerformedByUserId(null); // @NotBlank also fails for null in most providers
 
         Set<ConstraintViolation<SdmHandOverProtocolTo>> violations = validator.validate(to);
 
-        assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("performedByUsername"));
+        assertThat(violations).anyMatch(v -> v.getPropertyPath().toString().equals("performedByUserId"));
     }
 
     @Test

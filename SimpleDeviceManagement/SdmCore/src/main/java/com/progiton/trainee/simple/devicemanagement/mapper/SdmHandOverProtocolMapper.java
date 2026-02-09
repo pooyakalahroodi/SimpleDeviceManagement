@@ -15,10 +15,10 @@ public interface SdmHandOverProtocolMapper {
 
 	// === ENTITY → TO ===
 	@Mapping(source = "device.serialNumber", target = "deviceSerialNumber")
-	@Mapping(source = "receiver.username", target = "receiverUsername")
-	@Mapping(source = "performedBy.username", target = "performedByUsername")
-//	@Mapping(target = "actionType", source = "actionType", qualifiedByName = "mapActionType")
+	@Mapping(source = "receiver.userId", target = "receiverUserId")        // UUID!
+	@Mapping(source = "performedBy.userId", target = "performedByUserId")  // UUID!
 	SdmHandOverProtocolTo toTo(SdmHandOverProtocolEntity entity);
+
 
 	// === TO → ENTITY ===
 	@Mapping(target = "device", ignore = true)

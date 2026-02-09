@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -101,18 +102,20 @@ class SdmHandOverProtocolControllerTest {
 	}
 
 	@Test
-	@DisplayName("getProtocolsByReceiverUsername returns protocols")
-	void testGetProtocolsByReceiverUsername() {
+	@DisplayName("getProtocolsByReceiverUserId returns protocols")
+	void testGetProtocolsByReceiverUserId() {
+		UUID receiverUuid = UUID.randomUUID();
+		UUID performerUuid = UUID.randomUUID();
 		SdmHandOverProtocolTo protocol = new SdmHandOverProtocolTo();
-		protocol.setReceiverUsername("johnsmith");
+		protocol.setReceiverUserId(receiverUuid);
 
-		when(sdmHandOverProtocolService.findHandOverProtocolsByReceiverUsername("johnsmith"))
+		when(sdmHandOverProtocolService.findHandOverProtocolsByReceiverUserId(receiverUuid))
 				.thenReturn(List.of(protocol));
 
-		ResponseEntity<List<SdmHandOverProtocolTo>> response = controller.getProtocolsByReceiverUsername("johnsmith");
+		ResponseEntity<List<SdmHandOverProtocolTo>> response = controller.getProtocolsByReceiverUserId(receiverUuid);
 
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
 		assertThat(response.getBody()).hasSize(1);
-		assertThat(response.getBody().get(0).getReceiverUsername()).isEqualTo("johnsmith");
+		assertThat(response.getBody().get(0).getReceiverUserId()).isEqualTo(receiverUuid);
 	}
 }

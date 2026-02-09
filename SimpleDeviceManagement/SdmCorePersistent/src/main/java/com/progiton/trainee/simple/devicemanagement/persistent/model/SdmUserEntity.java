@@ -1,6 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.persistent.model;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmUser;
 
@@ -13,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "users")
@@ -21,8 +23,13 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser<SdmDev
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(length = 50,unique = true, nullable = false)
-	private String username;
+	// Option 1: Database-agnostic (recommended)
+	@Column(name = "user_id", unique = true)
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	private UUID userId;
+
+	@Column(name = "email_address", length = 50,unique = true, nullable = false)
+	private String emailAddress;
 
 	private boolean enabled;
 
@@ -41,8 +48,8 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser<SdmDev
 	public SdmUserEntity() {
 	}
 
-	public SdmUserEntity(String username, String name, String password) {
-		this.username = username;
+	public SdmUserEntity(String emailAddress, String name, String password) {
+		this.emailAddress = emailAddress;
 		this.name = name;
 	}
 
@@ -56,12 +63,21 @@ public class SdmUserEntity extends SdmBaseEntity<Long> implements SdmUser<SdmDev
 	}
 
 	@Override
-	public String getUsername() {
-		return username;
+	public UUID getUserId() {
+		return userId;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public UUID setUserId(UUID userId){this.userId= this.userId;
+        return userId;
+    }
+
+	@Override
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 
 	@Override

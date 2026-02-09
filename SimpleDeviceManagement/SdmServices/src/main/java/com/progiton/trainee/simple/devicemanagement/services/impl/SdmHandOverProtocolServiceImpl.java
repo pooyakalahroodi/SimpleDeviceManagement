@@ -1,6 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -28,13 +29,13 @@ public class SdmHandOverProtocolServiceImpl implements SdmHandOverProtocolServic
 	}
 
 	@Override
-	public List<SdmHandOverProtocolTo> findHandOverProtocolsByReceiverUsername(String username) {
-		return sdmHandOverProtocolCoreService.findHandOverProtocolsByReceiverUsername(username);
+	public List<SdmHandOverProtocolTo> findHandOverProtocolsByReceiverUserId(UUID userId) {
+		return sdmHandOverProtocolCoreService.findHandOverProtocolsByReceiverUserId(userId);
 	}
 
 	@Override
-	public List<SdmHandOverProtocolTo> findHandOverProtocolsByPerformerUsername(String username) {
-		return sdmHandOverProtocolCoreService.findHandOverProtocolsByPerformerUsername(username);
+	public List<SdmHandOverProtocolTo> findHandOverProtocolsByPerformerUsername(UUID userId) {
+		return sdmHandOverProtocolCoreService.findHandOverProtocolsByPerformerUserId(userId);
 	}
 
 	@Override

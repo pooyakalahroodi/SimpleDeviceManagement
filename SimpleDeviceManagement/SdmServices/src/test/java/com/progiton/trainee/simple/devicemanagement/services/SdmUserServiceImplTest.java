@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,24 +62,26 @@ class SdmUserServiceImplTest {
 
 	@Test
 	void assignDeviceToUser_DelegatesToCoreService() {
+		UUID user = UUID.randomUUID();
 		SdmDeviceTo expected = new SdmDeviceTo();
-		when(sdmUserCoreService.assignDeviceToUser("user", "SN123")).thenReturn(expected);
+		when(sdmUserCoreService.assignDeviceToUser(user, "SN123")).thenReturn(expected);
 
-		SdmDeviceTo result = sdmUserService.assignDeviceToUser("user", "SN123");
+		SdmDeviceTo result = sdmUserService.assignDeviceToUser(user, "SN123");
 
 		assertThat(result).isEqualTo(expected);
-		verify(sdmUserCoreService).assignDeviceToUser("user", "SN123");
+		verify(sdmUserCoreService).assignDeviceToUser(user, "SN123");
 	}
 
 	@Test
 	void findUserByUsername_DelegatesToCoreService() {
+		UUID user = UUID.randomUUID();
 		SdmUserTo expected = new SdmUserTo();
-		when(sdmUserCoreService.findUserByUsername("user")).thenReturn(expected);
+		when(sdmUserCoreService.findUserByUserId(user)).thenReturn(expected);
 
-		SdmUserTo result = sdmUserService.findUserByUsername("user");
+		SdmUserTo result = sdmUserService.findUserByUserId(user);
 
 		assertThat(result).isEqualTo(expected);
-		verify(sdmUserCoreService).findUserByUsername("user");
+		verify(sdmUserCoreService).findUserByUserId(user);
 	}
 
 	@Test
@@ -94,23 +97,25 @@ class SdmUserServiceImplTest {
 
 	@Test
 	void assignDepartmentToUser_DelegatesToCoreService() {
+		UUID user = UUID.randomUUID();
 		SdmUserTo expected = new SdmUserTo();
-		when(sdmUserCoreService.assignDepartmentToUser("user", "IT")).thenReturn(expected);
+		when(sdmUserCoreService.assignDepartmentToUser(user, "IT")).thenReturn(expected);
 
-		SdmUserTo result = sdmUserService.assignDepartmentToUser("user", "IT");
+		SdmUserTo result = sdmUserService.assignDepartmentToUser(user, "IT");
 
 		assertThat(result).isEqualTo(expected);
-		verify(sdmUserCoreService).assignDepartmentToUser("user", "IT");
+		verify(sdmUserCoreService).assignDepartmentToUser(user, "IT");
 	}
 
 	@Test
 	void findDeviceByUser_DelegatesToCoreService() {
+		UUID user = UUID.randomUUID();
 		List<SdmDeviceTo> expected = Collections.singletonList(new SdmDeviceTo());
-		when(sdmUserCoreService.findDeviceByUser("user")).thenReturn(expected);
+		when(sdmUserCoreService.findDeviceByUser(user)).thenReturn(expected);
 
-		List<SdmDeviceTo> result = sdmUserService.findDeviceByUser("user");
+		List<SdmDeviceTo> result = sdmUserService.findDeviceByUserID(user);
 
 		assertThat(result).isEqualTo(expected);
-		verify(sdmUserCoreService).findDeviceByUser("user");
+		verify(sdmUserCoreService).findDeviceByUser(user);
 	}
 }

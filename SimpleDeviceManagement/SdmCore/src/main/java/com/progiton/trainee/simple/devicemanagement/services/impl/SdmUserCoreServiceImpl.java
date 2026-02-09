@@ -1,6 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -52,16 +53,17 @@ public class SdmUserCoreServiceImpl implements SdmUserCoreService {
 
 	@Override
 	public SdmUserTo createUser(SdmUserTo request) {
-		log.debug("Checking username: {}", request.getUsername());
+		log.debug("Checking username: {}", request.getEmailAddress());
 		// Check if user already exists
-		if (sdmUserRepository.existsByUsername(request.getUsername())) {
+		if (sdmUserRepository.existsByUserId(request.getUserId())) {
 			throw new SdmEntityAlreadyExistsException(
-					"User with username " + request.getUsername() + " already exists");
+					"User with username " + request.getEmailAddress() + " already exists");
 		}
 
 		// Create new user
 		SdmUserEntity user = new SdmUserEntity();
-		user.setUsername(request.getUsername());
+		user.setUserId(UUID.randomUUID());
+		user.setEmailAddress(request.getEmailAddress());
 		user.setName(request.getName());
 		user.setSurname(request.getSurname());
 		user.setEnabled(request.getEnabled() != null ? request.getEnabled() : true);
@@ -82,19 +84,19 @@ public class SdmUserCoreServiceImpl implements SdmUserCoreService {
 			return usermapper.toTo(savedUser);
 		} catch (DataIntegrityViolationException ex) {
 			// This catches race conditions or any other unique constraint violations
-			throw new SdmEntityAlreadyExistsException("User with username " + request.getUsername() + " already exists",
+			throw new SdmEntityAlreadyExistsException("User with username " + request.getEmailAddress() + " already exists",
 					ex);
 		}
 	}
 
 	@Override
-	public SdmDeviceTo assignDeviceToUser(String username, String serialNumber) {
+	public SdmDeviceTo assignDeviceToUser(UUID userId, String serialNumber) {
 		// Fetch the device
 		SdmDeviceEntity device = sdmDeviceRepository.findBySerialNumber(serialNumber)
 				.orElseThrow(() -> new SdmEntityNotFoundException("Device not found with serial: " + serialNumber));
 		// Fetch the user
-		SdmUserEntity user = sdmUserRepository.findByUsernameIgnoreCase(username)
-				.orElseThrow(() -> new SdmEntityNotFoundException("User not found with username: " + username));
+		SdmUserEntity user = sdmUserRepository.findByUserId(userId)
+				.orElseThrow(() -> new SdmEntityNotFoundException("User not found with username: " + userId));
 		// Assign the user to the device
 		device.setUser(user);
 		// Save the updated device
@@ -104,9 +106,9 @@ public class SdmUserCoreServiceImpl implements SdmUserCoreService {
 	}
 
 	@Override
-	public SdmUserTo findUserByUsername(String username) {
-		SdmUserEntity user = sdmUserRepository.findByUsernameIgnoreCase(username)
-				.orElseThrow(() -> new SdmEntityNotFoundException("User not found with username: " + username));
+	public SdmUserTo findUserByUserId(UUID userId) {
+		SdmUserEntity user = sdmUserRepository.findByUserId(userId)
+				.orElseThrow(() -> new SdmEntityNotFoundException("User not found with username: " + userId));
 		return usermapper.toTo(user);
 	}
 
@@ -121,10 +123,10 @@ public class SdmUserCoreServiceImpl implements SdmUserCoreService {
 	}
 
 	@Override
-	public SdmUserTo assignDepartmentToUser(String username, String departmentName) {
+	public SdmUserTo assignDepartmentToUser(UUID userId, String departmentName) {
 		// Find user
-		SdmUserEntity user = sdmUserRepository.findByUsernameIgnoreCase(username)
-				.orElseThrow(() -> new SdmEntityNotFoundException("User not found with username: " + username));
+		SdmUserEntity user = sdmUserRepository.findByUserId(userId)
+				.orElseThrow(() -> new SdmEntityNotFoundException("User not found with username: " + userId));
 		// Find department
 		SdmDepartmentEntity department = sdmDepartmentRepository.findByNameIgnoreCase(departmentName)
 				.orElseThrow(() -> new SdmEntityNotFoundException("Department not found with name: " + departmentName));
@@ -135,16 +137,16 @@ public class SdmUserCoreServiceImpl implements SdmUserCoreService {
 	}
 
 	@Override
-	public List<SdmDeviceTo> findDeviceByUser(String username) {
+	public List<SdmDeviceTo> findDeviceByUser(UUID userId) {
 		// Load the user with devices
-		SdmUserEntity user = sdmUserRepository.findByUsernameIgnoreCase(username)
-				.orElseThrow(() -> new SdmEntityNotFoundException("User not found with username: " + username));
+		SdmUserEntity user = sdmUserRepository.findByUserId(userId)
+				.orElseThrow(() -> new SdmEntityNotFoundException("User not found with username: " + userId));
 
 		List<SdmDeviceEntity> devices = user.getDevices();
 
 		// Fail if the user has no devices
 		if (devices == null || devices.isEmpty()) {
-			throw new SdmEntityNotFoundException("No devices found for user: " + username);
+			throw new SdmEntityNotFoundException("No devices found for user: " + userId);
 		}
 
 		// Convert to DTOs and return

@@ -1,6 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.model.to;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import com.progiton.trainee.simple.devicemanagement.model.SdmHandOverProtocol;
 
@@ -15,13 +16,11 @@ public class SdmHandOverProtocolTo implements SdmHandOverProtocol {
 	@Size(max = 50)
 	private String deviceSerialNumber;
 
-	@NotBlank
-	@Size(max = 50)
-	private String receiverUsername;
+	@NotNull
+	private UUID receiverUserId;
 
-	@NotBlank
-	@Size(max = 50)
-	private String performedByUsername;
+	@NotNull
+	private UUID performedByUserId;
 
 	@NotNull
 	private SdmActionType actionType;
@@ -43,12 +42,12 @@ public class SdmHandOverProtocolTo implements SdmHandOverProtocol {
 
 	}
 
-	public SdmHandOverProtocolTo(String deviceSerialNumber, String receiverUsername, String performedByUsername,
-			SdmActionType actionType, Instant handoverDate, String comments, Boolean isConfirmed, Instant confirmedAt) {
+	public SdmHandOverProtocolTo(String deviceSerialNumber, UUID receiverUserId, UUID performedByUserId,
+								 SdmActionType actionType, Instant handoverDate, String comments, Boolean isConfirmed, Instant confirmedAt) {
 
 		this.deviceSerialNumber = deviceSerialNumber;
-		this.receiverUsername = receiverUsername;
-		this.performedByUsername = performedByUsername;
+		this.receiverUserId = receiverUserId;
+		this.performedByUserId = performedByUserId;
 		this.actionType = actionType;
 		this.handoverDate = handoverDate;
 		this.comments = comments;
@@ -66,21 +65,21 @@ public class SdmHandOverProtocolTo implements SdmHandOverProtocol {
 	}
 
 	@Override
-	public String getReceiverUsername() {
-		return receiverUsername;
+	public UUID getReceiverUserId() {
+		return receiverUserId;
 	}
 
-	public void setReceiverUsername(String receiverUsername) {
-		this.receiverUsername = receiverUsername;
+	public void setReceiverUserId(UUID receiverUserId) {
+		this.receiverUserId = receiverUserId;
 	}
 
 	@Override
-	public String getPerformedByUsername() {
-		return performedByUsername;
+	public UUID getPerformedByUserId() {
+		return performedByUserId;
 	}
 
-	public void setPerformedByUsername(String performedByUsername) {
-		this.performedByUsername = performedByUsername;
+	public void setPerformedByUserId(UUID performedByUserId) {
+		this.performedByUserId = performedByUserId;
 	}
 
 	@Override

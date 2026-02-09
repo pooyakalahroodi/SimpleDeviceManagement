@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,8 +63,9 @@ class SdmUserCoreServiceImplTest {
 
 	@BeforeEach
 	void setUp() {
+		UUID testUserId =  UUID.fromString("c2a1297d-7651-4c46-ab34-3e360174891c");
 		userRequest = new SdmUserTo();
-		userRequest.setUsername("testuser");
+		userRequest.setUserId(testUserId);
 		userRequest.setName("Test");
 		userRequest.setSurname("User");
 		userRequest.setEnabled(true);
@@ -78,7 +80,7 @@ class SdmUserCoreServiceImplTest {
 
 		userEntity = new SdmUserEntity();
 		userEntity.setId(1L);
-		userEntity.setUsername("testuser");
+		userEntity.setEmailAddress("testuser");
 		userEntity.setName("Test");
 		userEntity.setSurname("User");
 		userEntity.setEnabled(true);
@@ -91,7 +93,7 @@ class SdmUserCoreServiceImplTest {
 		deviceEntity.setUser(userEntity);
 
 		userTo = new SdmUserTo();
-		userTo.setUsername("testuser");
+		userTo.setUserId(testUserId);
 
 		deviceTo = new SdmDeviceTo();
 		deviceTo.setSerialNumber("ABC123");
@@ -99,7 +101,8 @@ class SdmUserCoreServiceImplTest {
 
 	@Test
 	void createUser_Success() {
-		when(userRepository.existsByUsername("testuser")).thenReturn(false);
+		UUID testUserId =  UUID.fromString("c2a1297d-7651-4c46-ab34-3e360174891c");
+		when(userRepository.existsByUserId(testUserId)).thenReturn(false);
 		when(departmentRepository.findByNameIgnoreCase("IT")).thenReturn(Optional.of(departmentEntity));
 		when(userRepository.save(any(SdmUserEntity.class))).thenReturn(userEntity);
 		when(userMapper.toTo(userEntity)).thenReturn(userTo);
@@ -107,69 +110,73 @@ class SdmUserCoreServiceImplTest {
 		SdmUserTo result = userService.createUser(userRequest);
 
 		assertThat(result).isNotNull();
-		assertThat(result.getUsername()).isEqualTo("testuser");
+		assertThat(result.getEmailAddress()).isEqualTo("testuser");
 
-		verify(userRepository).existsByUsername("testuser");
+		verify(userRepository).existsByUserId(testUserId);
 		verify(departmentRepository).findByNameIgnoreCase("IT");
 		verify(userRepository).save(any(SdmUserEntity.class));
 	}
 
 	@Test
 	void createUser_UserAlreadyExists_ThrowsException() {
-		when(userRepository.existsByUsername("testuser")).thenReturn(true);
+		UUID testUserId =  UUID.fromString("c2a1297d-7651-4c46-ab34-3e360174891c");
+		when(userRepository.existsByUserId(testUserId)).thenReturn(true);
 
 		assertThrows(SdmEntityAlreadyExistsException.class, () -> userService.createUser(userRequest));
 
-		verify(userRepository).existsByUsername("testuser");
+		verify(userRepository).existsByUserId(testUserId);
 		verify(departmentRepository, never()).findByNameIgnoreCase(anyString());
 	}
 
 	@Test
 	void createUser_DepartmentNotFound_ThrowsException() {
-		when(userRepository.existsByUsername("testuser")).thenReturn(false);
+		UUID testUserId =  UUID.fromString("c2a1297d-7651-4c46-ab34-3e360174891c");
+		when(userRepository.existsByUserId(testUserId)).thenReturn(false);
 		when(departmentRepository.findByNameIgnoreCase("IT")).thenReturn(Optional.empty());
 
 		assertThrows(SdmEntityNotFoundException.class, () -> userService.createUser(userRequest));
 
-		verify(userRepository).existsByUsername("testuser");
+		verify(userRepository).existsByUserId(testUserId);
 		verify(departmentRepository).findByNameIgnoreCase("IT");
 	}
 
 	@Test
 	void assignDeviceToUser_Success() {
+		UUID testUserId =  UUID.fromString("c2a1297d-7651-4c46-ab34-3e360174891c");
 		when(deviceRepository.findBySerialNumber("ABC123")).thenReturn(Optional.of(deviceEntity));
-		when(userRepository.findByUsernameIgnoreCase("testuser")).thenReturn(Optional.of(userEntity));
+		when(userRepository.findByUserId(testUserId)).thenReturn(Optional.of(userEntity));
 		when(deviceRepository.save(deviceEntity)).thenReturn(deviceEntity);
 		when(deviceMapper.toTo(deviceEntity)).thenReturn(deviceTo);
 
-		SdmDeviceTo result = userService.assignDeviceToUser("testuser", "ABC123");
+		SdmDeviceTo result = userService.assignDeviceToUser(testUserId, "ABC123");
 
 		assertThat(result).isNotNull();
 		assertThat(result.getSerialNumber()).isEqualTo("ABC123");
 
 		verify(deviceRepository).findBySerialNumber("ABC123");
-		verify(userRepository).findByUsernameIgnoreCase("testuser");
+		verify(userRepository).findByUserId(testUserId);
 		verify(deviceRepository).save(deviceEntity);
 	}
 
 	@Test
 	void assignDeviceToUser_DeviceNotFound_ThrowsException() {
+		UUID testUserId =  UUID.fromString("c2a1297d-7651-4c46-ab34-3e360174891c");
 		when(deviceRepository.findBySerialNumber("ABC123")).thenReturn(Optional.empty());
 
-		assertThrows(SdmEntityNotFoundException.class, () -> userService.assignDeviceToUser("testuser", "ABC123"));
+		assertThrows(SdmEntityNotFoundException.class, () -> userService.assignDeviceToUser(testUserId, "ABC123"));
 
 		verify(deviceRepository).findBySerialNumber("ABC123");
-		verify(userRepository, never()).findByUsernameIgnoreCase(anyString());
-	}
+		verify(userRepository, never()).findByUserId(any(UUID.class));	}
 
 	@Test
 	void assignDeviceToUser_UserNotFound_ThrowsException() {
+		UUID testUserId =  UUID.fromString("c2a1297d-7651-4c46-ab34-3e360174891c");
 		when(deviceRepository.findBySerialNumber("ABC123")).thenReturn(Optional.of(deviceEntity));
-		when(userRepository.findByUsernameIgnoreCase("testuser")).thenReturn(Optional.empty());
+		when(userRepository.findByUserId(testUserId)).thenReturn(Optional.empty());
 
-		assertThrows(SdmEntityNotFoundException.class, () -> userService.assignDeviceToUser("testuser", "ABC123"));
+		assertThrows(SdmEntityNotFoundException.class, () -> userService.assignDeviceToUser(testUserId, "ABC123"));
 
 		verify(deviceRepository).findBySerialNumber("ABC123");
-		verify(userRepository).findByUsernameIgnoreCase("testuser");
+		verify(userRepository).findByUserId(testUserId);
 	}
 }

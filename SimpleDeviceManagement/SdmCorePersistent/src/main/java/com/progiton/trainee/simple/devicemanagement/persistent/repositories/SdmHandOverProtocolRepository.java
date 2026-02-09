@@ -1,6 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.persistent.repositories;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,10 +15,10 @@ public interface SdmHandOverProtocolRepository extends JpaRepository<SdmHandOver
 	List<SdmHandOverProtocolEntity> findAllByDevice_SerialNumber(String serialNumber);
 
 	// Optional: Find all handovers performed by a specific user
-	List<SdmHandOverProtocolEntity> findByPerformedBy_Username(String username);
+	List<SdmHandOverProtocolEntity> findByPerformedBy_UserId(UUID userId);
 
 	// Optional: Find all handovers received by a specific user
-	List<SdmHandOverProtocolEntity> findByReceiver_Username(String username);
+	List<SdmHandOverProtocolEntity> findByReceiver_UserId(UUID  userId);
 
 	// Optional: Find all unconfirmed protocols
 	List<SdmHandOverProtocolEntity> findByIsConfirmedFalse();

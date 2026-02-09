@@ -1,6 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -34,13 +35,13 @@ public class SdmUserServiceImpl implements SdmUserService {
 	}
 
 	@Override
-	public SdmDeviceTo assignDeviceToUser(String username,String serialNumber) {
-		return sdmUserCoreService.assignDeviceToUser(username, serialNumber);
+	public SdmDeviceTo assignDeviceToUser(UUID userId, String serialNumber) {
+		return sdmUserCoreService.assignDeviceToUser(userId, serialNumber);
 	}
 
 	@Override
-	public SdmUserTo findUserByUsername(String username) {
-		return sdmUserCoreService.findUserByUsername(username);
+	public SdmUserTo findUserByUserId(UUID username) {
+		return sdmUserCoreService.findUserByUserId(username);
 	}
 
 	@Override
@@ -49,13 +50,13 @@ public class SdmUserServiceImpl implements SdmUserService {
 	}
 
 	@Override
-	public SdmUserTo assignDepartmentToUser(String username, String departmentName) {
-		return sdmUserCoreService.assignDepartmentToUser(username, departmentName);
+	public SdmUserTo assignDepartmentToUser(UUID userId, String departmentName) {
+		return sdmUserCoreService.assignDepartmentToUser(userId, departmentName);
 	}
 
 	@Override
-	public List<SdmDeviceTo> findDeviceByUser(String username) {
-		return sdmUserCoreService.findDeviceByUser(username);
+	public List<SdmDeviceTo> findDeviceByUserID(UUID userId) {
+		return sdmUserCoreService.findDeviceByUser(userId);
 	}
 
 }
