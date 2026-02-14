@@ -1,8 +1,11 @@
 package com.progiton.trainee.simple.devicemanagement.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,7 @@ import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmD
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmDeviceRepository;
 import com.progiton.trainee.simple.devicemanagement.persistent.repositories.SdmUserRepository;
 import com.progiton.trainee.simple.devicemanagement.services.SdmUserCoreService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SdmUserCoreServiceImpl implements SdmUserCoreService {
@@ -103,6 +107,15 @@ public class SdmUserCoreServiceImpl implements SdmUserCoreService {
 		SdmDeviceEntity saved = sdmDeviceRepository.save(device);
 		// Convert to DTO and return
 		return devicmapper.toTo(saved);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public SdmUserTo findUserByEmailAddress(@NotBlank @Email String emailAddress) {
+		log.debug("Suche Benutzer mit E-Mail: {}", emailAddress);
+		SdmUserEntity user = sdmUserRepository.findUserByEmailAddress(emailAddress)
+				.orElseThrow(() -> new SdmEntityNotFoundException("User not found with Email Address: " + emailAddress));
+		return usermapper.toTo(user);
 	}
 
 	@Override

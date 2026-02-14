@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +68,42 @@ public class SdmUserController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 	}
+
+	@GetMapping("/email/{emailAddress}")
+	@Operation(summary = "Findet einen Benutzer per E-Mail-Adresse",
+			description = "Liefert einen Benutzer für die gegebene E-Mail-Adresse.",
+			operationId = "getUserByEmailAddress",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Benutzer gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmUserTo.class))),
+					@ApiResponse(responseCode = "400", description = "Ungültige E-Mail-Adresse", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))),
+					@ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class)))
+			})
+	public ResponseEntity<SdmUserTo> getUserByEmailAddress(
+			@PathVariable @NotBlank @Email @Size(min = 4, max = 50) String emailAddress) {
+
+		SdmUserTo user = sdmUserService.findUserByEmailAddress(emailAddress);
+
+		return ResponseEntity.ok(user);
+	}
+
+	@PostMapping("/email")
+	@Operation(summary = "Findet einen Benutzer per E-Mail-Adresse (POST)",
+			description = "Sucht einen Benutzer basierend auf der E-Mail-Adresse im Request-Body.",
+			operationId = "postUserByEmailAddress",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Benutzer gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmUserTo.class))),
+					@ApiResponse(responseCode = "400", description = "Ungültige E-Mail-Adresse im Body", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class))),
+					@ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SdmErrorResponse.class)))
+			})
+	public ResponseEntity<SdmUserTo> postUserByEmailAddress(
+			@Valid @RequestBody String emailAddress) {
+
+		SdmUserTo user = sdmUserService.findUserByEmailAddress(emailAddress);
+
+		return ResponseEntity.ok(user);
+
+	}
+
 
 	@GetMapping("/department/{departmentName}")
 	@Operation(summary = "Findet alle Benutzer in einer Abteilung", description = "Liefert eine Liste aller Benutzer, die der angegebenen Abteilung zugeordnet sind.", operationId = "getUsersByDepartment", responses = {

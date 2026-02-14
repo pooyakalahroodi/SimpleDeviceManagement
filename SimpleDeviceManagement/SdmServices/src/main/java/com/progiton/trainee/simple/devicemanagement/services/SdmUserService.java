@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmUserTo;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 public interface SdmUserService {
 
@@ -18,6 +20,9 @@ public interface SdmUserService {
 	List<SdmUserTo> findUsersByDepartmentName(String departmentName);
 
 	List<SdmDeviceTo> findDeviceByUserID(UUID userId);
+
+	SdmUserTo findUserByEmailAddress(@NotBlank @Email String emailAddress);
+
 
 //    TODO .... make it
 //    List<SdmUserTo> findUsers(FindUserRequest request);

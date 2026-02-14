@@ -59,4 +59,9 @@ public class SdmUserServiceImpl implements SdmUserService {
 		return sdmUserCoreService.findDeviceByUser(userId);
 	}
 
+	@Override
+	public SdmUserTo findUserByEmailAddress(String emailAddress) {
+		return sdmUserCoreService.findUserByEmailAddress(emailAddress);
+	}
+
 }

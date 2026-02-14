@@ -21,6 +21,7 @@
         <module>SdmCorePersistent</module>
         <module>SdmServices</module>
         <module>SdmStarter</module>
+        <module>SdmOrderProcessing</module>
     </modules>
 
     <properties>
