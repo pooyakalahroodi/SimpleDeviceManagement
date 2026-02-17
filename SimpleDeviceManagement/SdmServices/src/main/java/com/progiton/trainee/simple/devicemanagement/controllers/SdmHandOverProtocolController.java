@@ -3,6 +3,7 @@ package com.progiton.trainee.simple.devicemanagement.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import com.progiton.trainee.simple.devicemanagement.services.SdmHandOverProtocolService;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmErrorResponse;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
-import com.progiton.trainee.simple.devicemanagement.services.SdmHandOverProtocolService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

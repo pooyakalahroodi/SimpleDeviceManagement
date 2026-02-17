@@ -1,6 +1,7 @@
 package com.progiton.trainee.simple.devicemanagement.inbound.jms;
 
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceRegistrationOrderTo;
+import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceRegistrationService;
 import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class SdmDeviceRegistrationListener {
-    private final SdmDeviceService sdmDeviceService;
+    private final SdmDeviceRegistrationService sdmDeviceRegistrationService;
 
     /**
      * Listens for device registration orders on ActiveMQ queue.
@@ -21,12 +22,8 @@ public class SdmDeviceRegistrationListener {
             destination = "device-user-registration-queue",
             containerFactory = "jmsListenerContainerFactory"
     )
-    public void handleDeviceUserRegis tration(SdmDeviceRegistrationOrderTo order) {
-        log.info("📥 Received registration order: user={} device={}",
-                order.getEmailAddress(), order.getSerialNumber());
-
-        // Delegate to your application service (validation, business logic, persistence)
-        sdmDeviceService.saveDevice(order);
+    public void handleDeviceRegistration(SdmDeviceRegistrationOrderTo order) {
+        sdmDeviceRegistrationService.registerDevice(order);  // ← Single method call
 
         log.info("✅ Processed registration: serial={} user={}",
                 order.getSerialNumber(), order.getEmailAddress());

@@ -15,16 +15,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
-import com.progiton.trainee.simple.devicemanagement.services.impl.SdmDeviceServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-class SdmDeviceServiceImplTest {
+class SdmDeviceServiceTest {
 
 	@Mock
 	private SdmDeviceCoreService sdmDeviceCoreService;
 
 	@InjectMocks
-	private SdmDeviceServiceImpl sdmDeviceService;
+	private SdmDeviceService sdmDeviceService;
 
 	@Test
 	void findAllDevices_DelegatesToCoreService() {

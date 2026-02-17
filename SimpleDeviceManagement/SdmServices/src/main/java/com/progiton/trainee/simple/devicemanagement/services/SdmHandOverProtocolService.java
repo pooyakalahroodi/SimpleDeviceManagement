@@ -3,22 +3,45 @@ package com.progiton.trainee.simple.devicemanagement.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
+
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
 
-public interface SdmHandOverProtocolService {
-	List<SdmHandOverProtocolTo> findAllHandOverProtocols();
+@Service
+public class SdmHandOverProtocolService {
 
-	SdmHandOverProtocolTo saveHandOverProtocol(SdmHandOverProtocolTo request);
+	private final SdmHandOverProtocolCoreService sdmHandOverProtocolCoreService;
 
-	List<SdmHandOverProtocolTo> findHandOverProtocolsByReceiverUserId(UUID userId);
+	public SdmHandOverProtocolService(SdmHandOverProtocolCoreService sdmHandOverProtocolCoreService) {
+		this.sdmHandOverProtocolCoreService = sdmHandOverProtocolCoreService;
+	}
 
-	List<SdmHandOverProtocolTo> findByDeviceSerialNumber(String serialNumber);
+	public List<SdmHandOverProtocolTo> findAllHandOverProtocols() {
+		return sdmHandOverProtocolCoreService.findAllHandOverProtocols();
+	}
 
-	SdmHandOverProtocolTo confirmByDeviceSerialNumber(String serialNumber);
-//    HandOverProtocolEntity saveHandOverProtocol(HandOverProtoco dto);
+	public SdmHandOverProtocolTo saveHandOverProtocol(SdmHandOverProtocolTo request) {
+		return sdmHandOverProtocolCoreService.saveHandOverProtocol(request);
+	}
 
-	List<SdmHandOverProtocolTo> findHandOverProtocolsByPerformerUsername(UUID userId);
+	public List<SdmHandOverProtocolTo> findHandOverProtocolsByReceiverUserId(UUID userId) {
+		return sdmHandOverProtocolCoreService.findHandOverProtocolsByReceiverUserId(userId);
+	}
 
-	SdmHandOverProtocolTo findNonConfirmedProtocolsByDeviceSerialNumber(String serialNumber);
+	public List<SdmHandOverProtocolTo> findHandOverProtocolsByPerformerUsername(UUID userId) {
+		return sdmHandOverProtocolCoreService.findHandOverProtocolsByPerformerUserId(userId);
+	}
+
+	public List<SdmHandOverProtocolTo> findByDeviceSerialNumber(String serialNumber) {
+		return sdmHandOverProtocolCoreService.findByDeviceSerialNumber(serialNumber);
+	}
+
+	public SdmHandOverProtocolTo findNonConfirmedProtocolsByDeviceSerialNumber(String serialNumber) {
+		return sdmHandOverProtocolCoreService.findNonConfirmedProtocolsByDeviceSerialNumber(serialNumber);
+	}
+
+	public SdmHandOverProtocolTo confirmByDeviceSerialNumber(String serialNumber) {
+		return sdmHandOverProtocolCoreService.confirmByDeviceSerialNumber(serialNumber);
+	}
 
 }

@@ -3,6 +3,7 @@ package com.progiton.trainee.simple.devicemanagement.controllers;
 import java.util.List;
 
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmEntityAlreadyExistsException;
+import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmErrorResponse;
 import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
-import com.progiton.trainee.simple.devicemanagement.services.SdmDeviceService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

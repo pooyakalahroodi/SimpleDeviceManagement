@@ -15,16 +15,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmHandOverProtocolTo;
-import com.progiton.trainee.simple.devicemanagement.services.impl.SdmHandOverProtocolServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-class SdmHandOverProtocolServiceImplTest {
+class SdmHandOverProtocolServiceTest {
 
 	@Mock
 	private SdmHandOverProtocolCoreService sdmHandOverProtocolCoreService;
 
 	@InjectMocks
-	private SdmHandOverProtocolServiceImpl sdmHandOverProtocolService;
+	private SdmHandOverProtocolService sdmHandOverProtocolService;
 
 	@Test
 	void findAllHandOverProtocols_DelegatesToCoreService() {

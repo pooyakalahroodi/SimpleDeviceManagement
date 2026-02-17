@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.UUID;
 
+import com.progiton.trainee.simple.devicemanagement.services.SdmUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDepartmentTo;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmUserTo;
-import com.progiton.trainee.simple.devicemanagement.services.SdmUserService;
 
 class SdmUserControllerTest {
 

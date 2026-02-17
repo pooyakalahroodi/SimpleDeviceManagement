@@ -14,4 +14,6 @@ public interface SdmDeviceCoreService {
 
 	SdmDeviceTo updateDeviceStatus(String serialNumber, SdmDeviceStatus newStatus);
 
+	boolean existsBySerialNumber(String serialNumber);
+
 }

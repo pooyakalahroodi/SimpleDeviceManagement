@@ -16,16 +16,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmUserTo;
-import com.progiton.trainee.simple.devicemanagement.services.impl.SdmUserServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-class SdmUserServiceImplTest {
+class SdmUserServiceTest {
 
 	@Mock
 	private SdmUserCoreService sdmUserCoreService;
 
 	@InjectMocks
-	private SdmUserServiceImpl sdmUserService;
+	private SdmUserService sdmUserService;
 
 	@Test
 	void findAllUsers_DelegatesToCoreService() {

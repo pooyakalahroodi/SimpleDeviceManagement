@@ -8,13 +8,32 @@ import com.progiton.trainee.simple.devicemanagement.model.enums.SdmDeviceStatus;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 
 @Service
-public interface SdmDeviceService {
-	List<SdmDeviceTo> findAllDevices();
+public class SdmDeviceService {
 
-	SdmDeviceTo saveDevice(SdmDeviceTo device);
+	private final SdmDeviceCoreService sdmDeviceCoreService;
 
-	SdmDeviceTo findDeviceBySerialNumber(String serialNumber);
+	public SdmDeviceService(SdmDeviceCoreService sdmDeviceCoreService) {
+		this.sdmDeviceCoreService = sdmDeviceCoreService;
+	}
 
-	SdmDeviceTo updateDeviceStatus(String serialNumber, SdmDeviceStatus newStatus);
+	public List<SdmDeviceTo> findAllDevices() {
+		return sdmDeviceCoreService.findAllDevices();
+	}
+
+	public SdmDeviceTo findDeviceBySerialNumber(String serialNumber) {
+		return sdmDeviceCoreService.findDeviceBySerialNumber(serialNumber);
+	}
+
+	public SdmDeviceTo saveDevice(SdmDeviceTo deviceTo) {
+		return sdmDeviceCoreService.saveDevice(deviceTo);
+	}
+
+	public SdmDeviceTo updateDeviceStatus(String serialNumber, SdmDeviceStatus newStatus) {
+		return sdmDeviceCoreService.updateDeviceStatus(serialNumber, newStatus);
+	}
+
+	public boolean existsBySerialNumber(String serialNumber) {
+		return sdmDeviceCoreService.existsBySerialNumber(serialNumber);
+	}
 
 }

@@ -3,6 +3,7 @@ package com.progiton.trainee.simple.devicemanagement.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import com.progiton.trainee.simple.devicemanagement.services.SdmUserService;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmErrorResponse;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDeviceTo;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmUserTo;
-import com.progiton.trainee.simple.devicemanagement.services.SdmUserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -68,4 +68,9 @@ public class SdmDeviceCoreServiceImpl implements SdmDeviceCoreService {
 		return mapper.toTo(saved);
 	}
 
+	@Override
+	public boolean existsBySerialNumber(String serialNumber) {
+        return sdmDeviceRepository.existsBySerialNumber(serialNumber);
+	}
+
 }

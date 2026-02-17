@@ -2,6 +2,7 @@ package com.progiton.trainee.simple.devicemanagement.controllers;
 
 import java.util.List;
 
+import com.progiton.trainee.simple.devicemanagement.services.SdmDepartmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.progiton.trainee.simple.devicemanagement.exceptions.SdmErrorResponse;
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDepartmentTo;
-import com.progiton.trainee.simple.devicemanagement.services.SdmDepartmentService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

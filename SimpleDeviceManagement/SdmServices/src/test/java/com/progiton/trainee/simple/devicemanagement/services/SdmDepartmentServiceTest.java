@@ -14,16 +14,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDepartmentTo;
-import com.progiton.trainee.simple.devicemanagement.services.impl.SdmDepartmentServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-class SdmDepartmentServiceImplTest {
+class SdmDepartmentServiceTest {
 
 	@Mock
 	private SdmDepartmentCoreService sdmDepartmentCoreService;
 
 	@InjectMocks
-	private SdmDepartmentServiceImpl sdmDepartmentService;
+	private SdmDepartmentService sdmDepartmentService;
 
 	@Test
 	void findAllDepartments_DelegatesToCoreService() {

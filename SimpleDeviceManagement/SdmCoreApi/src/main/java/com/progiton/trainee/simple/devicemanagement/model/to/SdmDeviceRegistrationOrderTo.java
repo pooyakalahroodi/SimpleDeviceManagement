@@ -8,12 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
 
 @Data @NoArgsConstructor @AllArgsConstructor
-public class SdmDeviceRegistrationOrderTo {
+public class SdmDeviceRegistrationOrderTo implements Serializable {
     // user data attached to the message
     private UUID userId;
 

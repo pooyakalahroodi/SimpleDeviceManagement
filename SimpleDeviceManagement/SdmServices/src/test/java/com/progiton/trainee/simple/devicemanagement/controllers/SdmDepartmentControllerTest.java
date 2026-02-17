@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import com.progiton.trainee.simple.devicemanagement.services.SdmDepartmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
 import com.progiton.trainee.simple.devicemanagement.model.to.SdmDepartmentTo;
-import com.progiton.trainee.simple.devicemanagement.services.SdmDepartmentService;
 
 class SdmDepartmentControllerTest {
 
