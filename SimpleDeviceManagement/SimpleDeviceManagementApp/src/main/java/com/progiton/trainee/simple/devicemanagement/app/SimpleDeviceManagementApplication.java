@@ -6,9 +6,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jms.annotation.EnableJms;
 
 
+<<<<<<< Updated upstream:SimpleDeviceManagement/SimpleDeviceManagementApp/src/main/java/com/progiton/trainee/simple/devicemanagement/app/SimpleDeviceManagementApplication.java
 
+=======
+@EnableJms
+@SpringBootApplication(scanBasePackages = "com.progiton.trainee.simple.devicemanagement")
+@EnableJpaAuditing
+>>>>>>> Stashed changes:SimpleDeviceManagement/SdmStarter/src/main/java/com/progiton/trainee/simple/devicemanagement/app/SimpleDeviceManagementApplication.java
 @EnableJpaRepositories(basePackages = "com.progiton.trainee.simple.devicemanagement.persistent.repositories")
 @SpringBootApplication(scanBasePackages = {
     "com.progiton.trainee.simple.devicemanagement"})
