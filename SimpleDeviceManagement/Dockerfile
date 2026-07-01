@@ -7,5 +7,5 @@ RUN mvn clean package -DskipTests
 ### STAGE 2: RUNTIME
 FROM eclipse-temurin:21-jdk-jammy
 WORKDIR /app
-COPY --from=builder /app/SimpleDeviceManagementApp/target/*.jar app.jar
+COPY --from=builder /app/SdmStarter/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -1,0 +1,37 @@
+@startuml
+skinparam backgroundColor #ffffff
+skinparam Shadowing false
+
+title JMS device registration (existing or new user)
+
+actor Device
+actor User
+
+box "JMS Adapter"
+  participant JMS as "RegistrationListener"
+end box
+
+box "SdmServices (Use-Cases)"
+  participant Services as "DeviceRegistrationService\nUserIdentityService\nUserRegistrationService"
+end box
+
+box "SdmCore (Technical)"
+  participant Core as "Repositories\nSignatureVerifier\nCertificateStore"
+end box
+
+Device --> JMS : Registration Job
+JMS --> Services : registerDevice(cmd, ctx=JMS)
+Services --> Core : verifySignature(userId, signature)
+
+alt userId present
+  Services -> Services : registerForExistingUser
+  Services --> Core : storeDevice + link user
+else userId missing
+  Services -> Services : requestUserCreation
+  Services -> User : send confirmation email
+  Services -> Services : await confirmation
+  Services -> Services : registerForExistingUser
+  Services --> Core : storeDevice + link user
+end
+
+@enduml

@@ -1,6 +1,25 @@
 version: '3.8'
 
 services:
+
+  artemis:
+    image: vromero/activemq-artemis:latest
+    container_name: sdm-artemis
+    ports:
+      - "61616:61616"  # JMS broker
+      - "8161:8161"    # Web console
+    environment:
+      ARTEMIS_USER: admin
+      ARTEMIS_PASSWORD: admin
+    volumes:
+      - artemis-data:/var/lib/artemis/data  # Persist queues
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8161/console/jolokia/read/org.apache.activemq.artemis:broker=\"0.0.0.0\"/State" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+
   postgres:
     image: postgres:16
     environment:
@@ -36,8 +55,8 @@ services:
     volumes:
       - oracle-data:/opt/oracle/oradata
       # Skripte für die initiale Einrichtung (CDB & PDB)
-      - ./SimpleDeviceManagementDb/src/main/resources/sql/oracle-setup:/opt/oracle/scripts/setup:ro
-      - ./SimpleDeviceManagementDb/src/main/resources/sql/oracle-setup:/opt/oracle/scripts/startup:ro
+      - ./SdmDataBase/src/main/resources/sql/oracle-setup:/opt/oracle/scripts/setup:ro
+      - ./SdmDataBase/src/main/resources/sql/oracle-setup:/opt/oracle/scripts/startup:ro
     shm_size: 2g  # Required for Oracle SGA/PGA memory
 
     healthcheck:
@@ -81,3 +100,6 @@ services:
 volumes:
   pgdata:
   oracle-data:
+  artemis-data:  # ← NEW: Persistent volume for Artemis data/queues
+
+
