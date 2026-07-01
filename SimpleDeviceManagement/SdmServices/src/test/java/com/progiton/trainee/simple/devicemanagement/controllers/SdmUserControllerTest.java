@@ -40,6 +40,7 @@ class SdmUserControllerTest {
 		UUID userId = UUID.randomUUID();
 		SdmUserTo user = new SdmUserTo();
 		user.setUserId(userId);
+		user.setEmailAddress("testuser@example.com");
 		user.setName("Test");
 		user.setSurname("User");
 
@@ -49,7 +50,7 @@ class SdmUserControllerTest {
 
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
 		assertThat(response.getBody()).hasSize(1);
-		assertThat(response.getBody().get(0).getEmailAddress()).isEqualTo("testuser");
+		assertThat(response.getBody().get(0).getEmailAddress()).isEqualTo("testuser@example.com");
 	}
 
 	@Test
@@ -58,11 +59,13 @@ class SdmUserControllerTest {
 		UUID userId = UUID.randomUUID();
 		SdmUserTo input = new SdmUserTo();
 		input.setUserId(userId);
+		input.setEmailAddress("newuser@example.com");
 		input.setName("New");
 		input.setSurname("User");
 
 		SdmUserTo saved = new SdmUserTo();
 		saved.setUserId(userId);
+		saved.setEmailAddress("newuser@example.com");
 		saved.setName("New");
 		saved.setSurname("User");
 
@@ -71,7 +74,7 @@ class SdmUserControllerTest {
 		ResponseEntity<SdmUserTo> response = controller.createUser(input);
 
 		assertThat(response.getStatusCodeValue()).isEqualTo(201);
-		assertThat(response.getBody().getEmailAddress()).isEqualTo("newuser");
+		assertThat(response.getBody().getEmailAddress()).isEqualTo("newuser@example.com");
 	}
 
 	@Test
@@ -80,6 +83,7 @@ class SdmUserControllerTest {
 		UUID userId = UUID.randomUUID();
 		SdmUserTo user = new SdmUserTo();
 		user.setUserId(userId);
+		user.setEmailAddress("deptuser@example.com");
 
 		when(service.findUsersByDepartmentName("IT")).thenReturn(List.of(user));
 
@@ -87,7 +91,7 @@ class SdmUserControllerTest {
 
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
 		assertThat(response.getBody()).hasSize(1);
-		assertThat(response.getBody().get(0).getEmailAddress()).isEqualTo("deptuser");
+		assertThat(response.getBody().get(0).getEmailAddress()).isEqualTo("deptuser@example.com");
 	}
 
 	@Test
@@ -96,13 +100,14 @@ class SdmUserControllerTest {
 		UUID userId = UUID.randomUUID();
 		SdmUserTo user = new SdmUserTo();
 		user.setUserId(userId);
+		user.setEmailAddress("john.smith@example.com");
 
 		when(service.findUserByUserId(userId)).thenReturn(user);
 
 		ResponseEntity<SdmUserTo> response = controller.getUsersByUserId(userId);
 
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-		assertThat(response.getBody().getEmailAddress()).isEqualTo("johnsmith");
+		assertThat(response.getBody().getEmailAddress()).isEqualTo("john.smith@example.com");
 	}
 
 	@Test
@@ -116,7 +121,6 @@ class SdmUserControllerTest {
 		when(service.assignDeviceToUser(userId, "SN1234")).thenReturn(device);
 
 		SdmDeviceTo result = controller.assignDeviceToUser(userId, "SN1234");
-		System.out.println("Result: " + result);
 
 		verify(service).assignDeviceToUser(userId, "SN1234");
 		assertThat(result).isNotNull();
@@ -130,6 +134,7 @@ class SdmUserControllerTest {
 		UUID userId = UUID.randomUUID();
 		SdmUserTo user = new SdmUserTo();
 		user.setUserId(userId);
+		user.setEmailAddress("john.smith@example.com");
 
 		SdmDepartmentTo deptTo = new SdmDepartmentTo();
 		deptTo.setName("IT");
@@ -140,7 +145,7 @@ class SdmUserControllerTest {
 		ResponseEntity<SdmUserTo> response = controller.assignDepartment(userId, "IT");
 
 		assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
-		assertThat(response.getBody().getEmailAddress()).isEqualTo("johnsmith");
+		assertThat(response.getBody().getEmailAddress()).isEqualTo("john.smith@example.com");
 		assertThat(response.getBody().getDepartment().getName()).isEqualTo("IT");
 	}
 }

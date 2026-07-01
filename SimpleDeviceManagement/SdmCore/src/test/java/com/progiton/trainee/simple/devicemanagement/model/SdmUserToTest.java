@@ -74,13 +74,14 @@ class SdmUserToTest {
         UUID testUserId =  UUID.fromString("c2a1297d-7651-4c46-ab34-3e360174891c");
         SdmUserTo user = new SdmUserTo();
         user.setUserId(testUserId);
+        user.setEmailAddress("user1@example.com");
         user.setName("Max");
         user.setSurname("Mustermann");
         user.setEnabled(false);
         user.setDepartment(new SdmDepartmentTo("IT"));
         user.setDevices(List.of());
 
-        assertThat(user.getEmailAddress()).isEqualTo("user1");
+        assertThat(user.getEmailAddress()).isEqualTo("user1@example.com");
         assertThat(user.getName()).isEqualTo("Max");
         assertThat(user.getSurname()).isEqualTo("Mustermann");
         assertThat(user.getEnabled()).isFalse();

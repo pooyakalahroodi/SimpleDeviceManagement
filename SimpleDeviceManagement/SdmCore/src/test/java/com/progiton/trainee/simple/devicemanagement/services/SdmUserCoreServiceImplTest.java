@@ -66,6 +66,7 @@ class SdmUserCoreServiceImplTest {
 		UUID testUserId =  UUID.fromString("c2a1297d-7651-4c46-ab34-3e360174891c");
 		userRequest = new SdmUserTo();
 		userRequest.setUserId(testUserId);
+		userRequest.setEmailAddress("testuser@example.com");
 		userRequest.setName("Test");
 		userRequest.setSurname("User");
 		userRequest.setEnabled(true);
@@ -80,7 +81,7 @@ class SdmUserCoreServiceImplTest {
 
 		userEntity = new SdmUserEntity();
 		userEntity.setId(1L);
-		userEntity.setEmailAddress("testuser");
+		userEntity.setEmailAddress("testuser@example.com");
 		userEntity.setName("Test");
 		userEntity.setSurname("User");
 		userEntity.setEnabled(true);
@@ -94,6 +95,7 @@ class SdmUserCoreServiceImplTest {
 
 		userTo = new SdmUserTo();
 		userTo.setUserId(testUserId);
+		userTo.setEmailAddress("testuser@example.com");
 
 		deviceTo = new SdmDeviceTo();
 		deviceTo.setSerialNumber("ABC123");
@@ -110,7 +112,7 @@ class SdmUserCoreServiceImplTest {
 		SdmUserTo result = userService.createUser(userRequest);
 
 		assertThat(result).isNotNull();
-		assertThat(result.getEmailAddress()).isEqualTo("testuser");
+		assertThat(result.getEmailAddress()).isEqualTo("testuser@example.com");
 
 		verify(userRepository).existsByUserId(testUserId);
 		verify(departmentRepository).findByNameIgnoreCase("IT");
