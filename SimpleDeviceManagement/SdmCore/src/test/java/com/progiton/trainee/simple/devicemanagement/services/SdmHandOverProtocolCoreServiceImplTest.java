@@ -56,12 +56,13 @@ public class SdmHandOverProtocolCoreServiceImplTest {
 	private SdmUserEntity receiverUser;
 	private SdmUserEntity performerUser;
 	private SdmHandOverProtocolTo savedTo;
+	private UUID receiverUuid;
+	private UUID performerUuid;
 
 	@BeforeEach
 	void setUp() {
-		// Generate test UUIDs
-		UUID receiverUuid = UUID.randomUUID();
-		UUID performerUuid = UUID.randomUUID();
+		receiverUuid = UUID.randomUUID();
+		performerUuid = UUID.randomUUID();
 
 		requestTo = new SdmHandOverProtocolTo();
 		requestTo.setDeviceSerialNumber("SN123");
@@ -109,8 +110,6 @@ public class SdmHandOverProtocolCoreServiceImplTest {
 
 	@Test
 	void saveHandOverProtocol_Success() {
-		UUID receiverUuid = UUID.randomUUID();
-		UUID performerUuid = UUID.randomUUID();
 		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
 		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.of(deviceEntity));
 		when(userRepository.findByUserId(receiverUuid)).thenReturn(Optional.of(receiverUser));
@@ -148,8 +147,6 @@ public class SdmHandOverProtocolCoreServiceImplTest {
 
 	@Test
 	void saveHandOverProtocol_ThrowsWhenReceiverNotFound() {
-		UUID receiverUuid = UUID.randomUUID();
-		UUID performerUuid = UUID.randomUUID();
 		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
 		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.of(deviceEntity));
 		when(userRepository.findByUserId(receiverUuid)).thenReturn(Optional.empty());
@@ -159,8 +156,6 @@ public class SdmHandOverProtocolCoreServiceImplTest {
 
 	@Test
 	void saveHandOverProtocol_ThrowsWhenPerformerNotFound() {
-		UUID receiverUuid = UUID.randomUUID();
-		UUID performerUuid = UUID.randomUUID();
 		when(protocolRepository.existsByDevice_SerialNumberAndIsConfirmedFalse("SN123")).thenReturn(false);
 		when(deviceRepository.findBySerialNumber("SN123")).thenReturn(Optional.of(deviceEntity));
 		when(userRepository.findByUserId(receiverUuid)).thenReturn(Optional.of(receiverUser));
@@ -171,8 +166,6 @@ public class SdmHandOverProtocolCoreServiceImplTest {
 
 	@Test
 	void findHandOverProtocolsByReceiverUserId_Success() {
-		UUID receiverUuid = UUID.randomUUID();
-		UUID performerUuid = UUID.randomUUID();
 		when(userRepository.existsByUserId(receiverUuid)).thenReturn(true);
 		List<SdmHandOverProtocolEntity> entities = Arrays.asList(savedEntity);
 		List<SdmHandOverProtocolTo> tos = Arrays.asList(savedTo);
@@ -191,8 +184,6 @@ public class SdmHandOverProtocolCoreServiceImplTest {
 
 	@Test
 	void findHandOverProtocolsByReceiverUserId_UserNotFound() {
-		UUID receiverUuid = UUID.randomUUID();
-		UUID performerUuid = UUID.randomUUID();
 		when(userRepository.existsByUserId(receiverUuid)).thenReturn(false);
 
 		assertThrows(SdmEntityNotFoundException.class,
